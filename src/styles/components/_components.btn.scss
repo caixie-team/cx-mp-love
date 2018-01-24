@@ -7,7 +7,7 @@
   margin-bottom: 10px;
   padding-left: 10px;
   padding-right: 10px;
-  border-radius: 8rpx;
+  //border-radius: 8rpx;
   font-size: 16px;
   line-height: 45px;
   height: 90rpx;
@@ -15,12 +15,12 @@
   text-decoration: none;
   text-align: center;
   vertical-align: middle;
-  box-shadow: 0 0 1px 1px rgba(0,0,0,0.05), 0 2px 2px 0 rgba(0,0,0,0.10);
+  //box-shadow: 0 0 1px 1px rgba(0,0,0,0.05), 0 2px 2px 0 rgba(0,0,0,0.10);
 }
 .c-btn::after {
   @include hairline;
   border-width: 1px;
-  border-radius: 8rpx;
+  //border-radius: 8rpx;
 }
 .c-btns {
   margin: 15px;

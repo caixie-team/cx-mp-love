@@ -87,9 +87,9 @@
     <form bindsubmit="formSubmit" report-submit="true">
 
       <view class="c-panel c-panel--without-margin-top u-flex u-justify-between u-p-small">
-        <view class="c-btn c-btn--flat c-btn--small">取消</view>
+        <button class="c-btn c-btn--flat c-btn--small u-text-bold" @tap="back">取消</button>
         <button
-          class="c-btn  c-btn--small c-btn--flat {{isPost ? 'c-btn--loading' : 'c-btn--small u-c-cyan'}} {{isEmpty ? 'c-btn--disabled' : ''}}"
+          class="c-btn  c-btn--small c-btn--flat u-text-bold {{isPost ? 'c-btn--loading' : 'c-btn--small u-c-cyan'}} {{isEmpty ? 'c-btn--disabled' : ''}}"
           disabled="{{isEmpty || isPost}}" @tap="toggleActionPanel">
           <text wx:if="{{!isPost}}">发布</text>
         </button>
@@ -103,17 +103,15 @@
                   placeholder="在这里写下你的回忆。" maxlength="-1" fixed="true"
                   style="height: {{height * 2 - 1200}}rpx;"></textarea>
       </view>
-
-      <view class="c-tabbar {{isIpx?'fix-iphonex':''}}">
-        <view class="c-toolbar u-justify-center">
-        </view>
-
-      </view>
+      <!--<view class="c-tabbar {{isIpx?'fix-iphonex':''}}">-->
+        <!--<view class="c-toolbar u-justify-center">-->
+        <!--</view>-->
+      <!--</view>-->
       <SliderPanel :display.sync="isDisplay">
         <view slot="title">
           发布你的故事
         </view>
-        <view slot="content" class="">
+        <view slot="content">
           <view class="c-panel__footer u-p-medium u-flex u-justify-between">
             <button formType="submit"
                     class="u-width-50 c-btn c-btn--small c-btn--cyan {{isPost ? 'c-btn--loading' : ''}} {{isEmpty ? 'c-btn--disabled' : ''}}"
@@ -130,6 +128,8 @@
           <text class="muted sm mt10 ml20">提示：如果选择私密发布，仅对发布后单独邀请的人公开。</text>
         </view>
       </SliderPanel>
+
+      <c-actionsheet :option.sync="actionsheet"></c-actionsheet>
     </form>
   </view>
 
@@ -145,6 +145,7 @@
   import postsApi from '../../api/posts'
   import Route from '../../utils/WxUtils'
   import SliderPanel from '../../components/common/slider-panel'
+  import cActionsheet from '../../components/ui/c-actionsheet'
 
   const $wxapp = wepy.$instance
   import cFiled from '../../components/ui/c-field'
@@ -156,7 +157,8 @@
     components = {
       'c-filed': cFiled,
       'c-toptips': ccTopTips,
-      'SliderPanel': SliderPanel
+      'SliderPanel': SliderPanel,
+      'c-actionsheet': cActionsheet
     }
 
     data = {
@@ -165,13 +167,6 @@
         show: false,
         content: '成功'
       },
-      btnArray: [
-        {id: '10', checked: false},
-        {id: '20', checked: true},
-        {id: '30', checked: false},
-        {id: '40', checked: true},
-        {id: '50', checked: false}
-      ],
       isIpx: $wxapp.globalData.isIpx,
       height: $wxapp.device.windowHeight,
       icon: '/images/icons/icon-flower--grey.svg',
@@ -183,6 +178,24 @@
       page: {
         added: [],
         list: []
+      },
+      actionsheet: {
+        cancelText: '取消',
+        actions: [{
+          // 按钮文案
+          name: '公开发布',
+          // 按钮描述文案，不传就不显示
+          subname: '所有人可见',
+          // 按钮特殊类，可以通过传入这个，为按钮增加特殊样式
+          className: 'action-class',
+          // 按钮是否显示为 loading
+          loading: false
+        }, {
+          name: '私密发布',
+          subname: '仅受邀的人员可见',
+          className: 'action-class',
+          loading: false
+        }]
       },
       time: '',
       date: '1985',
@@ -198,6 +211,42 @@
       enablePullDownRefresh: false,
       disableScroll: true
     }
+    async postPublic () {
+      this.isPost = true
+      const postData = {
+        // formId: e.detail.formId,
+        parent: this.parent,
+        title: `${this.title}-${new Date().getTime()}`,
+        content: this.content,
+        categories: JSON.stringify(this.categories)
+      }
+      const data = await postsApi.newRecallOrStory(postData)
+      if (data) {
+        Tips.success('发布成功')
+        this.loaded()
+        this.actionsheet.loading = false
+        this.$preload({'story': data})
+        this.$root.$redirect(`/pages/story?id=${data.id}`)
+      } else {
+        Tips.error('发布失败，请重试')
+        // this.$showTopTips('发布失败，请重试。')
+        this.isPost = false
+      }
+    }
+
+    events = {
+      'handleActionsheetCancel': () => {
+        this.actionsheet.show = false
+      },
+      'handleActionsheetClick': async (index) => {
+        // console.log(index + '被点中啦~')
+        this.actionsheet.actions[index].loading = true
+        this.$apply()
+        if (index === 0) {
+          await this.postPublic()
+        }
+      }
+    }
     computed = {
       now () {
         return +new Date()
@@ -207,12 +256,19 @@
       }
     }
     methods = {
+      back () {
+        wx.navigateBack({
+          delta: 1
+        })
+      },
       toggleActionPanel () {
-        this.isDisplay = !this.isDisplay
+        this.actionsheet.show = !this.actionsheet.show
+          // this.isDisplay = !this.isDisplay
         // this.isPanelDisplay = !this.isPanelDisplay
         // this.$apply()
         // {{isPanelDispay = !isPanelDisplay}}
       },
+      async postPrivate () {},
       async formSubmit (e) {
         this.isPost = true
         const postData = {

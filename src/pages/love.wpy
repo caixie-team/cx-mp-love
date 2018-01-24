@@ -115,7 +115,7 @@
   }
 
   .c-stories {
-    margin-top: rpx(20);
+    /*margin-top: rpx(20);*/
     /*display: flex;*/
     /*flex-direction: column;*/
   }
@@ -306,6 +306,52 @@
 
   .c-love-card--isHover {
   }
+  .c-recalls--scroll {
+    display: flex;
+    white-space: nowrap;
+  }
+  .c-recall-card {
+      display: inline-block;
+      width: 630rpx;
+      /*max-width: 100%;*/
+      /*height: 44px;*/
+      line-height: 44px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      box-sizing: border-box;
+      word-break: keep-all;
+      font-size: 36rpx;
+      color: #666;
+    border-left: 1px solid #f5f5f5;
+    border-right: 1px solid #f5f5f5;
+    border-radius: 4px;
+      /*border-bottom-right-radius: 32rpx;*/
+      /*border-bottom-left-radius: 32rpx;*/
+      box-shadow: 0 10px 30px 0 rgba(0,0,0,0.10);
+      height: 320rpx;
+      /*width: auto;*/
+
+    /*background: #f5f5f5;*/
+      /*padding: 0rpx 48rpx 0;*/
+  }
+  .c-recall-card__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    justify-self: center;
+    width: 100%;
+    height: 100%;
+  }
+  .c-recall-card__warpper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    justify-self: center;
+  }
 </style>
 <template>
 
@@ -382,44 +428,30 @@
   <view class="c-panel-title">
     {{recallTitle}}
   </view>
-  <view class="c-stories" wx:if="{{!isStorLoading}}" wx:if="{{list.length > 0}}">
+
+  <scroll-view
+    class="c-recalls--scroll"
+    scroll-x="true"
+    style="height: 380rpx;"
+  >
     <block wx:for="{{list}}" wx:key="index" wx:for-item="item">
-      <view class="c-panel c-panel--without-margin-top">
-        <view class="c-card u-m-small">
-          <!-- 商品标题行 -->
-          <!-- 每行可以使用 c-card__detail-row 来控制展示区域 -->
-          <!-- 每行里面可以用 c-card__left-col c-card__right-col 来控制左右展示 -->
-          <view class="c-card__detail-row">
-            <text decode="{{true}}" space="{{true}}">{{item.content}}</text>
-          </view>
-          <!-- 商品附属信息展示行 -->
-          <view class="c-card__detail-row u-c-gray-darker">
-
-            <view class="c-card__right-col u-mt-medium u-mb-xsmall u-ml-xsmall"
-                  wx:if="{{item.author.id === userInfo.userId}}" @tap="delMyRecall({{item}})">
-              <view class="u-c-red u-text-small">删除</view>
+      <view class="c-panel c-recall-card u-ml-small">
+        <view class="c-recall-card__body">
+            <view class="u-text-large u-flex">
+              <text decode="{{true}}" space="{{true}}">{{item.content}}</text>
             </view>
-            <view class="c-card__left-col c-card__left-col u-mt-medium u-mb-xsmall u-ml-xsmall">
-              <view class="c-story-meta__author">
-                <image class="c-story-meta__avatar"
-                       mode="aspectFill"
-                       src="{{item.author.avatar}}"></image>
-                <view>
-                  <Elip>{{item.author.nicename}}</Elip>
-
-                  <view class="c-story-meta__date">
-                    {{item.date}}
-                  </view>
-                </view>
-
-              </view>
+            <view class="u-text-small u-text-right u-flex u-justify-end">
+              ——{{item.author.nicename}}
             </view>
-          </view>
+
         </view>
+
       </view>
     </block>
+  </scroll-view>
+  <view class="c-panel-title">
+    故事
   </view>
-
   <view class="c-btn c-btn--large c-btn--loading c-btn--flat" wx:if="{{isStoryLoading}}"></view>
 
   <view style="height: 160rpx;" wx:if="{{isIpx}}"></view>
@@ -548,7 +580,7 @@
         detault: '2'
       },
       scrollStatus: '',
-      isPanelDisplay: 'false',
+      isPanelDisplay: false,
       userInfo: {
         nickName: '加载中...',
         // 头像占位图
@@ -705,13 +737,13 @@
         this.$apply()
       },
       loveIt () {
-        this.isDateDisplay = 'true'
+        this.isDateDisplay = true
         this.$apply()
       },
       async iDo () {
         const data = await postsApi.newLike(this.detail.id, this.year)
         this.detail = Object.assign(this.detail, data)
-        this.isDateDisplay = 'false'
+        this.isDateDisplay = false
         // this.$apply()
         await this.getLovers()
         this.loaded()
@@ -720,7 +752,7 @@
       async iDont () {
         const data = await postsApi.unLike(this.detail.id)
         this.detail = Object.assign(this.detail, data)
-        this.isDateDisplay = 'false'
+        this.isDateDisplay = false
         // this.$apply()
         this.loaded()
         Tips.success('操作成功')
