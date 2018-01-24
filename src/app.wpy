@@ -1,0 +1,154 @@
+<style lang="scss">
+  @import "./styles/base";
+  @import "./styles/animate";
+  @import "./styles/variable";
+  @import "./styles/main";
+</style>
+<script>
+  import moment from 'moment'
+  import 'moment/locale/zh-cn'
+  /* eslint-disable no-unused-vars,no-undef */
+  // ENV
+  const env = 'production' // 'development' or 'production'
+  // APP VERSION
+  const version = 'v1'
+
+  // development and production host
+  const hosts = {
+    development: `http://api.caixie.la/${version}`,
+    production: `https://api.caixie.top/${version}`
+  }
+  const APPID = 'B1yDrzqEf'
+  const APP_API = `${hosts[env]}/apps/${APPID}`
+
+  import wepy from 'wepy'
+  import mitt from 'mitt'
+  import WxUtils from './utils/WxUtils'
+  import 'wepy-async-function'
+
+  export default class extends wepy.app {
+    constructor () {
+      super()
+      // 注册中间件
+      this.use('requestfix')
+      this.use('promisify')
+      // 处理全局请求 Header
+      this.intercept('request', {
+        config (p) {
+          p.header = this.createAuthHeader()
+          return p
+        }
+      })
+      this.intercept('uploadFile', {
+        config (p) {
+          p.header = this.createAuthHeader()
+          return p
+        },
+        success (p) {
+          return p.data
+        }
+      })
+    }
+
+    /**
+     * 构造权限头部
+     */
+    createAuthHeader () {
+      const _token = wepy.$instance.globalData.auth._token
+      const header = {}
+      if (_token) {
+        header['Authorization'] = `Bearer ${_token}`
+      }
+      return header
+    }
+    emitter = mitt()
+    moment = moment
+    onLaunch (param) {
+      // 校验SDK
+      WxUtils.checkSDK()
+      // 同步权限数据
+      this.syncStoreConfig('_token')
+      this.syncStoreConfig('user')
+
+      // 获取保存场景值
+      if (param && param.scene) {
+        console.info('[scene]onLaunch scene', param.scene)
+        wepy.$instance.globalData.scene = param.scene
+        console.info('[auth]onLaunch end')
+      }
+      this.device = wx.getSystemInfoSync()  //  获取设备信息
+      // console.log(this.device)
+      this.globalData.isIpx = this.device.model.indexOf('iPhone X') >= 0
+    }
+
+    syncStoreConfig (key) {
+      try {
+        const value = wepy.getStorageSync(key)
+        if (value !== '') {
+          // console.info(`[auth]${key} sync success `)
+          wepy.$instance.globalData.auth[key] = value
+        }
+      } catch (e) {
+        console.warn(`[auth]${key} sync fail `)
+      }
+    }
+
+    config = {
+      pages: [
+        'pages/index',
+        'pages/love',
+        'pages/story/new',
+        'pages/recall/new',
+        'pages/love/new',
+        'pages/story',
+        'pages/stories',
+        'pages/lover',
+        'pages/me',
+        'pages/me/likes',
+        'pages/me/recalls',
+        'pages/me/stories',
+        'pages/login'
+      ],
+      window: {
+        backgroundTextStyle: 'dark',
+        navigationBarBackgroundColor: '#F5F5F5',
+        navigationBarTitleText: '愿君，多采撷。',
+        navigationBarTextStyle: 'black',
+        backgroundColor: '#F5F5F5',
+        enablePullDownRefresh: true
+      },
+      tabBar: {
+        color: '#ACB3BA',
+        selectedColor: '#344A5E',
+        backgroundColor: '#FFF',
+        // borderStyle: 'white',
+        list: [{
+          pagePath: 'pages/me',
+          iconPath: 'images/icons/icon-me.png',
+          selectedIconPath: 'images/icons/icon-me--active.png',
+          text: '我'
+        }, {
+          pagePath: 'pages/index',
+          iconPath: 'images/icons/icon-love.png',
+          selectedIconPath: 'images/icons/icon-love--active.png',
+          text: '最爱的'
+        }, {
+          pagePath: 'pages/stories',
+          iconPath: 'images/icons/icon-story.png',
+          selectedIconPath: 'images/icons/icon-story--active.png',
+          text: '故事'
+        }]
+      }
+    }
+
+    globalData = {
+      baseUrl: APP_API,
+      auth: {},
+      scene: '',
+      user: null,
+      userInfo: null,
+      isNavigating: false,
+      defaultTitle: '愿君，多采撷。'
+    }
+  }
+</script>

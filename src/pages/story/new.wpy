@@ -1,0 +1,322 @@
+<style lang="scss">
+  @import "../../styles/variable";
+
+  page {
+    height: 100%;
+    background-color: #fff;
+    color: $color-primary;
+  }
+
+  .o-page {
+    textarea {
+      padding: rpx(10);
+      width: 90%;
+      min-height: 300px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: rpx(32);
+      line-height: 1.5;
+      letter-spacing: 1.25px;
+    }
+  }
+
+  .c-tabbar {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    height: rpx(120);
+    border-top: 1px solid $color-border;
+    display: flex;
+    background: #fff;
+    align-items: center;
+  }
+
+  .c-tabbar__tab {
+    color: #1F1F1F;
+    width: rpx(710);
+    border-radius: rpx(20);
+    margin-left: rpx(20);
+    background: #FFFFFF;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.10) inset, /*左边阴影*/
+    0 2px 4px rgba(0, 0, 0, 0.20); /*右边阴影*/
+    white-space: nowrap;
+    .tab_item {
+      display: flex;
+      flex-flow: column;
+      width: 33.33333%;
+      text-align: center;
+      align-content: center;
+      align-items: center;
+      padding: rpx(6);
+      height: rpx(100);
+      .icon {
+        display: flex;
+        width: rpx(60);
+        height: rpx(60);
+      }
+      .icon-title {
+        font-size: rpx(24);
+      }
+      .icon-active {
+        color: #476DDC;
+      }
+    }
+    .toolbar {
+      display: flex;
+    }
+  }
+
+  .c-toolbar {
+    display: flex;
+    flex-direction: row;
+    padding: 0 rpx(40);
+    align-items: center;
+    width: 100%;
+  }
+
+  .placeholder {
+    color: #ededed;
+  }
+</style>
+<template>
+  <view
+    class="c-toptips {{ cTopTips.show ? 'c-toptips--show' : '' }} {{cTopTips.type === 'success' ? 'c-tootips--success' : ''}}"
+    wx:hidden="{{cTopTips.show}}">{{ cTopTips.content }}
+  </view>
+  <view class="o-page">
+    <form bindsubmit="formSubmit" report-submit="true">
+
+      <view class="c-panel c-panel--without-margin-top u-flex u-justify-between u-p-small">
+        <view class="c-btn c-btn--flat c-btn--small">取消</view>
+        <button
+          class="c-btn  c-btn--small c-btn--flat {{isPost ? 'c-btn--loading' : 'c-btn--small u-c-cyan'}} {{isEmpty ? 'c-btn--disabled' : ''}}"
+          disabled="{{isEmpty || isPost}}" @tap="toggleActionPanel">
+          <text wx:if="{{!isPost}}">发布</text>
+        </button>
+      </view>
+      <view style="position: fixed; top: 100rpx; width: 100%;">
+        <textarea class="u-mt-small"
+                  @input="bindinput"
+                  @focus="bindfocus"
+                  @blur="bindblur"
+                  placeholder-class="placeholder"
+                  placeholder="在这里写下你的回忆。" maxlength="-1" fixed="true"
+                  style="height: {{height * 2 - 1200}}rpx;"></textarea>
+      </view>
+
+      <view class="c-tabbar {{isIpx?'fix-iphonex':''}}">
+        <view class="c-toolbar u-justify-center">
+        </view>
+
+      </view>
+      <SliderPanel :display.sync="isDisplay">
+        <view slot="title">
+          发布你的故事
+        </view>
+        <view slot="content" class="">
+          <view class="c-panel__footer u-p-medium u-flex u-justify-between">
+            <button formType="submit"
+                    class="u-width-50 c-btn c-btn--small c-btn--cyan {{isPost ? 'c-btn--loading' : ''}} {{isEmpty ? 'c-btn--disabled' : ''}}"
+                    disabled="{{isEmpty || isPost}}">
+              <text wx:if="{{!isPost}}">私密发布</text>
+            </button>
+            <button formType="submit"
+                    class="u-width-50 c-btn c-btn--small c-btn--primary {{isPost ? 'c-btn--loading' : ''}} {{isEmpty ? 'c-btn--disabled' : ''}}"
+                    disabled="{{isEmpty || isPost}}">
+              <text wx:if="{{!isPost}}">公开发布</text>
+            </button>
+
+          </view>
+          <text class="muted sm mt10 ml20">提示：如果选择私密发布，仅对发布后单独邀请的人公开。</text>
+        </view>
+      </SliderPanel>
+    </form>
+  </view>
+
+
+</template>
+
+<script>
+  /* eslint-disable no-unused-vars,no-undef,spaced-comment */
+
+  import wepy from 'wepy'
+  import Tips from '../../utils/Tips'
+  import base from '../../mixins/_base'
+  import postsApi from '../../api/posts'
+  import Route from '../../utils/WxUtils'
+  import SliderPanel from '../../components/common/slider-panel'
+
+  const $wxapp = wepy.$instance
+  import cFiled from '../../components/ui/c-field'
+  import ccTopTips from '../../components/ui/c-toptips'
+
+  export default class NewRecall extends wepy.page {
+    mixins = [base]
+
+    components = {
+      'c-filed': cFiled,
+      'c-toptips': ccTopTips,
+      'SliderPanel': SliderPanel
+    }
+
+    data = {
+      isDisplay: false,
+      cTopTips: {
+        show: false,
+        content: '成功'
+      },
+      btnArray: [
+        {id: '10', checked: false},
+        {id: '20', checked: true},
+        {id: '30', checked: false},
+        {id: '40', checked: true},
+        {id: '50', checked: false}
+      ],
+      isIpx: $wxapp.globalData.isIpx,
+      height: $wxapp.device.windowHeight,
+      icon: '/images/icons/icon-flower--grey.svg',
+      isFocus: false,
+      list: [],
+      title: '',
+      content: '',
+      categories: ['3'],
+      page: {
+        added: [],
+        list: []
+      },
+      time: '',
+      date: '1985',
+      isCollapse: true,
+      parent: '',
+      userInfo: {},
+      isPost: false,
+      isStory: false
+    }
+    config = {
+      navigationBarTitleText: '写回忆',
+      // backgroundTextStyle: 'dark',
+      enablePullDownRefresh: false,
+      disableScroll: true
+    }
+    computed = {
+      now () {
+        return +new Date()
+      },
+      isEmpty () {
+        return this.content.trim().length === 0 || this.content === '' || this.content === null || this.content === undefined
+      }
+    }
+    methods = {
+      toggleActionPanel () {
+        this.isDisplay = !this.isDisplay
+        // this.isPanelDisplay = !this.isPanelDisplay
+        // this.$apply()
+        // {{isPanelDispay = !isPanelDisplay}}
+      },
+      async formSubmit (e) {
+        this.isPost = true
+        const postData = {
+          formId: e.detail.formId,
+          parent: this.parent,
+          title: `${this.title}-${new Date().getTime()}`,
+          content: this.content,
+          categories: JSON.stringify(this.categories)
+        }
+        const data = await postsApi.newRecallOrStory(postData)
+        if (data) {
+          this.$showTopTips('发布成功', {type: 'success'})
+          this.loaded()
+          this.$root.$parent.emitter.emit('newRecallAdd')
+          // 跳转至故事首页
+          // this.$redirect(`/pages/stories`)
+          // } else {
+          // 返回最爱主题页
+          // this.$root.$redirect(`/pages/recall/new?id=${this.detail.id}`)
+          // backOrNavigate
+          // Route.backOrRedirect(`/pages/love?id=${this.parent}`)
+          // 返回指定层级页面，现在是返回 love 页，
+          // 不使用 redirect 与 navigate 是为了防止多层级返回的问题
+          wx.navigateBack({
+            delta: 1
+          })
+        } else {
+          this.$showTopTips('发布失败，请重试。')
+          this.isPost = false
+        }
+        // console.log(e.detail.formId + '____xxxllxlxlxl')
+        // const token = '6_bmDp88oaE2FJFR4zjIw4q8xXyOnJ-26Dn0ZwtdwOYiwJ_J7UpQm-EH4UT3Yg5DW4G4Nz2Krnnnz59GL3hwhEZc18IWEdyWs-V8KcAcRXt823wq0UgbVE3zJCoPXR_paSdHj7xM8VQqP4v_1eMFXcABADWO'
+        // const l = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + token
+        // wx.request({
+        //   url: l,
+        //   data: {
+        //     touser: 'oTUP60A_0LCR7hYH0EQ7kEaakLCg',
+        //     template_id: 'Q6oT1lITd1kp3swZnJh3dRDftvtiJrEmOWeaN6AlTqM',
+        //     page: '/pages/loves',
+        //     form_id: e.detail.formId,
+        //     data: {
+        //       keyword1: {
+        //         value: `你最爱的：有新的回忆`,
+        //         color: '#175177'
+        //       },
+        //       keyword2: {
+        //         value: '这里是内容'
+        //       },
+        //       keyword3: {
+        //         value: '点击进入小程序查看'
+        //       }
+        //     },
+        //     color: '#ccc',
+        //     emphasis_keyword: 'keyword1.DATA'
+        //   },
+        //   method: 'POST',
+        //   success: (res) => {
+        //     // wx.hideLoading();
+        //     // console.log("发送成功");
+        //     console.log(res)
+        //   },
+        //   fail: (err) => {
+        //     // fail
+        //     // console.log("push err")
+        //     console.log(err)
+        //   }
+        // })
+      },
+      switchChange (e) {
+        // 2 是故事分类，3 是回忆内容 4是故事内容
+        if (e.detail.value === true) {
+          this.isStory = true
+          this.categories = ['2', '3', '4']
+          // wepy.setNavigationBarTitle({title: '写故事'})
+        } else {
+          this.categories = ['3']
+          this.isStory = false
+          wepy.setNavigationBarTitle({title: '写回忆'})
+        }
+      },
+      bindinput (e) {
+        // $wxapp.emitter.emit('change', e.detail.value)
+        this.content = e.detail.value
+        this.$apply()
+      },
+      bindfocus () {
+        this.isFocus = true
+        this.$apply()
+      },
+      bindblur () {
+        this.isFocus = false
+      },
+      async handlePost () {
+
+      }
+    }
+
+    async onLoad (param, data) {
+      this.userInfo = JSON.parse($wxapp.globalData.auth.user)
+      this.parent = param.id
+      if (this.parent === null) {
+        return
+      }
+      this.title = `${data.preload.title}-${this.parent}-${this.userInfo.userId}`
+    }
+  }
+</script>

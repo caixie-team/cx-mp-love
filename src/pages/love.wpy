@@ -1,0 +1,957 @@
+<style lang="scss">
+  @import "../styles/variable";
+
+  page {
+    color: $color-primary;
+    background: #f5f5f5;
+  }
+
+  .o-love {
+    color: #344A5E;
+  }
+
+  .c-tabbar {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    height: rpx(120);
+    border-top: 1px solid $color-border;
+    display: flex;
+    align-items: center;
+  }
+
+  .c-tabbar__tab {
+    color: #1F1F1F;
+    width: rpx(710);
+    border-radius: rpx(20);
+    margin-left: rpx(20);
+    background: #FFFFFF;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.10) inset, /*左边阴影*/
+    0 2px 4px rgba(0, 0, 0, 0.20); /*右边阴影*/
+    white-space: nowrap;
+    .tab_item {
+      display: flex;
+      flex-flow: column;
+      width: 33.33333%;
+      text-align: center;
+      align-content: center;
+      align-items: center;
+      padding: rpx(6);
+      height: rpx(100);
+      .icon {
+        display: flex;
+        width: rpx(60);
+        height: rpx(60);
+      }
+      .icon-title {
+        font-size: rpx(24);
+      }
+      .icon-active {
+        color: #476DDC;
+      }
+    }
+    .toolbar {
+      display: flex;
+    }
+  }
+
+  .manage-box {
+    padding-top: rpx(10);
+    .item-box {
+      padding: rpx(10) rpx(20);
+      background-color: white;
+      margin-bottom: rpx(5);
+      margin-top: rpx(5);
+      border-top: $border;
+      border-bottom: $border;
+
+      .item-footer-box {
+        image {
+          margin-left: rpx(20);
+        }
+      }
+    }
+  }
+
+  .c-panel__footer {
+    display: flex;
+    margin: rpx(30);
+  }
+
+  .c-btn--camera {
+    height: rpx(72);
+    width: rpx(72);
+    vertical-align: middle;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    background-color: rgba(255, 255, 255, 0.30);
+    border-radius: 100px;
+    z-index: 100;
+    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.05), 0 2px 2px 0 rgba(0, 0, 0, 0.10);
+  }
+
+  .c-love__picker {
+    color: #415A6B;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    justify-items: flex-start;
+    align-items: flex-start;
+  }
+
+  .c-love__picker-icon {
+    width: rpx(32);
+    height: rpx(32);
+  }
+
+  .c-love__picker-info {
+    flex: 1;
+  }
+
+  .c-select_arrow {
+    width: rpx(20);
+    height: rpx(20);
+  }
+
+  .c-stories {
+    margin-top: rpx(20);
+    /*display: flex;*/
+    /*flex-direction: column;*/
+  }
+
+  .c-stories__header {
+    padding: rpx(48) 0;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+  }
+
+  .c-stories__icon {
+  }
+
+  .c-stories__title {
+    flex: 1;
+    font-size: rpx(32);
+    font-weight: 300;
+  }
+
+  .c-love {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+  }
+
+  .c-love-special {
+    background: #fff;
+    .photo-btn {
+      width: rpx(90);
+      height: rpx(90);
+      background-color: rgba(255, 255, 255, 0.30);
+      border-radius: rpx(50);
+      z-index: 100;
+      box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.05), 0 2px 2px 0 rgba(0, 0, 0, 0.10);
+    }
+  }
+
+  .c-love-special__wrapper {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    z-index: 3;
+    align-content: space-between;
+  }
+
+  .c-love-meta {
+    /*text-shadow: 0 1px 10px rgba(0,0,0,0.10);*/
+    /*color: #fff;*/
+    /*display: flex;*/
+    /*flex: 1;*/
+    /*padding: rpx(10) 0 rpx(24) rpx(40);*/
+    /*flex-direction: column;*/
+    /*align-self: flex-start;*/
+  }
+
+  .c-love-meta__author {
+    display: flex;
+    align-items: center;
+    font-size: rpx(24);
+    line-height: rpx(36);
+  }
+
+  .c-love-meta__avatar {
+    width: rpx(36);
+    height: rpx(36);
+    margin-right: rpx(10);
+    border-radius: rpx(50);
+    border: 1px solid #ededed;
+    /*color:  rgba(255, 255, 255, 50);*/
+    /*box-shadow: 0 0 0 rpx(4) rgba(31,31,31,0.1),0 0 0 rpx(10) rgba(31,31,31,0.05);*/
+  }
+
+  .c-love-meta__title {
+    font-size: rpx(56);
+    /*font-weight: 300;*/
+    /*font-weight: bold;*/
+    letter-spacing: 2px;
+    /*color: rgba(255, 255, 255, 0.40);*/
+    /*text-shadow: 0 0 0 rpx(4) rgba(31,31,31,0.1),0 0 0 rpx(10) rgba(31,31,31,0.05);*/
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.10);
+    /*line-height: rpx(128);*/
+  }
+
+  .c-love-meta__detail {
+    font-size: rpx(36);
+    font-weight: 300;
+    line-height: rpx(64);
+  }
+
+  .c-story-card {
+    /*flex: 1;*/
+    margin: rpx(30);
+    height: auto;
+    width: auto;
+    border-radius: rpx(12);
+    border: 1px solid #ededed;
+  }
+
+  .c-story__body {
+    display: flex;
+    align-items: center;
+    min-height: rpx(120);
+    padding: rpx(20) rpx(28);
+    font-size: rpx(30);
+    font-weight: 300;
+  }
+
+  .c-story-meta {
+    display: flex;
+    padding: rpx(24);
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .c-story-meta__author {
+    display: flex;
+    align-items: center;
+    font-size: rpx(24);
+    line-height: 1.25;
+  }
+
+  .c-story-meta__avatar {
+    width: rpx(60);
+    height: rpx(60);
+    margin-right: rpx(20);
+    border-radius: rpx(50);
+    box-shadow: 0 0 0 rpx(2) rgba(255, 255, 255, 1), 0 0 0 rpx(4) rgba(31, 31, 31, .1);
+  }
+
+  .c-story-meta__date {
+    font-size: rpx(22);
+    color: #C2C4CA;
+  }
+
+  .c-love-special__cover {
+    /*width: rpx(680);*/
+    /*height: rpx(400);*/
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .c-love-special__detail {
+    color: $color-primary;
+    /*position: relative;*/
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*justify-content: center;*/
+  }
+
+  .c-love-special__cover-image {
+    border-radius: rpx(8);
+    width: rpx(680);
+    height: rpx(400);
+    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.05), 0 2px 2px 0 rgba(0, 0, 0, 0.10);
+  }
+
+  .c-love-special__cover--blur {
+    width: rpx(660);
+    height: rpx(400);
+    background-size: 100% 100%;
+    position: absolute;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    transform: scaleX(.85) scaleY(.95);
+    transform-origin: 50% 100%;
+    filter: blur(16px);
+    -webkit-filter: blur(16px);
+    border-radius: rpx(24);
+    z-index: 1;
+  }
+
+  .c-placeholder {
+    transition: opacity 0.3s;
+    color: #fff;
+    opacity: 0.65;
+  }
+
+  .c-love-card--isHover {
+  }
+</style>
+<template>
+
+  <view style="" class="c-love-special" style="background: {{!isDetail ? '#f5f5f5' : '#FFFFFF'}}; padding: 10px;">
+    <view class="c-love-special__cover animated slideInDown" @tap="showDetail" hidden="{{isDetail}}">
+      <image
+        src="{{cover}}"
+        hover-start-time="50"
+        hover-stay-time="400"
+        hover-stop-propagation="{{propagation}}"
+        hover-class="animated "
+        mode="aspectFill"
+        style=" z-index: 1; height: 600rpx; width: {{width - 20}}px;" wx:if="{{detail.featured_image}}">
+      </image>
+      <view style="z-index: 1; height: 600rpx; width: {{width - 20}}px; background: #FFF;"
+            class="u-flex u-align-items-center u-justify-center" wx:else>
+        <image class="photo-btn" mode="aspectFill" src="/images/icons/camera.png" @tap.stop="photo"
+               wx:if="{{!isUpload}}"></image>
+        <view class="c-btn c-btn--flat  c-btn--loading photo-btn " wx:if="{{isUpload}}"></view>
+      </view>
+      <image class="c-btn--camera icon-xl" @tap.stop="manage" src="/images/icons/icon-camera--active.svg"
+             wx:if="{{(userInfo.userId === detail.author.id) && detail.featured_image}}"></image>
+    </view>
+    <view class="c-love-special__cover animated slideInDown" @tap="showDetail" hidden="{{!isDetail}}">
+
+      <view class="u-flex u-justify-end"
+            style="flex-direction: column; position: relative; z-index: 1; height: 600rpx; width: {{width - 20}}px; background: #f5f5f5;">
+        <view class="c-love-meta__title u-m-large">
+          {{detail.title}}
+        </view>
+        <view class="u-flex c-love-meta__author u-ml-large u-mb-large  ">
+          由
+          <image class="c-love-meta__avatar u-ml-xsmall"
+                 mode="aspectFill"
+                 src="{{detail.author.avatar}}"></image>
+          {{detail.author.nicename}} 创建
+        </view>
+      </view>
+    </view>
+
+
+  </view>
+  <view class="c-panel c-panel--without-margin-top">
+
+    <view class="c-btns u-flex u-flex-nowrap ">
+      <view
+        class="c-btn c-btn--small c-btn--plain c-btn--warm u-width-100 u-flex u-align-items-center u-justify-between"
+        @tap="loveIt" wx:if="{{isLoved}}">
+        {{year}}年爱上
+        <image mode="aspectFit" class="c-select_arrow" src="/images/icons/arrow--down.png"></image>
+      </view>
+      <view class="c-btn c-btn--small c-btn--primary u-width-100" @tap="loveIt" wx:else>加最爱</view>
+
+      <view class="c-btn c-btn--small c-btn--plain c-btn--primary u-width-100 u-ml-small" @tap="newRecall">写回忆</view>
+      <view class="c-btn c-btn--small c-btn--plain c-btn--cyan u-width-100 u-ml-small" @tap="newStory">写故事</view>
+    </view>
+  </view>
+
+
+  <view class="c-panel-title" @tap="showDialog">
+    {{loverTitle}}
+    <!--{{lovers.length}} 人最爱-->
+  </view>
+  <view class="c-panel u-flex u-align-items-center u-p-medium u-flex-wrap" wx:if="{{lovers.length > 0}}">
+    <block wx:for="{{lovers}}" wx:if="{{lovers.length > 0}}" wx:for-item="item" wx:key="id">
+      <view class="u-flex u-align-self-center">
+        <image class="c-story-meta__avatar u-m-small"
+               mode="aspectFill"
+               src="{{item.avatar}}"></image>
+        <!--{{item.user_nicename}}-->
+      </view>
+    </block>
+  </view>
+  <view class="c-panel-title">
+    {{recallTitle}}
+  </view>
+  <view class="c-stories" wx:if="{{!isStorLoading}}" wx:if="{{list.length > 0}}">
+    <block wx:for="{{list}}" wx:key="index" wx:for-item="item">
+      <view class="c-panel c-panel--without-margin-top">
+        <view class="c-card u-m-small">
+          <!-- 商品标题行 -->
+          <!-- 每行可以使用 c-card__detail-row 来控制展示区域 -->
+          <!-- 每行里面可以用 c-card__left-col c-card__right-col 来控制左右展示 -->
+          <view class="c-card__detail-row">
+            <text decode="{{true}}" space="{{true}}">{{item.content}}</text>
+          </view>
+          <!-- 商品附属信息展示行 -->
+          <view class="c-card__detail-row u-c-gray-darker">
+
+            <view class="c-card__right-col u-mt-medium u-mb-xsmall u-ml-xsmall"
+                  wx:if="{{item.author.id === userInfo.userId}}" @tap="delMyRecall({{item}})">
+              <view class="u-c-red u-text-small">删除</view>
+            </view>
+            <view class="c-card__left-col c-card__left-col u-mt-medium u-mb-xsmall u-ml-xsmall">
+              <view class="c-story-meta__author">
+                <image class="c-story-meta__avatar"
+                       mode="aspectFill"
+                       src="{{item.author.avatar}}"></image>
+                <view>
+                  <Elip>{{item.author.nicename}}</Elip>
+
+                  <view class="c-story-meta__date">
+                    {{item.date}}
+                  </view>
+                </view>
+
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view class="c-btn c-btn--large c-btn--loading c-btn--flat" wx:if="{{isStoryLoading}}"></view>
+
+  <view style="height: 160rpx;" wx:if="{{isIpx}}"></view>
+
+  <c-dialog :dialog.sync="dialog"></c-dialog>
+  <!--上传管理器-->
+  <SliderPanel :display.sync="isPanelDisplay">
+    <view slot="title">编辑图片</view>
+    <view slot="content" class="manage-box column">
+
+      <view class="item-box row-between" wx:for="{{pictures}}" wx:key="index" wx:index="index">
+        <!--展现区域-->
+        <view class="item-header-box">
+          <text class="lg mr20">{{index + 1}}</text>
+          <image class="icon-xl" src="{{item.url}}"></image>
+          <text class="ml20 u-text-small" wx:if="{{index === 0}}">(封面图)</text>
+          <text class="muted ml20" wx:else>(细节)</text>
+        </view>
+
+        <!-- 操作区域 -->
+        <view class="item-footer-box">
+          <image class="icon-lg" wx:if="{{index !== 0}}" src="/images/icons/up-arrow.png" @tap="up({{index}})"></image>
+          <image class="icon-lg" wx:if="{{index !== pictures.length - 1}}" src="/images/icons/down-arrow.png"
+                 @tap="down({{index}})"></image>
+          <image class="icon-lg" src="/images/icons/minus.png" @tap="remove({{index}})"></image>
+        </view>
+      </view>
+      <text class="muted sm mt10 ml20">提示：删除后可以重新上传新的封面图</text>
+    </view>
+  </SliderPanel>
+  <SliderLove :display.sync="isDateDisplay">
+    <view slot="title">
+      <view wx:if="{{!isLoved}}">我在
+        <text style="color: #47BAA4;">{{year}}</text>
+        年爱上
+      </view>
+      <view wx:else>从
+        <text style="color: #47BAA4;">{{year}}</text>
+        年开始爱上
+      </view>
+    </view>
+    <view slot="content" class="">
+      <picker-view
+        indicator-style="height: 48px;" style="font-size: 32rpx; width: 100%; height: 200px; text-align: center;"
+        value="{{value}}" bindchange="bindChange">
+        <picker-view-column>
+          <view wx:for="{{years}}" wx:for-item="year" wx:key="{{year}}" style="line-height: 50px">{{year}}年</view>
+        </picker-view-column>
+      </picker-view>
+      <view class="c-panel__footer">
+        <view class="c-btn u-width-25" wx:if="{{isLoved}}" @tap="iDont">不爱了</view>
+        <view class="c-btn c-btn--primary u-width-75 u-ml-medium" wx:if="{{isLoved}}" @tap="iDo">修改日期</view>
+        <view class="c-btn c-btn--primary u-width-100 u-align-self-center" @tap="iDo" wx:else>确定</view>
+      </view>
+    </view>
+
+  </SliderLove>
+
+</template>
+
+<script>
+  /* eslint-disable no-undef,indent */
+
+  import wepy from 'wepy'
+  import base from '../mixins/_base'
+  import Tips from '../utils/Tips'
+  import WxUtils from '../utils/WxUtils'
+  import Elip from '../components/ui/elip'
+  import SliderPanel from '../components/common/slider-panel'
+  import auth from '../api/auth'
+  import postsApi from '../api/posts'
+  import cField from '../components/ui/c-field'
+  import cDialog from '../components/ui/c-dialog'
+
+  const $wxapp = wepy.$instance
+  const device = wx.getSystemInfoSync()  //  获取设备信息
+  import moment from 'moment'
+
+  const date = new Date()
+  const years = []
+  for (let i = 1920; i <= date.getFullYear(); i++) {
+    years.unshift(i)
+  }
+
+  export default class Love extends wepy.page {
+    mixins = [base]
+    config = {
+      backgroundTextStyle: 'dark',
+      // navigationBarTitleText: '故事。',
+      navigationBarBackgroundColor: '#FFF',
+      navigationBarTextStyle: 'black',
+      // backgroundColor: '#f9f9f9',
+      enablePullDownRefresh: false
+    }
+    def = {
+      id: '',
+      propagation: true,
+      isIpx: $wxapp.globalData.isIpx,
+      isCatch: false,
+      isBack: false,
+      isDetail: false,
+      scrollY: true,
+      width: device.windowWidth,
+      height: device.windowHeight,
+      icon: '/images/icons/icon-topbar-icon.svg',
+      indicatorDots: false,
+      autoplay: false,
+      interval: 5000,
+      duration: 1000,
+      vertical: true,
+      detail: {
+        i_like: false
+      },
+      currentSwiper: 0,
+      lovers: [],
+      list: [],
+      line: 2,
+      isDateDisplay: false,
+      isStoryLoading: false,
+      isUpload: false,
+      years: years,
+      year: date.getFullYear(),
+      value: [date.getFullYear()],
+      pictures: [],
+      maxSize: {
+        detault: '2'
+      },
+      scrollStatus: '',
+      isPanelDisplay: 'false',
+      userInfo: {
+        nickName: '加载中...',
+        // 头像占位图
+        avatarUrl: 'data:image/png;base64,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',
+        packages: {
+          times: 0,
+          status: '阅读状态'
+        },
+        identity: {
+          type: '订阅状态',
+          collection: 0
+        }
+      }
+    }
+    data = {...this.def}
+
+    computed = {
+      loverTitle () {
+        // return     {{lovers.length}} 人最爱
+        if (this.lovers.length > 0) {
+          return `${this.lovers.length} 人最爱`
+        } else {
+          return '还没有人爱上。'
+        }
+      },
+      recallTitle () {
+        if (this.list.length > 0) {
+          return `${this.list.length} 条回忆`
+        } else {
+          return '还没有回忆。'
+        }
+      },
+      cover () {
+        return this.detail.featured_image ? `${this.detail.featured_image}?imageMogr2/thumbnail/1024x1024/q/90/interlace/1` : '/images/icons/camera.png'
+      },
+      isAuthor () {
+        return true
+        // return this.userInfo.userId === this.detail.author.id
+      },
+      isLoved () {
+        return this.detail.i_like
+      },
+      imageWidth () {
+        const device = wx.getSystemInfoSync()  //  获取设备信息
+        return device.windowWidth
+      },
+      now () {
+        return +new Date()
+      }
+    }
+
+    methods = {
+      showDialog () {
+        this.$showDialog({
+          content: '确定删除？',
+          showCancel: true
+        }).then(() => {
+          console.log('=== dialog ===', 'type: confirm')
+        }).catch(() => {
+          console.log('=== dialog ===', 'type: cancel')
+        })
+      },
+      async scrollToTop () {
+        this.scrollStatus = 'top'
+        this.isBack = true
+      },
+      async scrollToBottom () {
+        this.scrollStatus = 'bottom'
+      },
+      scroll () {
+        this.scrollStatus = 'scrolling'
+      },
+      async touchStart (e) {
+        const touchPoint = e.touches[0]
+        const clientY = touchPoint.clientY
+        this.clientY = clientY
+        if (this.clientY > 200) {
+          this.isCatch = true
+          this.isBack = true
+        }
+      },
+      async touchEnd (e) {
+        this.isCatch = false
+        const upPoint = e.changedTouches[0]
+        const endY = upPoint.clientY
+        const pointTopintY = Math.abs(endY - this.clientY)
+        const status = this.scrollStatus
+        // 上拉刷新
+        // if (status === 'top' && pointTopintY > 50) {
+//          this.isBack = true
+//           this.reload()
+//         }
+//         console.log(status + ':' + pointTopintY + 'xxxx')
+        // 上拉加载
+        if (status === 'top' && pointTopintY > 50) {
+          // this.isCatch = true
+          // this.isBack = true
+          // this.isBack = false
+          // this.currentSwiper = 0
+          // this.$apply()
+          this.$root.$parent.emitter.emit('touchTop')
+        }
+        // 上拉加载
+        if (status === 'bottom' && pointTopintY > 50) {
+          // this.currentSwiper = 0
+          // this.$apply()
+          // this.isLoadMore = true
+          // await this.next()
+        }
+        // this.isLoadMore = true
+        // await this.next()
+        // }
+        // 两秒后隐藏加载条
+        // setTimeout(() => {
+        //   this.isBack = false
+        // this.isLoadMore = false
+        // }, 1000)
+      },
+      touchMove (e) {
+        // console.log('touchmove')
+//         const {onTouchMove, XORY} = this
+//         const touch = e.changedTouches[0]
+        // const distance = touch[`clientY`]
+        // const tmpMove = this[`translateY`] + distance - this[`touchStartY`]
+        // typeof onTouchMove === 'function' && onTouchMove(this, e) //  手指碰触slide并且滑动时执行
+        const self = this
+        self.endPos = e.changedTouches[0].clientX
+        const maxPos = 30
+        const minPos = -this.itemWidth * 2 - 30
+        if (this.tmpMove > maxPos) {
+          this.tmpMove = maxPos
+        }
+        if (this.tmpMove < minPos) {
+          this.tmpMove = minPos
+        }
+        // this.slideAnimation(tmpMove, 0)
+
+        // typeof onSlideMove === 'function' && onSlideMove(this)
+      },
+      swiperChange (event) {
+        const that = this
+        const detail = event.detail
+        if (detail.source === 'touch') {
+          that.currentSwiper = detail.current
+          that.$apply()
+        }
+      },
+      tapBack () {
+        this.$apply()
+      },
+      tapRecall () {
+        this.$preload({'title': this.detail.title})
+        // this.currentSwiper = 1
+        this.$apply()
+      },
+      loveIt () {
+        this.isDateDisplay = 'true'
+        this.$apply()
+      },
+      async iDo () {
+        const data = await postsApi.newLike(this.detail.id, this.year)
+        this.detail = Object.assign(this.detail, data)
+        this.isDateDisplay = 'false'
+        // this.$apply()
+        await this.getLovers()
+        this.loaded()
+        Tips.success('操作成功')
+      },
+      async iDont () {
+        const data = await postsApi.unLike(this.detail.id)
+        this.detail = Object.assign(this.detail, data)
+        this.isDateDisplay = 'false'
+        // this.$apply()
+        this.loaded()
+        Tips.success('操作成功')
+      },
+      tapLover () {
+        this.$root.$navigate(`/pages/lover`)
+      },
+      bindChange: function (e) {
+        const val = e.detail.value
+        this.year = this.years[val[0]]
+        this.$apply()
+      },
+      newRecall (e) {
+        this.$preload({'title': this.detail.title})
+        this.$root.$navigate(`/pages/recall/new?id=${this.detail.id}`)
+      },
+      newStory (e) {
+        this.$preload({'title': this.detail.title})
+        this.$root.$navigate(`/pages/story/new?id=${this.detail.id}`)
+      },
+      /**
+       * 监听日期picker选择器
+       */
+      listenerDatePickerSelected (e) {
+        this.date = e.detail.value
+      },
+      showDetail () {
+        this.isDetail = !this.isDetail
+        this.$apply()
+      },
+      // 上传图片
+      async photo () {
+        if (this.userInfo.userId !== this.detail.author.id) {
+          return
+        }
+        const size = this.pictures.length
+        if (size >= 1) {
+          await Tips.alert('最多选1张片')
+          return
+        }
+        const param = {
+          cont: 1 - size,
+          sizeType: ['compressed']
+        }
+        const tempFilePaths = await WxUtils.chooseImage(param, this.maxSize)
+        if (!tempFilePaths.length) {
+          return
+        }
+        const pictures = tempFilePaths.map(item => {
+          return {
+            url: item
+          }
+        })
+        this.pictures = this.pictures.concat(pictures)
+        this.isUpload = true
+        this.$apply()
+        // console.log(JSON.stringify(this.pictures))
+        // this.detail.featured_image = this.pictures[0].url
+        const result = await postsApi.image(tempFilePaths[0])
+        const image = JSON.parse(result)
+        this.detail.featured_image = image.data.url
+        this.isUpload = false
+        this.$apply()
+        const form = {
+          id: this.detail.id,
+          meta: {
+            '_thumbnail_id': image.data.id
+          }
+        }
+        await postsApi.update(form)
+        // console.log(JSON.stringify(newImage))
+        // this.detail.featured_image = newImage.url
+        Tips.success('图片上传完成')
+      },
+      tap (item) {
+        this.$root.$navigate(`/pages/love?slug=${item.slug}`)
+      },
+      // 打开管理面板
+      manage () {
+        if (this.detail.featured_image) {
+          // 初始化图片列表，用于管理内容里应用
+          this.pictures[0] = {
+            url: `${this.detail.featured_image}?imageMogr2/thumbnail/100x100/q/90/interlace/1`
+          }
+        }
+        this.isPanelDisplay = 'true'
+      },
+      // 向上移动
+      up (index) {
+        if (index === 0) {
+          return
+        }
+        const target = index - 1
+        this.swap(index, target)
+      },
+      // 向下移动
+      down (index) {
+        if (index === this.pictures.length - 1) {
+          return
+        }
+        const target = index + 1
+        this.swap(index, target)
+      },
+      delMyRecall (item) {
+        this.$showDialog({
+          content: '确定删除？',
+          showCancel: true
+        }).then(async () => {
+            const data = await postsApi.trash(item.id)
+            if (data) {
+              Tips.success(data)
+              await this.getList(this.id)
+              this.$apply()
+            }
+          }
+        ).catch(() => {
+          Tips.error('删除失败')
+          // console.log('=== dialog ===', 'type: cancel')
+        })
+      },
+      // 删除图片
+      async remove (index) {
+        this.$showDialog({
+          content: '确定删除？',
+          showCancel: true
+        }).then(async () => {
+          const form = {
+            id: this.detail.id,
+            meta: {
+              '_thumbnail_id': '""'
+            }
+          }
+          // 将图片关联置空,更新 meta 信息
+          await postsApi.update(form)
+          // await postsApi.trash()
+          this.pictures.splice(index, 1)
+          if (this.pictures.length < 1) {
+            this.isPanelDisplay = false
+          }
+          // 重置封面图信息
+          Reflect.deleteProperty(this.detail, 'featured_image')
+          // detail.featured_image = ''
+          this.$apply()
+          Tips.success('图片删除成功')
+          // console.log('=== dialog ===', 'type: confirm')
+        }).catch(() => {
+          this.isPanelDisplay = false
+          this.$apply()
+          // console.log('=== dialog ===', 'type: cancel')
+        })
+      }
+    }
+    watch = {
+      isPanelDisplay (value) {
+        this.$emit('toggle', value)
+      }
+    };
+    components = {
+      SliderPanel: SliderPanel,
+      SliderLove: SliderPanel,
+      Elip: Elip,
+      ElipDetail: Elip,
+      'c-filed': cField,
+      'c-dialog': cDialog
+    };
+    events = {}
+
+    swap (srcIndex, targetIndex) {
+      const pictures = this.pictures
+      const src = pictures[srcIndex]
+      const target = pictures[targetIndex]
+      pictures[targetIndex] = src
+      pictures[srcIndex] = target
+    }
+
+    async getDetail (id) {
+      this.detail = await postsApi.detail(id)
+
+      if (this.detail.i_like) {
+        if (!Object.is(this.detail.like_date, undefined)) {
+          this.year = this.detail.like_date
+          // this.value = [this.year, this.month]
+          this.$apply()
+        }
+      }
+    }
+
+    async getList (id) {
+      this.isStorLoading = true
+      const data = await postsApi.loadRecalls(id)
+      // const data = await postsApi.list(items)
+      this.list = data
+      for (let item of this.list) {
+        item.date = moment(item.date).fromNow()
+      }
+      this.$apply()
+      this.isStorLoading = false
+    }
+
+    async getLovers () {
+      this.lovers = await postsApi.getLovers(this.detail.id)
+    }
+
+    async onShow (option) {
+      // const result = await auth.user({block: true, redirect: true})
+      // if (!result) return
+      // this.userInfo = JSON.parse($wxapp.globalData.auth.user)
+    }
+
+    async onLoad (option, data) {
+      this.id = option.id
+      const result = await auth.user({block: true, redirect: true})
+      if (!result) return
+      this.userInfo = JSON.parse($wxapp.globalData.auth.user)
+      await this.getDetail(option.id)
+      await this.getList(option.id)
+      await this.getLovers()
+      wepy.setNavigationBarTitle({title: this.detail.title})
+      this.loaded()
+
+      this.$root.$parent.emitter.on('touchTop', () => {
+        this.isBack = false
+        this.currentSwiper = 0
+        this.$apply()
+      })
+
+      // 新增回忆刷新
+      this.$root.$parent.emitter.on('newRecallAdd', async () => {
+        await this.getList(this.id)
+        this.loaded()
+      })
+    }
+  }
+</script>

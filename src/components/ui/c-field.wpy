@@ -1,0 +1,231 @@
+<style lang="scss">
+  @import "../../styles/main";
+  ///* ========================================================================
+  //   #FIELD
+  //   ======================================================================== */
+
+  //
+  // Field
+  //
+  $field-margin: 0 0 rpx(20) 0 !default;
+
+  //
+  // Field label
+  //
+  $field-label-font-weight: $font-weight-normal !default;
+  $field-label-font-size: $text-font-size !default;
+  $field-label-color: $grey-800 !default;
+  $field-label-margin: 0 0 rpx(5) 0 !default;
+
+  //
+  // Field addon
+  //
+  $field-addon-width: rpx(42);
+  $field-addon-border-width: $base-border-width;
+  $field-addon-border-color: $grey-400;
+  $field-addon-color: #CED0DA;
+
+  //
+  // Field icon
+  //
+  $field-icon-color: #CED0DA;
+  $field-icon-font-size: rpx(18);
+
+  //
+  // Field message
+  //
+  $field-message-margin: 0 rpx(5) 0 0 !default;
+  $field-message-padding: 0 !default;
+
+  $field-message-color: rgba($gunmetal-200, 0.5) !default;
+  $field-message-font-size: $text-small-font-size !default;
+
+  // =============================================================================
+  // # Fields
+  // =============================================================================
+
+  /**
+    * Form field `c-field` component is used as a wrapper for more complex inputs
+    * that contain an icon, addon, form feedback and form message.
+    *
+    * 1. Take up (full width - width of field addon).
+    */
+
+  .c-field {
+    position: relative;
+    /*width: auto;*/
+
+    &.has-addon-left,
+    &.has-addon-right {
+      display: flex;
+      flex-flow: row nowrap;
+
+      > .c-input {
+        flex-basis: calc(100% - $field-addon-width); /* [1] */
+      }
+    }
+
+    &.has-addon-left {
+      > .c-field__addon {
+        border-right: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      > .c-input {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
+
+    &.has-addon-right {
+      > .c-field__addon {
+        border-left: 0;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+
+      > .c-input {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+    }
+
+    &.has-icon-left,
+    &.has-icon-right {
+      > .c-field__icon {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        color: $field-icon-color;
+        font-size: $field-icon-font-size;
+      }
+    }
+
+    &.has-icon-left {
+      > .c-input {
+        padding-left: rpx(80);
+      }
+
+      > .c-field__icon {
+        left: rpx(30);
+      }
+    }
+
+    &.has-icon-right {
+      > .c-input {
+        padding-right: rpx(80);
+      }
+
+      > .c-field__icon {
+        right: rpx(30);
+      }
+    }
+  }
+
+  //
+  // DEVELOPER NOTE: THIS NEEDS IMPROVEMENTS
+  //
+
+  /**
+   * Inline fields don't take up whole width
+   */
+
+  /**
+    * Labels are used with inputs, always use labels with inputs for better
+    * accesibility. Hide labels using `u-hidden-visually` to display it for
+    * screen readers.
+    *
+    * USAGE: <label class="c-field__label u-hidden-visually"></label>
+    */
+
+  .c-field__label {
+    display: block;
+    flex-basis: 100%;
+    margin: $field-label-margin;
+    color: $field-label-color;
+    font-size: $field-label-font-size;
+    font-weight: $field-label-font-weight;
+  }
+
+  /**
+    * Addon is an icon placed in box next to input, used as a visual indicator
+    */
+
+  .c-field__addon {
+    @include linear-gradient(to bottom, #FFF, #F2F4F7);
+    display: inline-flex;
+    flex-basis: $field-addon-width;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    border: $field-addon-border-width solid $field-addon-border-color;
+    border-radius: $base-border-radius;
+    color: $field-addon-color;
+    font-size: 18px;
+    text-align: center;
+  }
+
+  /**
+    * Field message used as a helper note or feedback.
+    */
+
+  .c-field__message {
+    display: inline-block;
+    margin: $field-message-margin;
+    padding: $field-message-padding;
+    color: $field-message-color;
+    font-size: $field-message-font-size;
+
+    > image {
+      margin-right: 5px;
+    }
+  }
+
+</style>
+<template>
+  <view class="c-field has-icon-left">
+    <view class="c-field__icon">
+      <image class="u-icon" mode="aspectFit" src="{{icon}}"></image>
+    </view>
+    <slot></slot>
+    <!--<c-input :status.sync="type"></c-input>-->
+  </view>
+</template>
+<script>
+  /* eslint-disable no-undef */
+  // import cInput from './c-input'
+  import wepy from 'wepy'
+  // const $wxapp = wepy.$instance
+
+  export default class Field extends wepy.component {
+    components = {
+      // 'c-input': cInput
+    }
+    props = {
+      icon: {
+        type: String,
+        twoWay: true,
+        default: '/images/icons/icon-love--active.svg'
+      },
+      size: {
+        type: String,
+        twoWay: true,
+        default: 'small'
+      }
+    }
+
+    data = {
+      type: 'danger',
+      viewSourceClass: 'source-isclose',
+      isExpandSource: false,
+      curplay: {
+        id: ''
+      }
+    }
+    methods = {
+    }
+    onLoad () {
+    }
+  }
+</script>

@@ -1,0 +1,35 @@
+<template name="c-loadmore">
+
+  <block wx:if="{{page.reachBottom}}">
+    <view class="c-loadmore c-loadmore--nomore">
+      <view class="c-loadmore__tips">
+        <view class="c-loadmore__dot"></view>
+      </view>
+    </view>
+  </block>
+
+  <block wx:elif="{{page.empty}}">
+    <view class="c-loadmore c-loadmore--nodata">
+      <view class="c-loadmore__tips">{{ '暂无数据' }}</view>
+    </view>
+  </block>
+
+  <block wx:elif="{{page.loading}}">
+    <view class="c-loadmore">
+      <view class="c-loading"></view>
+      <view class="c-loadmore__tips">加载中...</view>
+    </view>
+  </block>
+
+</template>
+
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Loadmore extends wepy.component {
+    props = {
+      page: {}
+    }
+  }
+</script>

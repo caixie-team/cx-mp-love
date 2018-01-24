@@ -1,0 +1,27 @@
+<template>
+  <view class="c-toptips c-toptips--show {{type === 'success' ? 'c-toptips--success' : ''}}">{{ content }}</view>
+</template>
+<script>
+  /* eslint-disable no-undef */
+
+  import wepy from 'wepy'
+  // const $wxapp = wepy.$instance
+
+  export default class cTopTips extends wepy.component {
+    props = {
+      content: {
+        type: String,
+        default: ''
+      },
+      type: {
+        type: String,
+        default: ''
+      }
+    }
+    computed = {
+    }
+    onLoad () {
+      // this.$apply()
+    }
+  }
+</script>

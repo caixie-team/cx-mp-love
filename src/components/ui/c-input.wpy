@@ -1,0 +1,174 @@
+<style lang="scss">
+  @import "../../styles/main";
+  ///* ========================================================================
+  //   #INPUTS
+  //   ======================================================================== */
+
+  $input-padding: rpx(18) rpx(30) !default;
+  $input-focus-color: $gunmetal-200;
+
+  $input-border-color: $grey-400;
+  $input-focus-border-color: $blue-300;
+  $input-border-width: $base-border-width;
+  $input-border-radius: $base-border-radius;
+
+  $input-font-weight: $font-weight-normal;
+  $input-font-size: $text-font-size;
+
+  $input-placeholder-color: rgba($gunmetal-200, 0.5);
+  $input-placeholder-font-weight: $font-weight-normal;
+
+  $input-disabled-background-color: $grey-300;
+  $input-disabled-border-color: $grey-400;
+  $input-disabled-color: rgba($gunmetal-200, 0.5);
+
+  $textarea-font-weight: $font-weight-normal;
+  $textarea-font-size: $text-font-size;
+
+  // Different states: success, error
+  $input-success-border-color: $color-success;
+  $input-success-color: $color-success;
+
+  $input-warning-border-color: $color-warning;
+  $input-warning-color: $color-warning;
+
+  $input-danger-border-color: $color-danger;
+  $input-danger-color: $color-danger;
+
+  /* ==========================================================================
+     #INPUTS
+     ========================================================================== */
+
+  .c-input {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: $input-padding;
+    transition: all .3s;
+    border: $input-border-width solid $input-border-color;
+    border-radius: $input-border-radius;
+    color: $input-focus-color;
+    font-size: $input-font-size;
+    font-weight: $input-font-weight;
+    resize: none;
+
+    &::placeholder {
+      transition: opacity 0.3s;
+      color: $input-placeholder-color;
+      font-weight: $input-placeholder-font-weight;
+      opacity: 0.5;
+    }
+
+    &:focus {
+      border-color: $input-focus-border-color;
+      outline: none;
+
+      &::placeholder {
+        opacity: 0.2;
+      }
+    }
+
+    &.is-disabled,
+    &:disabled {
+      border-color: $input-disabled-border-color;
+      background-color: $input-disabled-background-color;
+      color: $input-disabled-color;
+      cursor: not-allowed;
+    }
+  }
+
+
+  // sass-lint:disable no-qualifying-elements
+  textarea.c-input {
+    min-height: 90px;
+    font-size: $textarea-font-size;
+    font-weight: $textarea-font-weight;
+  }
+  // sass-lint:enable no-qualifying-elements
+
+
+  /* State variants
+     ========================================================================== */
+
+  .c-input--success {
+    border-color: $input-success-border-color;
+
+    &:focus {
+      border-color: $input-success-border-color;
+    }
+  }
+
+  .c-input--warning {
+    border-color: $input-warning-border-color;
+
+    &:focus {
+      border-color: $input-warning-border-color;
+    }
+  }
+
+  .c-input--danger {
+    border-color: $input-danger-border-color;
+    color: $input-danger-color;
+
+    &:focus {
+      border-color: $input-danger-border-color;
+      color: $input-danger-color;
+    }
+  }
+
+</style>
+<template>
+  <input class="c-input {{classType}}" id="{{id}}" type="text" placeholder="{{placeholder}}" />
+</template>
+<script>
+  /* eslint-disable no-undef */
+
+  import wepy from 'wepy'
+  // const $wxapp = wepy.$instance
+
+  export default class Input extends wepy.component {
+    // props = {
+    //   id: '',
+    //   placeholder: '请输入内容',
+    //   type: 'warning'
+    // }
+    props = {
+      placeholder: {
+        type: String,
+        twoWay: true,
+        default: '请输入内容'
+      },
+      id: {
+        type: String
+      },
+      status: {
+        type: String,
+        twoWay: true
+      }
+    }
+    computed = {
+      classType () {
+        // if (this.type === 'warning') {
+        //   return 'c-input--warning'
+        // }
+        switch (this.status) {
+          case 'warning': {
+            return 'c-input--warning'
+          }
+          case 'success': {
+            return 'c-input--success'
+          }
+          case 'danger': {
+            return 'c-input--danger'
+          }
+          default: {
+            return ''
+          }
+        }
+      }
+    }
+    onLoad () {
+      this.$apply()
+    }
+  }
+</script>

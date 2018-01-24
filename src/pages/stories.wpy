@@ -1,0 +1,315 @@
+<style lang="scss">
+  @import "../styles/variable";
+
+  .o-home, page {
+    color: #344A5E;
+    height: 100%;
+    background: #f5f5f5;
+  }
+
+  .c-button {
+    display: flex;
+    background: #FF7058;
+    font-weight: 400;
+    width: rpx(80);
+    height: rpx(80);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.05), 0 2px 2px 0 rgba(0, 0, 0, 0.10);
+    border-radius: rpx(8);
+  }
+
+  .c-post__button {
+    float: right;
+    /*background-color: #344A5E;*/
+    position: fixed;
+    bottom: 20px;
+    right: 10px;
+    border: 0 solid #ffffff;
+    border-radius: rpx(16);
+  }
+
+  .c-button__icon {
+    height: rpx(40);
+    width: rpx(40);
+    vertical-align: middle;
+  }
+
+  .c-today {
+    height: rpx(300);
+    background: #fff;
+    display: flex;
+    margin-left: rpx(32);
+    margin-bottom: rpx(10);
+  }
+
+  .c-h1 {
+    font-size: rpx(30);
+  }
+
+  .c-stories {
+    display: flex;
+    /*width: 100%;*/
+    /*height: 100%;*/
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    /*padding-top: rpx(30);*/
+  }
+
+  .c-story-card {
+    background: #fff;
+    position: relative;
+    padding: rpx(24) rpx(30);
+    display: flex;
+    /*border-bottom: 1px solid #ededed;*/
+    flex-direction: column;
+  }
+
+  .c-story-card--isHover {
+    > .c-story-meta {
+      > .c-story-meta__author {
+        color: rgba(65, 90, 107, 0.09);
+        transition: color .2s ease-in, -webkit-transform .15s cubic-bezier(.175, .885, .32, 1.275);
+      }
+      > .c-story-card__title {
+        color: $color-cyan;
+        transition: color .2s ease-in, -webkit-transform .15s cubic-bezier(.175, .885, .32, 1.275);
+        z-index: 3;
+      }
+    }
+    /*background: #FF7058;*/
+    > .c-story-card__body {
+      box-shadow: none;
+      color: rgba(65, 90, 107, 0.09);
+      transition: color .2s ease-in, -webkit-transform .15s cubic-bezier(.175, .885, .32, 1.275);
+    }
+
+  }
+
+  .c-story-card__body {
+    display: flex;
+    width: rpx(660);
+    flex: 1;
+    min-height: rpx(200);
+    /*max-height: rpx(500);*/
+    /*width: auto;*/
+    font-size: rpx(30);
+    line-height: 1.615;
+    margin-bottom: rpx(28);
+    /*font-weight: 300;*/
+    color: #415A6B;
+    padding: rpx(28) rpx(20) rpx(14);
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .c-story-card__title {
+    position: absolute;
+    z-index: -1;
+    padding: 0 20px;
+    top: rpx(40);
+    font-size: rpx(96);
+    height: auto;
+    font-weight: bold;
+    color: rgba(65, 90, 107, 0.06);
+  }
+
+  .c-story-card__detail {
+    margin: 0 0 28 rpx;
+    font-size: 26 rpx;
+    font-weight: 400;
+    color: rgba(31, 31, 31, 0.50);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.0769231;
+  }
+
+  .c-story-card__cover {
+    width: 100%;
+    height: rpx(300);
+    background-size: 100% 100%;
+    position: relative;
+    z-index: 2;
+    border-radius: rpx(16);
+    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.05), 0 2px 2px 0 rgba(0, 0, 0, 0.10);
+  }
+
+  .c-story-meta {
+    position: relative;
+    display: flex;
+    padding: rpx(20);
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .c-story-meta__author {
+    display: flex;
+    align-items: center;
+    font-size: rpx(26);
+    line-height: 1.25;
+    margin-top: rpx(100);
+  }
+
+  .c-story-meta__avatar {
+    width: rpx(48);
+    height: rpx(48);
+    margin-right: rpx(20);
+    border-radius: rpx(100);
+    box-shadow: 0 0 0 rpx(2) rgba(255, 255, 255, 1), 0 0 0 rpx(4) rgba(31, 31, 31, .1);
+  }
+
+  .c-story-meta__date {
+    font-size: rpx(22);
+    color: #C2C4CA;
+    align-self: flex-end;
+  }
+
+
+
+</style>
+<template>
+  <view class="o-home">
+    <view class="c-stories"
+          @touchstart="touchstart"
+          @touchmove="touchmove"
+          @touchend="touchend">
+      <block wx:for-items="{{page.list}}"
+             wx:for-index="index"
+             wx:for-item="item"
+             wx:key="id">
+
+        <view class="c-story-card c-panel animated fadeIn"
+              hover-start-time="50"
+              hover-stay-time="400"
+              hover-stop-propagation="{{propagation}}"
+              hover-class="c-story-card--isHover"
+              @tap.stop="toDetail({{item}})">
+          <view class="c-story-meta">
+            <view class="c-story-meta__author">
+              <image class="c-story-meta__avatar"
+                     mode="aspectFill"
+                     src="{{item.author.avatar}}"></image>
+              <view>
+                {{item.author.nicename}}:
+              </view>
+            </view>
+            <view class="c-story-card__title">
+              {{item.title}}
+            </view>
+          </view>
+          <view class="c-story-card__body">
+            <ElipContent :line="line">
+              {{item.content}}
+            </ElipContent>
+          </view>
+          <view class="c-story-meta__date">
+            {{item.date}}
+          </view>
+        </view>
+      </block>
+    </view>
+    <Loadmore :page.sync="page"></Loadmore>
+  </view>
+
+  <!--<view style="position: relative;">-->
+  <!--</view>-->
+
+</template>
+
+<script>
+  /* eslint-disable no-undef,no-throw-literal,no-unused-expressions,no-unused-vars */
+
+  import wepy from 'wepy'
+  import auth from '../api/auth'
+  import base from '../mixins/_base'
+  import pagination from '../mixins/pagination'
+  import app from '../api/app'
+  import posts from '../api/posts'
+  import Cache from '../utils/Cache'
+  import Tips from '../utils/Tips'
+  import Elip from '../components/ui/elip'
+  import moment from 'moment'
+  import Loadmore from '../components/ui/loadmore'
+  import cSwipe from '../components/ui/c-swipe'
+
+  const device = wx.getSystemInfoSync()  //  获取设备信息
+
+  export default class Index extends wepy.page {
+    mixins = [base, pagination]
+
+    components = {
+      Elip: Elip,
+      ElipContent: Elip,
+      Loadmore: Loadmore,
+      'c-swipe': cSwipe
+    }
+    data = {
+      list: [
+        {id: 1, title: '标题1', style: 0, x: 0},
+        {id: 2, title: '标题2', style: 0, x: 0}
+      ],
+      height: device.windowHeight,
+      page: {
+        added: [],
+        list: []
+      },
+      line: 3
+    }
+
+    config = {
+      backgroundTextStyle: 'dark',
+      navigationBarTitleText: '故事',
+      navigationBarTextStyle: 'black',
+      enablePullDownRefresh: true
+    }
+    computed = {}
+
+    methods = {
+      post () {
+        this.$root.$navigate(`/pages/love/new`)
+      },
+      toDetail (item, $event) {
+        // this.$preload({'id': item.id})
+        this.$preload({'story': item})
+        this.$root.$navigate(`/pages/story?id=${item.id}`)
+        // console.log(JSON.stringify(item))
+        // this.$root.$navigate(`/pages/love?id=${item.id}`)
+      },
+      touchstart (e) {
+        this.isMove = false
+        this.$apply()
+      },
+
+      touchmove (e) {
+      },
+
+      touchend (e) {
+        this.isMove = true
+        this.$apply()
+      }
+    }
+
+    async onLoad ({sence}) {
+      // await auth.login()
+      const result = await auth.user({block: true, redirect: true})
+      if (!result) {
+        // eslint-disable-next-line no-useless-return
+        return
+      } else {
+        this.page = posts.page('stories')
+        await this.next()
+        // for (let item of this.page.list) {
+        // item.title = item.title.split('-')[0]
+        // item.date = moment(item.modified).fromNow()
+        // }
+        this.loaded()
+      }
+    }
+  }
+</script>

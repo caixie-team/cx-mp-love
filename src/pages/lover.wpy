@@ -1,0 +1,837 @@
+<style lang="scss">
+  @import "../styles/variable";
+  page{
+    height: 100%;
+    background-color: #fff;
+  }
+  .o-page {
+    color: #344A5E;
+  }
+  .o-me {
+    height: 100%;
+    width: 100%;
+    /*display: flex;*/
+    /*justify-content: center;*/
+  }
+
+  .o-me__header {
+    position: fixed;
+    top: 0;
+    background: #fff;
+    border-bottom-right-radius: rpx(32);
+    border-bottom-left-radius: rpx(32);
+    box-shadow: 0 10px 30px 0 rgba(0,0,0,0.10);
+    height: rpx(260);
+    width: rpx(750);
+    z-index: 3;
+  }
+  .o-me__body {
+    margin-top: rpx(320);
+  }
+  .o-me__title {
+    padding: rpx(48) 0 rpx(20) rpx(48);
+    display: block;
+    font-size: rpx(48);
+    color: $color-primary;
+    letter-spacing: rpx(10);
+    /*line-height: 44px;*/
+    font-weight: 300;
+    &::first-letter {
+      background: #FADD26;
+    }
+  }
+
+  .c-me-profile {
+    color: #344A5E;
+    padding: rpx(48);
+    width: auto;
+    /*height: 100%;*/
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-weight: 500;
+    border-bottom: 1rpx solid #e5e5e5;
+    /*border-bottom: 1px solid #efefef;*/
+    /*border-bottom: 1rpx solid #f5f5f5;*/
+  }
+  .c-me-profile__detail {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    align-items: center;
+  }
+  .c-me-profile__avatar {
+    width: rpx(80);
+    height: rpx(80);
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
+    border-radius: rpx(50);
+    border: 1px solid #ededed;
+  }
+  .c-me-profile__username {
+    font-size: rpx(36);
+    margin-left: rpx(20);
+    font-weight: 300;
+  }
+
+  .c-me-profile__loved,.c-me-profile__story {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: rpx(30);
+    font-size: rpx(30);
+  }
+
+  .c-tabbar {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    height: rpx(138);
+  }
+  .c-tabbar__tab {
+    color: #1F1F1F;
+    width: rpx(710);
+    border-radius: rpx(20);
+    /*border-top-left-radius: rpx(12);*/
+    /*border-top-right-radius: rpx(12);*/
+    /*border-bottom-left-radius: rpx(100);*/
+    /*border-bottom-right-radius: rpx(100);*/
+    margin-left: rpx(20);
+    background: #FFFFFF;
+    /*z-index: 100;*/
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.10) inset, /*左边阴影*/
+    0 2px 4px rgba(0, 0, 0, 0.20); /*右边阴影*/
+    white-space: nowrap;
+    .tab_item {
+      /*border-left: 1px solid rgba(0, 0, 0, 0.05);*/
+      display: flex;
+      flex-flow: column;
+      /*display: inline-block;*/
+      width: 33.33333%;
+      text-align: center;
+      align-content: center;
+      align-items: center;
+      padding: rpx(6);
+      height: rpx(100);
+      .icon {
+        display: flex;
+        width: rpx(60);
+        height: rpx(60);
+      }
+      .icon-title {
+        font-size: rpx(24);
+      }
+      .icon-active {
+        color: #476DDC;
+      }
+    }
+    .toolbar {
+      display: flex;
+    }
+  }
+  .c-toolbar {
+    display: flex;
+    flex-direction: row;
+    padding: 0 rpx(40)
+  }
+
+  .c-card {
+    border-bottom-right-radius: 32rpx;
+    border-bottom-left-radius: 32rpx;
+    box-shadow: 0 10px 30px 0 rgba(0,0,0,0.10);
+    height: 100%;
+    /*height: 700rpx;*/
+    /*padding: 0rpx 48rpx 0;*/
+    background: #fff;
+  }
+  .c-card__header {
+    padding: 0 30rpx 30rpx 30rpx;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .c-card__title {
+    flex: 1;
+    justify-content: flex-start;
+    font-size: rpx(68);
+    font-weight: 300;
+  }
+  .c-card__avatar {
+    width: rpx(48);
+    height: rpx(48);
+    /*box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);*/
+    border-radius: rpx(50);
+    border: 1px solid #ededed;
+  }
+
+  .photo-box{
+    height: rpx(300);
+    border-bottom: $border;
+
+    .photo-btn{
+      height: 64px;
+      width: 64px;
+    }
+  }
+  .swiper-box{
+    .photo-btn{
+      position: absolute;
+      right: rpx(20);
+      top: 400rpx;
+      background-color: white;
+      border-radius: rpx(50);
+      z-index: 100;
+    }
+
+    .picture-swiper{
+      height: 580rpx;
+      image{
+        height: 100%;
+        width: 100%;
+      }
+    }
+  }
+
+  .manage-box{
+    padding-top: 10rpx;
+    .item-box{
+      padding: 10rpx 20rpx;
+      background-color: white;
+      margin-bottom: 5rpx;
+      margin-top: 5rpx;
+      border-top: $border;
+      border-bottom: $border;
+
+      .item-footer-box{
+        image{
+          margin-left: 20rpx;
+        }
+      }
+    }
+  }
+  .c-panel__footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: rpx(30);
+    /*padding: rpx(48);*/
+  }
+
+  body.c-home {
+    background: #fff;
+    color: #1F1F1F;
+    height: 100%;
+    width: 100%;
+  }
+  .c-today {
+    height: 300rpx;
+    background: #fff;
+    display: flex;
+    /*align-items: flex-start;*/
+    /*justify-content: space-between;*/
+    margin-left: rpx(32);
+    margin-bottom: rpx(10);
+    /*flex-direction: column;*/
+  }
+  .c-h1 {
+    font-size: 30rpx;
+  }
+  .c-loves {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    /*align-items: flex-start;*/
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    /*flex-direction: column;*/
+    flex-direction: row;
+    /*justify-content: space-between;*/
+  }
+  .c-loves__date {
+    font-color: $color-primary;
+    font-size: rpx(32);
+    font-weight: bold;
+    margin-bottom: rpx(32);
+    display: block;
+    text-align: center;
+  }
+  .c-loves-item {
+
+    width: 300rpx;
+    /*display: flex;*/
+    padding: 28rpx 20rpx;
+  }
+  .c-loves-item__body {
+    display: flex;
+    height: 360rpx;
+    background: rgba(255,255,255,0.19);
+    box-shadow: 0 2px 20px 0 rgba(0,0,0,0.1);
+    border-radius: 4px;
+
+    padding: 14rpx 10rpx 7rpx;
+    position: relative;
+    align-items: center;
+    flex-direction: column;
+  }
+  .c-loves-item__title {
+    font-size: 32rpx;
+    font-weight: 300;
+    line-height: 1;
+    margin-top: 0;
+    margin-bottom: 28rpx;
+  }
+  .c-loves-item__detail {
+    margin: 0 0 28rpx;
+    font-size: 26rpx;
+    font-weight: 400;
+    color: rgba(31,31,31,0.50);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.0769231;
+  }
+  .c-loves-item__cover{
+    position: absolute;
+    left: 20rpx;
+    right: 20rpx;
+    bottom: 20rpx;
+    /*top: 170rpx;*/
+    border-radius: 6rpx;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+
+    width: auto;
+    height: 180rpx;
+  }
+
+  .c-love__album {
+    position: relative;
+  }
+  .c-love__album-items {
+    height: 520rpx;
+    /*height: rpx(550);*/
+    display: flex;
+    justify-content: flex-start;
+    text-align: left;
+    align-items: flex-start;
+  }
+  /*.c-stickys {*/
+    /*height: rpx(550);*/
+    /*display: flex;*/
+    /*justify-content: flex-start;*/
+    /*text-align: left;*/
+    /*align-items: flex-start;*/
+  /*}*/
+  .c-stickys-item {
+    /*width: 95% !important;*/
+    /*margin-right: 5% !important;*/
+  }
+  .c-stickys-item__content {
+    border-top: 1px solid #ededed;
+    /*margin: rpx(24) rpx(16) 0 0;*/
+    text-align: left;
+  }
+  .c-stickys-item__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  .c-stickys-item__tag {
+    margin-top: rpx(20);
+    font-size: rpx(22);
+  }
+  .c-stickys-item__title {
+    font-size: rpx(38);
+  }
+  .c-stickys-item__author {
+    font-size: rpx(38);
+    font-weight: 300;
+    color: #9b9b9b;
+  }
+  .c-stickys-item__cover {
+    margin-top: rpx(20);
+    border-radius: rpx(12);
+    border:1px solid #ebebeb;
+    width: 100%;
+    /*height:rpx(345);*/
+  }
+  .c-album__action {
+    position: absolute;
+    right: 30rpx;
+    z-index: 2;
+    bottom: 60rpx;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .c-button {
+    display: flex;
+    background: #FFFFFF;
+    font-weight: 400;
+    font-size: rpx(28);
+    height: rpx(96);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    /*min-width: 160rpx;*/
+    box-shadow: 0 0 1px 1px rgba(0,0,0,0.05), 0 2px 2px 0 rgba(0,0,0,0.10);
+    border-radius: 4px;
+  }
+  .c-button--sm {
+    height: rpx(80);
+  }
+  .c-button--loved {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+  .c-button--story {
+    width: rpx(150);
+    margin: 0 rpx(30);
+    color: #fff;
+    background: #47BAA4;
+  }
+  .c-button--new {
+    z-index: 100;
+    width: rpx(96);
+    background: #344A5E;
+  }
+  .c-button__icon {
+    height: rpx(40);
+    width: rpx(40);
+    vertical-align: middle;
+  }
+  .c-button--upload {
+    height: 60rpx;
+    width: 180rpx;
+  }
+  .c-button--primary {
+    color: #FFFFFF;
+    background: #1F1F1F;
+    flex: 1;
+  }
+  .c-button--second {
+    color: #1F1F1F;
+    background: #FFFFFF;
+  }
+  .c-button--download {
+    height: 60rpx;
+    width: 60rpx;
+    font-size: 26rpx;
+    border-radius: 100rpx;
+    margin-right: 20rpx;
+  }
+  .c-button--more {
+    height: 60rpx;
+    width: 60rpx;
+    font-size: 26rpx;
+    border-radius: 100rpx;
+  }
+  .c-love__header {
+    padding: 48rpx 48rpx 48rpx 48rpx;
+  }
+  .c-love__title {
+    font-weight: 500;
+    font-size: 48rpx;
+  }
+  .c-love__author {
+    font-size: 32rpx;
+  }
+  .c-lovers {
+    margin-bottom: rpx(30);
+  }
+  .c-lovers__header {
+    padding: rpx(30) 0 rpx(30) rpx(30);
+    font-size: rpx(32);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  .c-lovers__title {
+    flex: 1;
+    margin-left: rpx(14);
+    font-weight: bold;
+    font-size: rpx(28);
+  }
+
+  .c-lovers__scroll {
+    white-space: nowrap;
+    display: flex;
+  }
+  .c-lover {
+    margin-left: rpx(20);
+    width: rpx(120);
+    height: rpx(100);
+    display: inline-block;
+    text-align: center;
+    &:first-child {
+      margin-left: 3.5%;
+    }
+    &__avatar {
+      width: rpx(80);
+      height: rpx(80);
+      box-shadow: 0 rpx(2) rpx(8) 0 rgba(0,0,0,0.08);
+      border-radius: rpx(50);
+      border: 1px solid #ededed;
+    }
+    &__name {
+      font-size: rpx(24);
+      font-weight: 300;
+      color: $color-primary;
+    }
+  }
+  .c-button--unlove {
+    width: rpx(160);
+    margin-left: rpx(30);
+  }
+
+  .c-love__picker {
+    color: #415A6B;
+    display: flex;
+    /*text-align: left;*/
+    justify-content: flex-start;
+    flex-direction: row;
+    justify-items: flex-start;
+    align-items: flex-start;
+    /*justify-items: center;*/
+
+  }
+  .c-love__picker-icon {
+    /*margin-left: 0;*/
+    width: rpx(40);
+    height: rpx(40);
+    padding: 0 rpx(16);
+  }
+  .c-love__picker-info {
+    flex: 1;
+  }
+  .c-select_arrow {
+    width: rpx(20);
+    height: rpx(20);
+  }
+
+  .c-stories {
+    /*display: flex;*/
+    /*flex-direction: column;*/
+  }
+  .c-stories__header {
+    padding: rpx(48) 0;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+  }
+  .c-stories__icon {
+    flex: 1;
+  }
+  .c-stories__title {
+    margin-top: rpx(14);
+    flex: 1;
+    font-size: rpx(36);
+    font-weight: 300;
+  }
+</style>
+<template>
+  <view class="o-me">
+    <view class="o-me__header">
+      <view class="c-me-profile">
+        <view class="c-me-profile__detail">
+          <image class="c-me-profile__avatar"
+                 mode="aspectFill"
+                 src="https://images.unsplash.com/profile-1456950834744-1e3412cbe9a2?dpr=1&auto=format&fit=crop&w=128&h=128&q=60&cs=tinysrgb&crop=faces&bg=fff"></image>
+          <view class="c-me-profile__username">请好好说话</view>
+        </view>
+<!--        <view class="c-me-profile__loved">
+          <text>40</text>
+          <text class="slim muted">最爱</text>
+        </view>
+        <view class="c-me-profile__story">
+          <text>0</text>
+          <text class="slim muted">故事</text>
+        </view>-->
+
+      </view>
+      <Tab :tab.sync="tab"></Tab>
+
+    </view>
+    <view class="o-me__body">
+      <!--<view class="o-me__title">-->
+        <!--最爱。-->
+      <!--</view>-->
+      <view class="c-loves__date">
+        2015 年
+      </view>
+      <view class="c-loves">
+        <block wx:for-items="{{items}}"
+               wx:for-index="index"
+               wx:for-item="item"
+               wx:key="id">
+          <view class="c-loves-item" @tap="tapAction({{item}})">
+            <view class="c-loves-item__body">
+              <text class="c-loves-item__title">
+                {{item.title}}
+              </text>
+              <text class="c-loves-item__detail">38 人最爱</text>
+              <image class="c-loves-item__cover" mode="aspectFill" src="{{item.cover}}"></image>
+            </view>
+          </view>
+        </block>
+      </view>
+
+    </view>
+  </view>
+</template>
+
+<script>
+  /* eslint-disable no-undef */
+
+  import wepy from 'wepy'
+  import Tips from '../utils/Tips'
+  import WxUtils from '../utils/WxUtils'
+  import Elip from '../components/ui/elip'
+  import SliderPanel from '../components/common/slider-panel'
+  import Tab from '../components/ui/tab'
+
+  const date = new Date()
+  const years = []
+  const months = []
+  const days = []
+
+  for (let i = 1990; i <= date.getFullYear(); i++) {
+    years.push(i)
+  }
+
+  for (let i = 1; i <= 12; i++) {
+    months.push(i)
+  }
+
+  for (let i = 1; i <= 31; i++) {
+    days.push(i)
+  }
+
+  export default class Love extends wepy.page {
+    data = {
+      tab: {
+        'list': [
+          {
+            id: 'loved',
+            title: '最爱 (10)'
+          },
+          {
+            id: 'story',
+            title: '故事 (20)'
+          }
+        ],
+        'selectedId': 'loved',
+        'scroll': false
+      },
+      isLoved: false,
+      isDateDisplay: false,
+      years: years,
+      year: date.getFullYear(),
+      months: months,
+      month: 2,
+      days: days,
+      day: 2,
+      value: [9999, 1, 1],
+      time: '',
+      date: '1985',
+      // otherClass: 'shop-swiper'
+      pictures: [],
+      maxSize: {
+        detault: '9'
+      },
+      isPanelDisplay: 'false',
+      lovers: [{
+        id: '1',
+        name: '合一',
+        picture: 'https://images.unsplash.com/profile-fb-1455831748-7895ec2af8f7.jpg'
+      }, {
+        id: '2',
+        name: '请好好说话',
+        picture: 'https://images.unsplash.com/profile-1499593341969-deac32769df5?dpr=1&auto=format&fit=crop&w=128&h=128&q=60&cs=tinysrgb&crop=faces&bg=fff'
+      }, {
+        id: '3',
+        name: 'Amy Hanley',
+        picture: 'https://images.unsplash.com/profile-1464660365213-bbd2579a2408?dpr=1&auto=format&fit=crop&w=128&h=128&q=60&cs=tinysrgb&crop=faces&bg=fff'
+      }, {
+        id: '4',
+        name: 'Ryan Christodoulou',
+        picture: 'https://images.unsplash.com/profile-fb-1504752422-a46dc62518e8.jpg?dpr=1&auto=format&fit=crop&w=128&h=128&q=60&cs=tinysrgb&crop=faces&bg=fff'
+      }, {
+        id: '5',
+        name: 'Christiann Koepke',
+        picture: 'https://images.unsplash.com/profile-1506090692428-7fb9f606a3bf?dpr=1&auto=format&fit=crop&w=128&h=128&q=60&cs=tinysrgb&crop=faces&bg=fff'
+      }, {
+        id: '6',
+        name: 'Pedro Henrique Santos',
+        picture: 'https://images.unsplash.com/profile-1456950834744-1e3412cbe9a2?dpr=1&auto=format&fit=crop&w=128&h=128&q=60&cs=tinysrgb&crop=faces&bg=fff'
+      }],
+      items: [
+        {
+          id: 1,
+          title: '教父',
+          slug: 'jiao-fu',
+          cover: 'http://img.qingmang.mobi/image/orion/098ab30f2e689494fa24e74cfdf2704_1600_900.jpeg'
+        },
+        {
+          id: 2,
+          slug: '春游',
+          name: 'chun-you',
+          cover: 'http://img.qingmang.mobi/image/orion/4a60dd2e350b38d10dfbf40fb817ff1_2000_1333.jpeg'
+        },
+        {
+          id: 3,
+          title: '儿童节',
+          slug: 'er-tong-jie',
+          cover: 'http://img.qingmang.mobi/image/orion/79509a852bd3344a305a3a910e4e2fd_600_600.jpeg'
+        },
+        {
+          id: 4,
+          title: '小聚会',
+          slug: 'xiao-ju-hui',
+          cover: 'http://statics01.qingmang.mobi/bd835c1939af052096ab2dc495c2210.jpeg?imageView2/0/w/1024'
+        },
+        {
+          id: 5,
+          title: '初音未来',
+          slug: 'chu-yin-wei-lai',
+          cover: 'http://statics01.qingmang.mobi/1f33bc0274b3cbf76b46efcb059b6b0.jpeg?imageView2/0/w/1024'
+        },
+        {
+          id: 6,
+          title: 'iPhone',
+          slug: 'iphone',
+          cover: 'http://statics01.qingmang.mobi/739c3b8964e7eaa3635d70dbff82c31.jpeg?imageView2/0/w/1024'
+        },
+        {
+          id: 7,
+          title: '权力游戏',
+          slug: 'quan-li-you-xi',
+          cover: 'http://statics01.qingmang.mobi/deddb99b4b02b83238c3433389a4435.jpeg?imageView2/0/w/1024'
+        },
+        {
+          id: 8,
+          title: '韩剧',
+          slug: 'han-ju',
+          cover: 'http://img.qingmang.mobi/image/orion/1a0c0b09c5c631f47af5853d34dee6a_652_475.jpeg'
+        }
+      ]
+    }
+
+    computed = {
+      imageWidth () {
+        const device = wx.getSystemInfoSync()  //  获取设备信息
+        return device.windowWidth
+      },
+      now () {
+        return +new Date()
+      }
+    }
+
+    methods = {
+      bindChange: function(e) {
+        const val = e.detail.value
+        this.year = this.years[val[0]]
+        this.$apply()
+        // this.setData({
+        //   year: this.data.years[val[0]],
+        //   month: this.data.months[val[1]],
+        //   day: this.data.days[val[2]]
+        // })
+      },
+      /**
+       * 监听日期picker选择器
+       */
+      listenerDatePickerSelected(e) {
+        this.date = e.detail.value
+        // this.setDate({
+        //   date: e.detail.value
+        // })
+      },
+      post() {
+        this.isDateDisplay = 'true'
+        console.log('lalala ----' + this.isDateDisplay)
+        this.$apply()
+      },
+      // 上传图片
+      async photo() {
+        const size = this.pictures.length
+        if (size >= 9) {
+          await Tips.alert('最多选择九张图片')
+          return
+        }
+        const param = {
+          cont: 9 - size,
+          sizeType: ['compressed']
+        }
+        const tempFilePaths = await WxUtils.chooseImage(param, this.maxSize)
+        const pictures = tempFilePaths.map(item => {
+          return {
+            url: item
+          }
+        })
+        this.pictures = this.pictures.concat(pictures)
+        this.$apply()
+      },
+      tap(item) {
+        this.$root.$navigate(`/pages/love?slug=${item.slug}`)
+      },
+      // 打开管理面板
+      manage() {
+        this.isPanelDisplay = 'true'
+      },
+      // 向上移动
+      up(index) {
+        if (index === 0) {
+          return
+        }
+        const target = index - 1
+        this.swap(index, target)
+      },
+      // 向下移动
+      down(index) {
+        if (index === this.pictures.length - 1) {
+          return
+        }
+        const target = index + 1
+        this.swap(index, target)
+      },
+      // 删除图片
+      remove(index) {
+        this.pictures.splice(index, 1)
+        if (this.pictures.length < 1) {
+          this.isPanelDisplay = false
+        }
+      }
+    }
+    watch = {
+      isPanelDisplay(value) {
+        this.$emit('toggle', value)
+      }
+    };
+    components = {
+      SliderPanel: SliderPanel,
+      SliderLove: SliderPanel,
+      Elip: Elip,
+      Tab: Tab
+    };
+    events = {}
+    swap(srcIndex, targetIndex) {
+      const pictures = this.pictures
+      const src = pictures[srcIndex]
+      const target = pictures[targetIndex]
+      pictures[targetIndex] = src
+      pictures[srcIndex] = target
+    }
+
+    onLoad(option) {
+      // console.log(JSON.stringify(option))
+    }
+  }
+</script>

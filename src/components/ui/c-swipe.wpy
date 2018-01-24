@@ -1,0 +1,150 @@
+<style lang="scss">
+  .moveable-item {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    align-items: center;
+    background: red;
+  }
+
+  .movable-wrapper {
+    min-height: 120rpx;
+    background: #ddd;
+    flex: 1;
+    position: relative;
+  }
+
+  .movable-item {
+    position: relative;
+    height: 120rpx;
+    width: 750rpx;
+    background: #fff;
+    flex: 1
+  }
+
+  .move-able-delete-section {
+    width: 100px;
+    height: 100%;
+    text-align: center;
+    color: #fff;
+  }
+</style>
+<template>
+  <view class="moveable-item"
+        @touchstart="onTouchStart({{swipeData}})"
+        @touchmove="onTouchMove"
+        @touchend="onTouchEnd"
+        @touchcancel="onTouchEnd">
+    <movable-area class="movable-wrapper">
+      <movable-view
+        class='movable-item'
+        out-of-bounds="true"
+        direction="horizontal"
+        x="{{(current === swipeData.id) ? swipeData.x : 0}}">
+        <slot></slot>
+      </movable-view>
+    </movable-area>
+    <view class="move-able-delete-section" @tap.stop="handleRightBtnTap({{swipeData}})">
+      <text>删除</text>
+    </view>
+  </view>
+</template>
+<script>
+  /* eslint-disable no-undef */
+
+  import wepy from 'wepy'
+  // const $wxapp = wepy.$instance
+
+  export default class cSwipe extends wepy.component {
+    // props = {
+    //   id: '',
+    //   placeholder: '请输入内容',
+    //   type: 'warning'
+    // }
+    props = {
+      swipeData: {
+        type: Object,
+        default: {x: 0},
+        twoWay: true
+      }
+    }
+    data = {
+      touchStartPosition: null,
+      touchEndPosition: null,
+      current: null
+    }
+    computed = {
+      // isCurrent() {
+      //   return this.current.id === this.swipeData.id
+      // }
+    }
+    methods = {
+      handleRightBtnTap (item) {
+        item = JSON.parse(JSON.stringify(item))
+        delete item.x
+        this.$emit('delItem', item)
+      },
+      onTouchStart (item, event) {
+        this.current = item.id
+        if (event.touches[0]) {
+          this.touchStartPosition = event.touches[0].clientX
+        }
+        // this.setData({
+        //   swipeData: this.props.swipeData
+        // })
+      },
+      onTouchMove (event) {
+        if (event.touches[0]) {
+          this.touchEndPosition = event.touches[0].clientX
+        }
+        // this.setData({
+        //   swipeData: this.props.swipeData
+        // })
+      },
+      onTouchEnd (event) {
+        if (this.touchStartPosition && this.touchEndPosition) {
+          // console.log(this.touchStartPosition - this.touchEndPosition)
+          let delta = this.touchStartPosition - this.touchEndPosition
+          // left
+          if (delta > 0) {
+            if (delta > 40) {
+              this.swipeData.x = -100
+              // this.setData({
+              //   x: -100
+              // })
+            } else {
+              this.swipeData.x = 0
+              // this.setData({
+              //   x: 0
+              // })
+            }
+          } else {
+            // right
+            if (Math.abs(delta) > 40) {
+              this.swipeData.x = 0
+              // this.setData({
+              //   x: 0
+              // })
+            } else {
+              this.swipeData.x = -100
+              // this.setData({
+              //   x: -100
+              // })
+              // this.setData({
+              //   swipeData: this.props.swipeData
+              // })
+            }
+          }
+          this.touchStartPosition = null
+          this.touchEndPosition = null
+          // this.setData({
+          //   swipeData: this.props.swipeData
+          // })
+        }
+      }
+    }
+
+    onLoad () {
+    }
+  }
+</script>

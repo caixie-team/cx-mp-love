@@ -1,0 +1,385 @@
+<style lang="scss">
+  @import "../styles/variable";
+
+  page {
+    height: 100%;
+    background-color: #f5f5f5;
+    width: rpx(750);
+  }
+
+  .o-home {
+    /*background: #fff;*/
+    color: #344A5E;
+    /*margin-top: 120rpx;*/
+    /*height: 100%;*/
+    width: 100%;
+  }
+
+  .c-topbar {
+    position: fixed;
+    top: 0;
+    background: #FF7058;
+    border-bottom-right-radius: rpx(32);
+    border-bottom-left-radius: rpx(32);
+    /*box-shadow: 0 10px 30px 0 rgba(0,0,0,0.10);*/
+    height: rpx(100);
+    width: 100%;
+    z-index: 3;
+  }
+
+  .c-button {
+    display: flex;
+    background: #FF7058;
+    font-weight: 400;
+    width: rpx(90);
+    height: rpx(90);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.05), 0 2px 2px 0 rgba(0, 0, 0, 0.10);
+    border-radius: rpx(8);
+  }
+
+  .c-post__button {
+    float: right;
+    /*background-color: #344A5E;*/
+    position: fixed;
+    bottom: 20px;
+    right: 10px;
+    border: 0 solid #ffffff;
+    border-radius: rpx(100);
+  }
+
+  .c-button__icon {
+    height: rpx(50);
+    width: rpx(50);
+    vertical-align: middle;
+  }
+
+  .c-today {
+    height: rpx(300);
+    background: #fff;
+    display: flex;
+    margin-left: rpx(32);
+    margin-bottom: rpx(10);
+  }
+
+  .c-h1 {
+    font-size: rpx(30);
+  }
+
+  .c-loves {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /*flex-direction: row;*/
+  }
+
+  .c-love-card {
+    flex: 1;
+    padding: rpx(24) rpx(30);
+    width: 90%;
+  }
+
+  .c-love-card--isHover {
+    /*background: #FF7058;*/
+    > .c-love-card__body {
+      box-shadow: none;
+      background: #FF7058;
+      color: #fff;
+      transition: color .2s ease-in, -webkit-transform .15s cubic-bezier(.175, .885, .32, 1.275);
+      > .c-love-card__detail {
+        color: rgba(255, 255, 255, 0.80);
+      }
+    }
+  }
+
+  .c-love-card__body {
+    display: flex;
+    flex: 1;
+    height: rpx(400);
+    background: #fff;
+    /*box-shadow: 0 0 1px 1px rgba(0,0,0,0.05), 0 2px 2px 0 rgba(0,0,0,0.10);*/
+
+    box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.1);
+    border-radius: rpx(8);
+
+    padding: rpx(28) rpx(20) rpx(14);
+    position: relative;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .c-love-card__title {
+    font-size: rpx(36);
+    display: block;
+    line-height: 1.615;
+    /*font-weight: 300;*/
+    margin-bottom: rpx(14);
+    width: rpx(620);
+    text-align: center;
+  }
+
+  .c-love-card__detail {
+    margin: 0 0 rpx(28);
+    font-size: rpx(26);
+    font-weight: 400;
+    color: rgba(31, 31, 31, 0.50);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.0769231;
+  }
+
+  .c-love-card__cover {
+    position: absolute;
+    left: rpx(20);
+    right: rpx(20);
+    bottom: rpx(20);
+    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.05), 0 2px 2px 0 rgba(0, 0, 0, 0.08);
+    width: auto;
+    height: rpx(260);
+  }
+
+  .c-placeholder {
+    transition: opacity 0.3s;
+    color: #344A5E;
+    opacity: 0.65;
+  }
+
+  .c-input {
+    padding: rpx(10) 0;
+    color: #fff;
+    width: auto;
+    border-radius: rpx(100);
+    border: none;
+    background: #FFF;
+    font-size: rpx(28);
+    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.05), 0 2px 2px 0 rgba(0, 0, 0, 0.08);
+  }
+</style>
+<template>
+  <!--  <view class="c-topbar"  @tap="post">
+      <c-filed :icon.sync="icon" class="u-mt-small u-ml-large u-mr-large">
+        <input class="c-input"
+               placeholder-class="c-placeholder"
+               style=""
+               placeholder="写下你最爱的"/>
+      </c-filed>
+
+    </view>-->
+  <view class="o-home">
+
+    <view class="c-loves">
+      <block wx:for-items="{{page.list}}"
+             wx:for-index="index"
+             wx:for-item="item"
+             wx:key="id">
+        <view class="c-love-card"
+              hover-start-time="50"
+              hover-stay-time="400"
+              hover-stop-propagation="{{propagation}}"
+              hover-class="c-love-card--isHover" @tap="tapAction({{item}})">
+          <view class="c-love-card__body">
+            <view class="c-love-card__title">
+              <Elip>
+                {{item.title}}
+              </Elip>
+            </view>
+            <text class="c-love-card__detail">{{item.like_count}} 人最爱</text>
+
+            <image class="c-love-card__cover"
+                   mode="aspectFill"
+                   src="{{item.featured_image}}?imageMogr2/thumbnail/900x900/q/90/format/jpg/interlace/1"
+                   wx:if="{{item.featured_image}}"></image>
+          </view>
+        </view>
+      </block>
+    </view>
+
+    <view class="c-button c-post__button animated {{fabClass}}" @tap="post">
+      <image class="c-button__icon" mode="aspectFill" src="/images/icons/plus--white.png"></image>
+    </view>
+
+    <Loadmore :page.sync="page"></Loadmore>
+  </view>
+
+
+</template>
+
+<script>
+  /* eslint-disable no-undef,no-throw-literal,no-unused-expressions,no-unused-vars */
+
+  import wepy from 'wepy'
+  import auth from '../api/auth'
+  import base from '../mixins/_base'
+  import pagination from '../mixins/pagination'
+  // import app from '../api/app'
+  import posts from '../api/posts'
+  // import Cache from '../utils/Cache'
+  // import Tips from '../utils/Tips'
+  import Elip from '../components/ui/elip'
+  import Loadmore from '../components/ui/loadmore'
+  import cField from '../components/ui/c-field'
+
+  const $wxapp = wepy.$instance
+  const device = wx.getSystemInfoSync()  //  获取设备信息
+
+  export default class Index extends wepy.page {
+    mixins = [base, pagination]
+    config = {
+      // backgroundTextStyle: 'dark',
+      // enablePullDownRefresh: true
+    }
+    components = {
+      Elip: Elip,
+      Loadmore: Loadmore,
+      'c-filed': cField
+    }
+
+    data = {
+      height: device.windowHeight,
+      propagation: true,
+      lastX: 0,
+      lastY: 0,
+      currengGesture: 0,
+      page: {
+        added: [],
+        list: []
+      },
+      isMove: false,
+      userInfo: {}
+    }
+
+    computed = {
+      fabClass () {
+        return this.isMove ? 'slideOutUp' : ''
+      },
+      now () {
+        return +new Date()
+      }
+    }
+
+    methods = {
+      post () {
+        this.$root.$navigate(`/pages/love/new`)
+      },
+      tapAction (item, $event) {
+// eslint-disable-next-line spaced-comment
+        let forwardObj = {
+          url: `/pages/love?id=${item.id}`,
+          success () {
+            let t = setTimeout(function () {
+              $wxapp.globalData.isNavigating = false
+              clearTimeout(t)
+            }, 500)
+          }
+        }
+        if (!$wxapp.globalData.isNavigating) {
+          $wxapp.globalData.isNavigating = true
+          wx.navigateTo(forwardObj)
+        }
+      },
+
+      handletouchmove (event) {
+        console.log(event)
+        if (this.currentGesture !== 0) {
+          return
+        }
+        this.isMove = true
+        let currentX = event.touches[0].pageX
+        let currentY = event.touches[0].pageY
+        let tx = currentX - this.data.lastX
+        let ty = currentY - this.data.lastY
+        let text = ''
+        if (ty < 0) {
+          // console.log('up scroll')
+          // this.isMove = true
+          this.currentGesture = 3
+        } else if (ty > 0) {
+          // this.isMove = false
+          // text = "向下滑动"
+          // console.log('down scroll')
+          this.currentGesture = 4
+        }
+        // 左右方向滑动
+        // if (Math.abs(tx) > Math.abs(ty)) {
+        //   if (tx < 0) {
+        //     this.isMove = false
+        //     this.currentGesture = 1
+        //   } else if (tx > 0) {
+        //     this.isMove = false
+        //     this.currentGesture = 2
+        //   }
+        // } else {
+        //   if (ty < 0) {
+        //     this.isMove = false
+        //     this.data.currentGesture = 3
+        //   } else if (ty > 0) {
+        //     this.isMove = true
+        // this.data.currentGesture = 4
+        // }
+        // }
+        // 将当前坐标进行保存以进行下一次计算
+        this.lastX = currentX
+        this.lastY = currentY
+        this.$apply()
+        // this.setData({
+        //   text : text,
+        // });
+      },
+
+      handletouchtart (event) {
+        this.lastX = event.touches[0].pageX
+        this.lastY = event.touches[0].pageY
+        this.isMove = true
+        this.$apply()
+      },
+      handletouchend (event) {
+        // console.log(event)
+        this.currentGesture = 0
+        this.isMove = false
+        this.$apply()
+        // this.setData({
+        //   text : "没有滑动",
+        // });
+      }
+    }
+    computed = {
+      icon () {
+        let avatar = '/images/icons/icon-topbar-icon.svg'
+        if (this.userInfo.avatarUrl) {
+          avatar = this.userInfo.avatarUrl
+        }
+        return avatar
+      }
+    }
+
+    async onShow () {
+      // 设置默认 title
+      wepy.setNavigationBarTitle({title: $wxapp.globalData.defaultTitle})
+      // this.page = posts.page('loves')
+    }
+
+    async onLoad (params) {
+      const isLogin = await auth.login()
+      // if (isLogin) {
+      this.page = posts.page('loves')
+      await this.next()
+      this.loaded()
+      // }
+      await auth.user({block: true, redirect: true})
+      this.loaded()
+
+      $wxapp.emitter.on('reload', async () => {
+        this.page = posts.page('loves')
+        await this.next()
+        this.loaded()
+      })
+    }
+  }
+</script>

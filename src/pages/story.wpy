@@ -1,0 +1,197 @@
+<style lang="scss">
+  @import "../styles/variable";
+  page {
+    color: $color-primary;
+    font-size: rpx(28);
+  }
+  .o-story {
+    flex-direction: column;
+  }
+  .c-story__title {
+    width: rpx(600);
+    font-size: rpx(48);
+    font-weight: bold;
+  }
+  .c-story-meta {
+    flex-direction: column;
+  }
+  .c-story__content {
+    font-size: rpx(30);
+    letter-spacing: 1.25px;
+    line-height: 1.615;
+  }
+</style>
+<template>
+  <view class="u-flex o-story">
+    <view class="c-panel c-panel--without-border c-panel--without-margin-top u-mb-medium">
+      <image
+        src="{{cover}}"
+        mode="aspectFill"
+        style=" z-index: 1; height: 480rpx; width: {{width}}px;" wx:if="{{parent.featured_image}}">
+      </image>
+    </view>
+    <view class="u-flex c-story-meta c-panel c-panel--without-border u-justify-center u-align-items-center u-text-center">
+      <view class="c-story__title">
+        {{parent.title}}
+      </view>
+      <view class="c-story__author u-mt-large">
+        {{detail.author.nicename}}・{{detail.modified}}
+      </view>
+    </view>
+    <view class="c-panel c-panel--without-border c-story__content u-p-large">
+        {{detail.content}}
+    </view>
+  </view>
+
+</template>
+
+<script>
+  /* eslint-disable no-undef,no-throw-literal,no-unused-expressions,no-unused-vars */
+
+  import wepy from 'wepy'
+  import auth from '../api/auth'
+  import base from '../mixins/_base'
+  // import pagination from '../mixins/pagination'
+  import app from '../api/app'
+  import postsApi from '../api/posts'
+  import Cache from '../utils/Cache'
+  import Tips from '../utils/Tips'
+  import Elip from '../components/ui/elip'
+  // import moment from 'moment'
+  // import 'moment/locale/zh-cn'
+  import Loadmore from '../components/ui/loadmore'
+  const device = wx.getSystemInfoSync()  //  获取设备信息
+
+  export default class Index extends wepy.page {
+    mixins = [base]
+
+    components = {
+      Elip: Elip,
+      ElipContent: Elip
+    }
+    config = {
+      // backgroundTextStyle: 'dark',
+      // navigationBarTitleText: '故事。',
+      // navigationBarBackgroundColor: '#936d3b',
+      // navigationBarTextStyle: 'black',
+      // backgroundColor: '#f9f9f9',
+      // enablePullDownRefresh: false
+    }
+    data = {
+      id: '',
+      detail: {},
+      parent: {},
+      page: {
+        added: [],
+        list: []
+      },
+      width: device.windowWidth,
+      height: device.windowHeight,
+      line: 3,
+      isMove: true,
+      items: [
+        {
+          id: 1,
+          title: '教父',
+          slug: 'jiao-fu',
+          cover: 'http://img.qingmang.mobi/image/orion/098ab30f2e689494fa24e74cfdf2704_1600_900.jpeg'
+        },
+        {
+          id: 2,
+          slug: '春游',
+          name: 'chun-you',
+          cover: 'http://img.qingmang.mobi/image/orion/4a60dd2e350b38d10dfbf40fb817ff1_2000_1333.jpeg'
+        },
+        {
+          id: 3,
+          title: '儿童节',
+          slug: 'er-tong-jie',
+          cover: 'http://img.qingmang.mobi/image/orion/79509a852bd3344a305a3a910e4e2fd_600_600.jpeg'
+        },
+        {
+          id: 4,
+          title: '小聚会',
+          slug: 'xiao-ju-hui',
+          cover: 'http://statics01.qingmang.mobi/bd835c1939af052096ab2dc495c2210.jpeg?imageView2/0/w/1024'
+        },
+        {
+          id: 5,
+          title: '初音未来',
+          slug: 'chu-yin-wei-lai',
+          cover: 'http://statics01.qingmang.mobi/1f33bc0274b3cbf76b46efcb059b6b0.jpeg?imageView2/0/w/1024'
+        },
+        {
+          id: 6,
+          title: 'iPhone',
+          slug: 'iphone',
+          cover: 'http://statics01.qingmang.mobi/739c3b8964e7eaa3635d70dbff82c31.jpeg?imageView2/0/w/1024'
+        },
+        {
+          id: 7,
+          title: '权力游戏',
+          slug: 'quan-li-you-xi',
+          cover: 'http://statics01.qingmang.mobi/deddb99b4b02b83238c3433389a4435.jpeg?imageView2/0/w/1024'
+        },
+        {
+          id: 8,
+          title: '韩剧',
+          slug: 'han-ju',
+          cover: 'http://img.qingmang.mobi/image/orion/1a0c0b09c5c631f47af5853d34dee6a_652_475.jpeg'
+        }
+      ]
+    }
+
+    computed = {
+      cover () {
+        return this.parent.featured_image ? `${this.parent.featured_image}?imageMogr2/thumbnail/1024x1024/q/90/interlace/1` : '/images/icons/camera.png'
+      },
+      fabClass () {
+        return this.isMove ? 'fadeInRight' : 'fadeOutRight'
+      },
+      now () {
+        return +new Date()
+      }
+    }
+
+    methods = {
+      post() {
+        this.$root.$navigate(`/pages/love/new`)
+      },
+      tapAction(item, $event) {
+        this.$root.$navigate(`/pages/love?id=${item.id}`)
+      },
+      touchstart (e) {
+        this.isMove = false
+        this.$apply()
+      },
+
+      touchmove (e) {
+      },
+
+      touchend (e) {
+        this.isMove = true
+        this.$apply()
+      }
+    }
+
+    events = {
+    }
+    async onShow() {
+    }
+    async getParent (id) {
+      this.parent = await postsApi.detail(id)
+      this.loaded()
+      this.$apply()
+    }
+    async onLoad(pararm, data) {
+      this.id = pararm.id
+      this.detail = await postsApi.detail(this.id)
+      // this.detail = data.preload.story
+      // console.log(JSON.stringify(this.detail))
+      this.detail.modified = wepy.$instance.moment(this.detail.modified).fromNow()
+      await this.getParent(this.detail.parent)
+      this.loaded()
+      // console.log(JSON.stringify(this.detail))
+    }
+  }
+</script>

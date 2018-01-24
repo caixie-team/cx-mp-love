@@ -1,0 +1,139 @@
+<template>
+  <view class="c-tab">
+    <block wx:if="{{tab.scroll}}">
+      <scroll-view
+        class="c-tab__bd c-tab__bd--scroll {{ fixed === '1' ? 'c-tab__bd--fixed' : '' }}"
+        scroll-x="true"
+        style="height:{{ tab.height ? tab.height + 'px' : 'auto' }}"
+      >
+        <view
+          wx:for="{{tab.list}}"
+          wx:key="id"
+          class="c-tab__item {{tab.selectedId === item.id ? 'c-tab__item--selected' : ''}}"
+          data-component-id="{{componentId}}"
+          data-item-id="{{item.id}}"
+          @tap="handleTabChange"
+        >
+          <view class="c-tab__title">
+            <text>{{item.title}}</text>
+            <block wx:if="{{tab.order}}">
+              <image class="icon" src="/images/icons/order-{{tab.sord}}.png" wx:if="{{tab.selectedId === item.id}}"></image>
+              <image class="icon" src="/images/icons/order-none.png" wx:else></image>
+            </block>
+          </view>
+        </view>
+      </scroll-view>
+    </block>
+    <block wx:else>
+      <view class="c-tab__bd {{fixed === '1' ? 'c-tab__bd--fixed' : ''}}">
+        <view
+          wx:for="{{tab.list}}"
+          wx:key="id"
+          class="c-tab__item {{tab.selectedId === item.id ? 'c-tab__item--selected' : ''}}"
+          data-component-id="{{componentId}}"
+          data-item-id="{{item.id}}"
+          @tap="handleTabChange"
+        >
+          <view class="c-tab__title">
+            <text>{{item.title}}</text>
+            <block wx:if="{{tab.order}}">
+              <image class="icon" src="/images/icons/order-{{tab.sord}}.png" wx:if="{{tab.selectedId === item.id}}"/>
+              <image class="icon" src="/images/icons/order-none.png" wx:else/>
+            </block>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  export default class cTab extends wepy.component {
+    props = {
+      tab: {twoWay: true},
+      fixed: {
+        default: true
+      }
+    }
+    data = {}
+    methods = {
+      /**
+       * 事件处理函数
+       */
+      handleTabChange(e) {
+        const dataset = e.currentTarget.dataset
+        const componentId = dataset.componentId
+        const selectedId = dataset.itemId
+        const data = { componentId, selectedId }
+        // 处理排序情况
+        if (this.tab.order) {
+          const lastId = this.tab.selectedId
+          if (lastId === selectedId) {
+            this.tab.sord = this.tab.sord === 'desc' ? 'asc' : 'desc'
+          }
+          data.sord = this.tab.sord
+        }
+        // 直接修改数据/双向通讯
+        this.tab.selectedId = selectedId
+        // 发射事件
+        this.$emit('change', data)
+      }
+    }
+    events = {}
+  }
+</script>
+
+<style lang="scss">
+  @import "../../styles/variable";
+  .c-tab {
+    height: 45px;
+  }
+  .c-tab__bd {
+    width: 750rpx;
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1rpx solid #e5e5e5;
+    background: #fff;
+  }
+  .c-tab__bd--fixed {
+    position: fixed;
+    top: 0;
+    z-index: 2;
+  }
+  .c-tab__item {
+    flex: 1;
+    display: inline-block;
+    padding: 0 10px;
+    line-height: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .c-tab__title {
+    display: inline-block;
+    max-width: 100%;
+    height: 44px;
+    line-height: 44px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+    word-break: keep-all;
+    font-size: 14px;
+    color: #666;
+  }
+
+  .c-tab__item--selected .c-tab__title {
+    color: #f44;
+    border-bottom: 2px solid #f44;
+  }
+
+  .c-tab__bd--scroll {
+    display: block;
+    white-space: nowrap;
+  }
+  .c-tab__bd--scroll .c-tab__item {
+    min-width: 80px;
+  }
+</style>
