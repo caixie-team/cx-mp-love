@@ -357,6 +357,7 @@
         this.loaded()
         if (data) {
           Tips.success('添加成功')
+          $wxapp.emitter.emit('newlove_added', data)
           this.$redirect('/pages/love', {id: data.id})
         } else {
           Tips.error('添加失败')

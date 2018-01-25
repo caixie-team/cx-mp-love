@@ -380,6 +380,17 @@
         await this.next()
         this.loaded()
       })
+
+      $wxapp.emitter.on('newlove_added', async (data) => {
+        this.page.list.unshift(data)
+        this.$apply()
+      })
+
+      $wxapp.emitter.on('newlove_update', async (data) => {
+        this.page.list.shift()
+        this.page.list.unshift(data)
+        this.$apply()
+      })
     }
   }
 </script>

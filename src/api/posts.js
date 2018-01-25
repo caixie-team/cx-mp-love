@@ -21,7 +21,11 @@ export default class posts extends base {
    * 获取节目列表从全部分类中
    */
   static page (category) {
-    const url = `${this.baseUrl}/posts?category=${category}`
+    // let param = ''
+    // if (rand) {
+    //   param = '&rand=true'
+    // }
+    const url = `${this.baseUrl}/posts?category=${category}&rand=true`
     if (category === 'stories') {
       // const url = `${this.baseUrl}/posts`
       return new Page(url, this.__before.bind(this), this.__after.bind(this))

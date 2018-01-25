@@ -9,17 +9,17 @@
   import 'moment/locale/zh-cn'
   /* eslint-disable no-unused-vars,no-undef */
   // ENV
-  const env = 'development' // 'development' or 'production'
+  const env = 'production' // 'development' or 'production'
   // APP VERSION
   const version = 'v1'
 
   // development and production host
   const hosts = {
-    development: `http://api.caixie.la/${version}`,
-    production: `https://api.caixie.top/${version}`
+    development: `http://api.caixie.la`,
+    production: `https://api.caixie.top`
   }
   const APPID = 'B1yDrzqEf'
-  const APP_API = `${hosts[env]}/apps/${APPID}`
+  const APP_API = `${hosts[env]}/${version}/apps/${APPID}`
 
   import wepy from 'wepy'
   import mitt from 'mitt'
@@ -49,7 +49,9 @@
         }
       })
     }
-
+    getVersionApi(v) {
+      return `${hosts[env]}/${v}/apps/${APPID}`
+    }
     /**
      * 构造权限头部
      */

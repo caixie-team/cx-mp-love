@@ -2,6 +2,7 @@
 import base from './base'
 import Page from '../utils/Page'
 import moment from 'moment/moment'
+import wepy from 'wepy'
 
 export default class Users extends base {
   /**
@@ -30,7 +31,8 @@ export default class Users extends base {
    * @returns {Promise.<*>}
    */
   static async iLiked (userId) {
-    const url = `${this.baseUrl}/me/likes`
+    const v2Api = wepy.$instance.getVersionApi('v2')
+    const url = `${v2Api}/me/likes`
     const data = await this.get(url)
     return data
   }

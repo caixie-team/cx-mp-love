@@ -11,7 +11,7 @@
     textarea {
       padding: rpx(10);
       width: 90%;
-      min-height: 300px;
+      height: 200px;
       margin-left: auto;
       margin-right: auto;
       font-size: rpx(32);
@@ -85,6 +85,17 @@
   </view>
   <view class="o-page">
     <form bindsubmit="formSubmit" report-submit="true">
+    <!--
+    <view class="c-panel c-panel&#45;&#45;without-margin-top">
+        <view class="c-cell">
+          <view class="c-cell__bd">
+            想写故事
+          </view>
+          <view class="c-cell__ft">
+            <switch @change="switchChange"></switch>
+          </view>
+        </view>
+      </view>-->
 
       <view class="c-panel c-panel--without-margin-top u-flex u-justify-between u-p-small">
         <view class="c-btn c-btn--flat c-btn--small">取消</view>
@@ -101,10 +112,9 @@
                   @focus="bindfocus"
                   @blur="bindblur"
                   placeholder-class="placeholder"
-                  placeholder="在这里写下你的回忆。" maxlength="-1" fixed="true"
-                  style="height: {{height * 2 - 1200}}rpx;"></textarea>
+                  placeholder="回忆内容限 140字，故事不限。" maxlength="141" fixed="true"></textarea>
+        <view class="c-panel c-panel--without-margin-top c-panel--without-border u-text-mute u-text-tiny u-float-right u-m-small">剩余字数：{{140 - wordCount}}</view>
       </view>
-
     </form>
 
   </view>
@@ -170,6 +180,9 @@
       disableScroll: true
     }
     computed = {
+      wordCount () {
+        return this._wordCount(this.content)
+      },
       now () {
         return +new Date()
       },
@@ -261,7 +274,7 @@
       bindinput (e) {
         // $wxapp.emitter.emit('change', e.detail.value)
         this.content = e.detail.value
-        this.$apply()
+        // this.$apply()
       },
       bindfocus () {
         this.isFocus = true
@@ -271,10 +284,42 @@
         this.isFocus = false
       },
       async handlePost () {
+      },
+      _wordCount (data) {
+        const pattern = /[a-zA-Z0-9_\u0392-\u03c9\u0410-\u04F9]+|[\u4E00-\u9FFF\u3400-\u4dbf\uf900-\ufaff\u3040-\u309f\uac00-\ud7af]+/g
 
+        const m = data.match(pattern)
+        let count = 0
+        if (m === null) {
+          return count
+        }
+        for (let i = 0; i < m.length; i++) {
+          if (m[i].charCodeAt(0) >= 0x4E00) {
+            count += m[i].length
+          } else {
+            count += 1
+          }
+        }
+        return count
       }
     }
+    _wordCount (data) {
+      const pattern = /[a-zA-Z0-9_\u0392-\u03c9\u0410-\u04F9]+|[\u4E00-\u9FFF\u3400-\u4dbf\uf900-\ufaff\u3040-\u309f\uac00-\ud7af]+/g
 
+      const m = data.match(pattern)
+      let count = 0
+      if (m === null) {
+        return count
+      }
+      for (let i = 0; i < m.length; i++) {
+        if (m[i].charCodeAt(0) >= 0x4E00) {
+          count += m[i].length
+        } else {
+          count += 1
+        }
+      }
+      return count
+    }
     async onLoad (param, data) {
       this.userInfo = JSON.parse($wxapp.globalData.auth.user)
       this.parent = param.id

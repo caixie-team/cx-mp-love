@@ -5,7 +5,6 @@
     color: $color-primary;
     background: #f5f5f5;
   }
-
   .o-love {
     color: #344A5E;
   }
@@ -306,44 +305,38 @@
 
   .c-love-card--isHover {
   }
+
   .c-recalls--scroll {
     display: flex;
     white-space: nowrap;
+    width: rpx(780);
   }
-  .c-recall-card {
-      display: inline-block;
-      width: 630rpx;
-      /*max-width: 100%;*/
-      /*height: 44px;*/
-      line-height: 44px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      box-sizing: border-box;
-      word-break: keep-all;
-      font-size: 36rpx;
-      color: #666;
-    border-left: 1px solid #f5f5f5;
-    border-right: 1px solid #f5f5f5;
-    border-radius: 4px;
-      /*border-bottom-right-radius: 32rpx;*/
-      /*border-bottom-left-radius: 32rpx;*/
-      box-shadow: 0 10px 30px 0 rgba(0,0,0,0.10);
-      height: 320rpx;
-      /*width: auto;*/
 
-    /*background: #f5f5f5;*/
-      /*padding: 0rpx 48rpx 0;*/
+  .c-recall-card {
+    position: relative;
+    background: #fff;
+    margin: 30rpx 18rpx;
+    padding: 20rpx;
+    overflow: hidden;
+    /*margin: rpx(10) rpx(32) rpx(10) auto;*/
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.10) inset, /*左边阴影*/
+    0 2px 10px rgba(0, 0, 0, 0.10); /*右边阴影*/
+    display: inline-block;
+    box-sizing: border-box;
+    color: #666;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    height: rpx(360);
+    width: 95%;
   }
+
   .c-recall-card__body {
     display: flex;
+    /*flex-direction: column;*/
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    align-self: center;
-    justify-self: center;
-    width: 100%;
-    height: 100%;
   }
+
   .c-recall-card__warpper {
     display: flex;
     flex-direction: column;
@@ -352,11 +345,31 @@
     align-self: center;
     justify-self: center;
   }
+
+  .c-recall__content {
+    flex: 1;
+    width: inherit;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    justify-self: center;
+  }
+
+  .c-recall__meta {
+    position: absolute;
+    bottom: 10px;
+    width: rpx(600);
+    text-align: right;
+  }
+
 </style>
 <template>
 
   <view style="" class="c-love-special" style="background: {{!isDetail ? '#f5f5f5' : '#FFFFFF'}}; padding: 10px;">
-    <view class="c-love-special__cover animated slideInDown" @tap="showDetail" hidden="{{isDetail}}">
+    <view class="c-love-special__cover animated fadeIn" @tap="showDetail" hidden="{{isDetail}}">
       <image
         src="{{cover}}"
         hover-start-time="50"
@@ -375,7 +388,7 @@
       <image class="c-btn--camera icon-xl" @tap.stop="manage" src="/images/icons/icon-camera--active.svg"
              wx:if="{{(userInfo.userId === detail.author.id) && detail.featured_image}}"></image>
     </view>
-    <view class="c-love-special__cover animated slideInDown" @tap="showDetail" hidden="{{!isDetail}}">
+    <view class="c-love-special__cover animated fadeIn" @tap="showDetail" hidden="{{!isDetail}}">
 
       <view class="u-flex u-justify-end"
             style="flex-direction: column; position: relative; z-index: 1; height: 600rpx; width: {{width - 20}}px; background: #f5f5f5;">
@@ -425,30 +438,45 @@
       </view>
     </block>
   </view>
-  <view class="c-panel-title">
-    {{recallTitle}}
+  <!--<view class="c-panel-title">-->
+  <!--{{recallTitle}}-->
+  <!--</view>-->
+  <view class="c-recalls" wx:if="{{list.length > 0}}" style="width: 700rpx;">
+    <view class="c-cell c-cell--access u-mt-small u-c-gray-dark">
+      <view class="c-cell__bd">{{recallTitle}}</view>
+      <view class="c-cell__ft u-c-gray-dark">全部</view>
+    </view>
+    <swiper style="height: 500rpx; display: flex; justify-content: center; width: 750rpx;">
+      <block wx:for="{{list}}" wx:key="index" wx:for-item="item">
+        <swiper-item class="c-swiper__item" style="">
+
+          <view class=" c-recall-card  ">
+            <view class="c-recall-card__body u-p-medium">
+
+              <view class="u-text-large u-flex" style="font-weight: 300; color: #344A5E;">
+                <Elip :line="line">{{item.content}}</Elip>
+              </view>
+
+              <view class="u-flex u-justify-between c-recall__meta  u-text-small u-pl-large u-pr-large">
+                <button class="c-btn c-btn--flat c-btn--danger c-btn--mini" wx:if="{{item.author.id === userInfo.userId}}"
+                        @tap="delMyRecall({{item}})">
+                  删除
+                </button>
+                <view wx:else></view>
+                <text>──{{item.author.nicename}}</text>
+              </view>
+            </view>
+
+          </view>
+        </swiper-item>
+      </block>
+
+    </swiper>
+  </view>
+  <view class="c-panel-title" wx:else>
+    还没有回忆。
   </view>
 
-  <scroll-view
-    class="c-recalls--scroll"
-    scroll-x="true"
-    style="height: 380rpx;"
-  >
-    <block wx:for="{{list}}" wx:key="index" wx:for-item="item">
-      <view class="c-panel c-recall-card u-ml-small">
-        <view class="c-recall-card__body">
-            <view class="u-text-large u-flex">
-              <text decode="{{true}}" space="{{true}}">{{item.content}}</text>
-            </view>
-            <view class="u-text-small u-text-right u-flex u-justify-end">
-              ——{{item.author.nicename}}
-            </view>
-
-        </view>
-
-      </view>
-    </block>
-  </scroll-view>
   <view class="c-panel-title">
     故事
   </view>
@@ -557,6 +585,7 @@
       width: device.windowWidth,
       height: device.windowHeight,
       icon: '/images/icons/icon-topbar-icon.svg',
+      line: 4,
       indicatorDots: false,
       autoplay: false,
       interval: 5000,
@@ -568,7 +597,6 @@
       currentSwiper: 0,
       lovers: [],
       list: [],
-      line: 2,
       isDateDisplay: false,
       isStoryLoading: false,
       isUpload: false,
@@ -814,6 +842,7 @@
         const result = await postsApi.image(tempFilePaths[0])
         const image = JSON.parse(result)
         this.detail.featured_image = image.data.url
+        $wxapp.emitter.emit('newlove_update', this.detail)
         this.isUpload = false
         this.$apply()
         const form = {
@@ -869,7 +898,8 @@
             }
           }
         ).catch(() => {
-          Tips.error('删除失败')
+          Tips.alert('已取消')
+          // Tips.error('删除失败')
           // console.log('=== dialog ===', 'type: cancel')
         })
       },
