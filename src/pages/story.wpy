@@ -183,6 +183,12 @@
       this.loaded()
       this.$apply()
     }
+    onShareAppMessage () {
+      const title = `采撷最爱`
+      const url = `/pages/story?id=${this.id}`
+      const desc = '让你的最爱有迹可循！'
+      return Tips.share(title, url, desc)
+    }
     async onLoad(pararm, data) {
       this.id = pararm.id
       this.detail = await postsApi.detail(this.id)

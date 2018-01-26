@@ -19,7 +19,7 @@
 
     <!--内容槽位-->
     <scroll-view scroll-y="true" class="content-box" style="background-color:{{backgroundColor}};">
-      <slot  name="content"></slot>
+      <slot name="content"></slot>
     </scroll-view>
 
     <!-- 按钮区域 -->

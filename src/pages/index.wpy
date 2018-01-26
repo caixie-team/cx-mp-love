@@ -221,10 +221,11 @@
   // import app from '../api/app'
   import posts from '../api/posts'
   // import Cache from '../utils/Cache'
-  // import Tips from '../utils/Tips'
+  import Tips from '../utils/Tips'
   import Elip from '../components/ui/elip'
   import Loadmore from '../components/ui/loadmore'
   import cField from '../components/ui/c-field'
+  import Cache from '../utils/Cache'
 
   const $wxapp = wepy.$instance
   const device = wx.getSystemInfoSync()  //  获取设备信息
@@ -242,6 +243,7 @@
     }
 
     data = {
+      app: {},
       height: device.windowHeight,
       propagation: true,
       lastX: 0,
@@ -358,7 +360,12 @@
         return avatar
       }
     }
-
+    onShareAppMessage () {
+      const title = '采撷最爱'
+      const url = '/pages/index'
+      const desc = '让你的最爱有迹可循！'
+      return Tips.share(title, url, desc)
+    }
     async onShow () {
       // 设置默认 title
       wepy.setNavigationBarTitle({title: $wxapp.globalData.defaultTitle})
@@ -373,8 +380,10 @@
       this.loaded()
       // }
       await auth.user({block: true, redirect: true})
-      this.loaded()
+      // 初始化应用配置数据
+      this.app = await Cache.app()
 
+      this.loaded()
       $wxapp.emitter.on('reload', async () => {
         this.page = posts.page('loves')
         await this.next()

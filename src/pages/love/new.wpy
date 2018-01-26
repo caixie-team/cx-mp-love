@@ -3,13 +3,10 @@
 
   page{
     height: 100%;
-    background-color: #fff;
     color: $color-primary;
-  }
-  .o-page {
+    background: #f5f5f5;
   }
   body.c-home {
-    background: #fff;
     color: $color-primary;
     height: 100%;
     width: 100%;
@@ -27,7 +24,6 @@
   .c-tabbar__tab {
     color: #1F1F1F;
     width: rpx(710);
-    border-radius: rpx(20);
     margin-left: rpx(20);
     background: #FFFFFF;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.10) inset, /*左边阴影*/
@@ -66,213 +62,62 @@
     width: 100%;
   }
 
-  .c-card {
-    border-bottom-right-radius: 32rpx;
-    border-bottom-left-radius: 32rpx;
-    box-shadow: 0 10px 30px 0 rgba(0,0,0,0.10);
-    height:600rpx;
+  .c-placeholder {
+    font-weight: 300;
+  }
+  .c-textarea {
+    border: none;
+    font-size: 24px;
     width: auto;
-
-    padding: 0rpx 48rpx 0;
-  }
-/*  .c-input{
-    text-align: center;
     font-weight: 300;
-    font-size: 48rpx;
-    margin: 120rpx 0rpx 0rpx 0rpx;
-    border-bottom: 2rpx solid gainsboro;
-    height: 90rpx;
-    color: #415A6B;
-    &:hover{
-      font-weight: 500;
-    }
-  }*/
-
-  .c-card__title {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    font-size: 68rpx;
-    &.is-focus {
-      font-weight: 300;
-      color: rgba(31,31,31,0.30);
-    }
-  }
-  .c-recommend {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    flex-direction: row;
-    padding-top: 60rpx;
-  }
-  .c-recommend__title {
-    margin-left: 30rpx;
-    margin-bottom: 20rpx;
-  }
-  .c-recommend-item {
-    /*flex: 1;*/
-    width: 100%;
-    /*min-width: 300rpx;*/
-    /*max-width: 680rpx;*/
-    /*display: flex;*/
-    padding: 0 30rpx 10rpx 30rpx;
-  }
-  .c-recommend-item__body {
-    display: flex;
-    height: 75rpx;
-    background: rgba(255,255,255,0.19);
-    /*box-shadow: 0 2px 20px 0 rgba(0,0,0,0.1);*/
-    /*border-radius: 4px;*/
-    border-bottom: 1px solid #F4F4F4;
-    padding: 14rpx 30rpx 14rpx 14rpx;
-    position: relative;
-    align-items: center;
-    flex-direction: row;
-    justify-content: center;
-    justify-items: center;
-    vertical-align: center;
-  }
-  .c-recommend-item__title {
-    font-size: 32rpx;
-    font-weight: 300;
-    line-height: 0;
-    justify-content: center;
-    justify-items: center;
-    /*margin-top: 0;*/
-    /*margin-bottom: 28rpx;*/
-    margin-left: 24rpx;
-    flex: 1;
-    /*overflow: hidden;*/
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .c-recommend-item__detail {
-    margin: 0 0 28rpx;
-    font-size: 26rpx;
-    font-weight: 400;
-    color: rgba(31,31,31,0.50);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    line-height: 1.0769231;
-  }
-  .c-recommend-item__cover{
-    position: relative;
-    border-radius: 6rpx;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
-
-    width: 68rpx;
-    height: 68rpx;
-  }
-  .c-card__footer {
-    margin-top: 80rpx;
-  }
-  .c-card__action {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    &--primary {
-      flex: 1;
-      margin-left: 30rpx;
-    }
-  }
-  .c-button {
-    display: flex;
-    background: #FFF;
-    font-weight: bold;
-    font-size: 28rpx;
-    height: 80rpx;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    min-width: 160rpx;
-    box-shadow: 0 0 1px 1px rgba(0,0,0,0.05), 0 2px 2px 0 rgba(0,0,0,0.10);
-    border-radius: 4px;
-  }
-  .c-button--primary {
-    color: #FFFFFF;
-    width: rpx(450);
-    background: $color-primary;
-  }
-  .c-button--second {
-    color: $color-primary;
-    background: #FFFFFF;
-  }
-  .c-new-card {
-    box-shadow: 0 0 1px 1px rgba(0,0,0,0.05), 0 2px 2px 0 rgba(0,0,0,0.10);
-
-    /*box-shadow: 0 2px 20px 0 rgba(0,0,0,0.1);*/
-    /*-webkit-border-radius: 16rpx;*/
-    /*-moz-border-radius: 16rpx;*/
-    /*border-radius: 16rpx;*/
-    /*box-shadow: 0 0 1px 1px rgba(0,0,0,0.05), 0 2px 2px 0 rgba(0,0,0,0.10);*/
+    height: 100px;
   }
 </style>
 <template>
   <view class="o-page">
-    <view class="c-stage c-new-card" style="margin: 40rpx;">
-      <view class="c-stage__header u-flex u-justify-between" style="padding: 15rpx 0;">
-        <c-filed :icon="icon">
-          <input class="c-input"
-                 style="width: auto; border: none;font-size: 36rpx;font-weight: 300;"
-                 placeholder="写下你最爱的"
-                 bindinput="bindinput"
-                 bindfocus="bindfocus"
-                 bindblur="bindblur"/>
-        </c-filed>
-      </view>
-
-      <view class="c-stage__header u-flex u-justify-between" @tap="tapToggle" style="{{!isCollapse ? '' : 'border-bottom: 0;'}}">
-        <view class="u-flex u-justify-between u-align-items-center">
-          <image class="u-icon" mode="aspectFit" src="/images/icons/icon-time.svg"></image>
-          <view class="u-ml-small u-text-small u-text-left">时间</view>
-        </view>
-        <view class="u-text-mute u-text-uppercase u-text-small u-mb-zero u-p-small">
-          <text style="color: #47BAA4;">{{year}}</text> 年爱上
-        </view>
-          <image class="u-icon {{isCollapse ? 'u-icon--right' : 'u-icon--down'}}" mode="aspectFit" src="/images/icons/icon-arrow-down.svg"></image>
-      </view>
-
-      <view class="c-stage__panel c-stage__panel--mute animated fadeIn" wx:if="{{!isCollapse}}">
-          <picker-view
-            class="u-text-small"
-            indicator-style="height: 48px;" style="width: 100%; height: 300rpx; text-align: center;" value="{{value}}" bindchange="bindChange">
-            <picker-view-column>
-              <view wx:for="{{years}}" wx:for-item="year" wx:key="{{year}}" style="line-height: 50px">{{year}}年</view>
-            </picker-view-column>
-          </picker-view>
-      </view>
+    <view class="c-panel-title u-mt-medium">
+      寻找或加入你的最爱
     </view>
+    <view class="c-panel" style="height: 150px;">
+      <input
+        class="c-textarea u-m-large font-weight: 300;"
+        placeholder="{{placeholderText}}"
+        placeholder-style="color: #c9c9c9;"
+        focus="{{isFocus}}"
+        @input="bindinput"
+        @focus="bindfocus"
+        @blur="bindblur"
+        maxlength="20" />
+    </view>
+    <view class="u-c-gray u-float-right u-m-small u-text-tiny">剩余字数：{{20 - wordCount}}</view>
 
-    <view class="c-stage" wx:if="{{list.length > 0}}">
-      <view class="c-stage__header u-flex u-justify-between"
-            wx:for-items="{{list}}"
-            wx:for-index="index"
-            wx:for-item="item"
-            wx:key="id" @tap="tap({{item}})">
-        <view class="u-flex u-justify-between u-align-items-center">
-          <image class="c-stage__icon" mode="aspectFill" src="{{item.featured_image}}"></image>
-          <view class="u-text-mute u-text-uppercase u-text-small u-mb-zero u-p-small u-justify-start">
-            {{item.title}}
+    <view  wx:if="{{list.length > 0}}">
+      <view class="c-panel-title u-mt-medium">
+        类似的最爱
+      </view>
+      <view class="c-panel">
+        <block wx:for-items="{{list}}"
+               wx:for-index="index"
+               wx:for-item="item"
+               wx:key="id" @tap="tap({{item}})">
+          <view class="c-cell c-cell--access" @tap="tap({{item}})">
+            <image class="c-cell__icon u-icon-lg" mode="aspectFill" src="{{item.featured_image}}?imageMogr2/thumbnail/90x90/q/90/interlace/1"></image>
+            <view class="c-cell__bd" style="width: 450rpx;">
+              <Elip>{{item.title}}</Elip>
+            </view>
+            <view class="c-cell__ft u-text-mute">{{item.like_count}} 人最爱</view>
           </view>
-        </view>
-        <image class="u-icon u-icon--right" mode="aspectFit" src="/images/icons/icon-arrow-down.svg"></image>
+        </block>
       </view>
     </view>
 
     <view class="c-tabbar {{isIpx?'fix-iphonex':''}}">
-      <view class="c-toolbar u-justify-center">
-        <button class="c-button c-button--primary"
-              disabled="{{isEmpty}}"
-              @tap="postLove">
-              添加到最爱
-        </button>
-      </view>
+      <button
+        class="c-btn c-btn--primary u-width-100 u-m-medium  {{isEmpty ? 'c-btn--disabled' : ''}}"
+        disabled="{{isEmpty}}"
+        @tap="postLove">
+        加入到我的最爱
+      </button>
 
     </view>
     <view style="height: 160rpx;"></view>
@@ -288,7 +133,8 @@
   // import pagination from '../../mixins/pagination'
   import postsApi from '../../api/posts'
   const $wxapp = wepy.$instance
-  import cFiled from '../../components/ui/c-field'
+  import Elip from '../../components/ui/elip'
+  import Cache from '../../utils/Cache'
 
   const date = new Date()
   const years = []
@@ -299,13 +145,14 @@
     mixins = [base]
 
     components = {
-      'c-filed': cFiled
+      'Elip': Elip
     }
 
     data = {
       isIpx: $wxapp.globalData.isIpx,
       icon: '/images/icons/icon-flower--grey.svg',
-      isFocus: false,
+      app: {},
+      isFocus: true,
       list: [],
       title: '',
       page: {
@@ -315,13 +162,17 @@
       years: years,
       year: date.getFullYear(),
       value: [date.getFullYear()],
-      isCollapse: true
+      isCollapse: true,
+      placeholderText: '例如：早上醒来看见阳光☀️'
     }
     config = {
       // backgroundTextStyle: 'dark',
       enablePullDownRefresh: false
     }
     computed = {
+      wordCount () {
+        return this._wordCount(this.title)
+      },
       now () {
         return +new Date()
       },
@@ -339,15 +190,14 @@
       },
       bindinput (e) {
         this.title = this.checkString(e.detail.value)
-        console.log(this.title)
-        // if (!this.title === '' || !this.title === null) {}
+        this.$apply()
         if (!this.isEmpty) {
           $wxapp.emitter.emit('change', this.title)
         }
       },
-      bindfocus() {
+      bindfocus(e) {
         this.isFocus = true
-        this.$apply()
+        // this.$apply()
       },
       bindblur() {
         this.isFocus = false
@@ -383,17 +233,44 @@
      * @returns {string}
      */
     checkString(value) {
-      const pattern = new RegExp("[`~!@#$^&*+()=|{}':;',\\[\\].\\-<>/?~！@#￥%……&*（）——|{}【】‘；：”“'。，、？]")
+      const pattern = new RegExp("[\\s+,`~!@#$^&*+()=|{}':;',\\[\\].\\-<>/?~！@#￥%……&*（）——|{}【】‘；：”“'。，、？]")
       let rs = ''
       for (let i = 0; i < value.length; i++) {
         rs = rs + value.substr(i, 1).replace(pattern, '')
-        console.log(rs)
+        // console.log(rs)
       }
       return rs
     }
+
+    /**
+     * 检查限制的字符数量
+     * @param data
+     * @returns {number}
+     * @private
+     */
+    _wordCount (data) {
+      const pattern = /[a-zA-Z0-9_\u0392-\u03c9\u0410-\u04F9]+|[\u4E00-\u9FFF\u3400-\u4dbf\uf900-\ufaff\u3040-\u309f\uac00-\ud7af]+/g
+
+      const m = data.match(pattern)
+      let count = 0
+      if (m === null) {
+        return count
+      }
+      for (let i = 0; i < m.length; i++) {
+        if (m[i].charCodeAt(0) >= 0x4E00) {
+          count += m[i].length
+        } else {
+          count += 1
+        }
+      }
+      return count
+    }
     events = {
     }
-
+    async onShow() {
+      this.app = await Cache.app()
+      this.placeholderText = this.app.options.placeholder
+    }
     onLoad() {
       this.$root.$parent.emitter.on('change', async (value) => {
         this.list = await postsApi.search(value)

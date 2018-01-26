@@ -485,6 +485,7 @@
   <view style="height: 160rpx;" wx:if="{{isIpx}}"></view>
 
   <c-dialog :dialog.sync="dialog"></c-dialog>
+
   <!--上传管理器-->
   <SliderPanel :display.sync="isPanelDisplay">
     <view slot="title">编辑图片</view>
@@ -991,7 +992,12 @@
       // if (!result) return
       // this.userInfo = JSON.parse($wxapp.globalData.auth.user)
     }
-
+    onShareAppMessage () {
+      const title = `采撷最爱`
+      const url = `/pages/love?id=${this.id}`
+      const desc = '让你的最爱有迹可循！'
+      return Tips.share(title, url, desc)
+    }
     async onLoad (option, data) {
       this.id = option.id
       const result = await auth.user({block: true, redirect: true})
