@@ -17,7 +17,7 @@
     "replace": "^0.3.0",
     "wepy": "^1.6.0",
     "wepy-async-function": "^1.4.4",
-    "wepy-cli": "^1.6.0",
+    "wepy-cli": "^1.6.1-alpha4",
     "wepy-com-swiper": "^1.0.0",
     "wepy-com-toast": "^1.0.2"
   },

@@ -1,9 +1,9 @@
 <template>
   <!--遮罩层-->
-  <view class="slider-panel-cover" wx:if="{{display}}" @tap="close"></view>
+  <view class="slider-panel-cover" wx:if="{{isModal}}" @tap="close"></view>
 
   <!--滑动面板-->
-  <view class="slider-panel-box {{display ? 'slider-panel-show' : '' }} " style="min-height: {{minHeight}}">
+  <view class="slider-panel-box {{display ? 'slider-panel-show' : '' }} " style="min-height: {{minHeight}}; {{isModal ? '' : 'box-shadow: rgba(84, 70, 35, 0.3) 0px 6px 20px, rgba(84, 70, 35, 0.14) 0px 1px 3px, rgba(0, 0, 0, 0.08) 0px 0px 1px;'}}">
     <!--面板标题-->
     <view class="header-box">
       <!--标题槽位-->
@@ -34,6 +34,11 @@
   import wepy from 'wepy'
   export default class SliderPanel extends wepy.component {
     props = {
+      isModal: {
+        type: Boolean,
+        default: false,
+        twoWay: true
+      },
       display: {
         type: Boolean,
         default: false,

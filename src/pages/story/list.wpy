@@ -93,7 +93,7 @@
           <text wx:if="{{!isPost}}">发布</text>
         </button>
       </view>
-      <view style="position: fixed; top: 100rpx; width: 100%;">
+      <view style="position: fixed; top: 100rpx; width: 100%; height: 600rpx;">
         <textarea class="u-mt-small"
                   @input="bindinput"
                   @focus="bindfocus"
@@ -366,7 +366,8 @@
 
     async onLoad (param, data) {
       this.userInfo = JSON.parse($wxapp.globalData.auth.user)
-      this.parent = param.id
+      // this.parent = param.id
+      this.parent = 1
       if (this.parent === null) {
         return
       }

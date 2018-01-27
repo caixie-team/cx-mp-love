@@ -9,14 +9,16 @@
 
   .o-page {
     textarea {
-      padding: rpx(10);
-      width: 90%;
+      padding: rpx(30);
+      width: 95%;
       height: 200px;
       margin-left: auto;
       margin-right: auto;
       font-size: rpx(32);
       line-height: 1.5;
       letter-spacing: 1.25px;
+      border-radius: 4px;
+      box-sizing: border-box;
     }
   }
 
@@ -78,6 +80,24 @@
   .placeholder {
     color: #ededed;
   }
+  .c-color-btn {
+    position: relative;
+    color: #333;
+    padding-left: 10px;
+    padding-right: 10px;
+    box-sizing: border-box;
+    text-decoration: none;
+    text-align: center;
+    vertical-align: middle;
+    display: inline-block;
+    /*height: 24px;*/
+    line-height: 24px;
+    margin-right: 5px;
+    margin-bottom: 0;
+    font-size: 26rpx;
+    border-radius: 2px;
+    box-shadow: 0 0 1px 1px rgba(0,0,0,0.05), 0 1px 1px 0 rgba(0,0,0,0.10);
+  }
 </style>
 <template>
   <view
@@ -86,21 +106,11 @@
   </view>
   <view class="o-page">
     <form bindsubmit="formSubmit" report-submit="true">
-      <!--
-      <view class="c-panel c-panel&#45;&#45;without-margin-top">
-          <view class="c-cell">
-            <view class="c-cell__bd">
-              想写故事
-            </view>
-            <view class="c-cell__ft">
-              <switch @change="switchChange"></switch>
-            </view>
-          </view>
-        </view>-->
-
-      <view class="c-panel c-panel--without-margin-top u-flex u-justify-between u-p-small">
+      <view class="c-panel c-panel--without-margin-top u-flex u-justify-between u-align-items-center u-p-small">
         <button class="c-btn c-btn--flat c-btn--small u-text-bold" @tap="back">取消</button>
-        <view class="c-btn c-btn--flat c-btn--small" @tap="changeColor" style="background: rgb({{selectedColor.RGB}}); color: {{selectedColor.front ? selectedColor.front : '#FFF'}};">
+        <view class="c-color-btn"
+              @tap="changeColor"
+              style="background:{{filter.rgb2hex('rgba('+ selectedColor.RGB +',0.2)')}}; color: {{filter.rgb2hex('rgba('+ selectedColor.RGB +',1)')}}; border:{{filter.rgb2hex('rgba('+ selectedColor.RGB +',1)')}}; box-sizing: border-box;">
           {{selectedColor.name}}
         </view>
         <button formType="submit"
@@ -110,14 +120,15 @@
         </button>
         <!--<view class="c-btn c-btn&#45;&#45;flat c-btn&#45;&#45;small u-c-cyan">发送</view>-->
       </view>
-      <view style="position: fixed; top: 100rpx; width: 100%;" hidden="{{isDisplay}}">
+      <view style="position: fixed; top: 100rpx; width: 100%;">
         <textarea class="u-mt-small"
                   @input="bindinput"
                   @focus="bindfocus"
                   @blur="bindblur"
-                  placeholder-class="placeholder"
+                  placeholder-style="color: {{filter.rgb2hex('rgba('+ (selectedColor.custom ? selectedColor.custom : selectedColor.RGB) +',0.5)')}}"
                   focus="{{autoFocus}}"
-                  placeholder="回忆内容限 140字，故事不限。" maxlength="141" fixed="true"></textarea>
+                  style="background:{{filter.rgb2hex('rgba('+ selectedColor.RGB +',0.1)')}}; color: {{filter.rgb2hex('rgba('+ selectedColor.RGB +',1)')}};"
+                  placeholder="在这里写下你的回忆。" maxlength="141" fixed="true"></textarea>
         <view
           class="c-panel c-panel--without-margin-top c-panel--without-border u-c-gray u-text-small u-float-right u-m-small">
           剩余字数：{{140 - wordCount}}
@@ -125,18 +136,14 @@
       </view>
     </form>
 
-    <SliderPanel :display.sync="isDisplay">
+    <SliderPanel
+      class="{{isIpx?'fix-iphonex':''}}"
+      :display.sync="isDisplay"
+      :isModal.sync="isModal">
       <view slot="title">
-        回忆的色彩
+        回忆有颜色吗？
       </view>
       <view slot="content" class="">
-        <!--<view class="c-cell c-cell&#45;&#45;access">-->
-          <!--<view class="c-cell__bd">回忆的色彩</view>-->
-          <!--<view class="c-cell__ft">不选了</view>-->
-        <!--</view>-->
-        <!--<view class="c-panel-title">-->
-        <!--回忆的色彩-->
-        <!--</view>-->
         <view class="c-panel">
 
           <view
@@ -146,14 +153,22 @@
                    wx:for-index="index"
                    wx:for-item="item"
                    wx:key="id">
-              <view class="" style="width: 25%; padding: 3px;box-sizing: border-box;">
+              <view class="{{item.pinyin}}" style="width: 25%; padding: 3px;box-sizing: border-box;">
                 <view class="u-flex u-justify-center u-align-items-center u-text-small"
-                      style="height: 42px; color: {{item.front ? item.front : '#FFFFFF'}}; background: rgb({{item.RGB}}); border-radius: 2px; display: block;">
+                      style="height: 42px; color: {{filter.rgb2hex('rgba('+ item.RGB +',' + (item.pinyin === selectedColor.pinyin ? '1' : '0.2') +')')}}; background: {{filter.rgb2hex('rgba('+ item.RGB +',' + (item.pinyin === selectedColor.pinyin ? '0.2' : '1') +')')}}; border-radius: 2px; display: block;"
+                      @tap="selectColor({{item}})">
                   {{item.name}}
                 </view>
               </view>
 
             </block>
+            <view class="" style="width: 25%; padding: 3px;box-sizing: border-box;">
+              <view class="u-flex u-justify-center u-align-items-center u-text-small u-text-mute"
+                    style="height: 42px; border-radius: 2px; display: block;"
+                    @tap="nextColors">
+                换一换
+              </view>
+            </view>
           </view>
 
         </view>
@@ -180,10 +195,13 @@
   import ccTopTips from '../../components/ui/c-toptips'
   import cDialog from '../../components/ui/c-dialog'
   import SliderPanel from '../../components/common/slider-panel'
+  import filter from '../../wxs/filter.wxs'
 
   export default class NewRecall extends wepy.page {
     mixins = [base]
-
+    wxs = {
+      filter: filter
+    }
     components = {
       'c-filed': cFiled,
       'c-toptips': ccTopTips,
@@ -192,6 +210,7 @@
     }
 
     data = {
+      isModal: false,
       isDisplay: false,
       autoFocus: true,
       cTopTips: {
@@ -731,23 +750,6 @@
         },
         {
           'CMYK': [
-            0,
-            1,
-            6,
-            7
-          ],
-          'RGB': [
-            235,
-            232,
-            219
-          ],
-          'front': '#344A5E',
-          'hex': '#ebe8db',
-          'name': '胡粉',
-          'pinyin': 'hufen'
-        },
-        {
-          'CMYK': [
             32,
             5,
             0,
@@ -1095,7 +1097,7 @@
             245,
             220
           ],
-          'front': '#344A5E',
+          'custom': '#344A5E',
           'hex': '#f5f5dc',
           'name': '米色',
           'pinyin': 'mise'
@@ -1112,6 +1114,7 @@
             200,
             186
           ],
+          'custom': '#344A5E',
           'hex': '#afc8ba',
           'name': '奶绿',
           'pinyin': 'nailyu'
@@ -2171,19 +2174,11 @@
           250,
           250
         ],
-        'front': '#344A5E',
+        'custom': '#344A5E',
         'hex': '#fffafa',
         'name': '雪色',
         'pinyin': 'xuese'
       },
-      bgData: {},
-      btnArray: [
-        {id: '10', checked: false},
-        {id: '20', checked: true},
-        {id: '30', checked: false},
-        {id: '40', checked: true},
-        {id: '50', checked: false}
-      ],
       isIpx: $wxapp.globalData.isIpx,
       height: $wxapp.device.windowHeight,
       icon: '/images/icons/icon-flower--grey.svg',
@@ -2202,7 +2197,8 @@
       parent: '',
       userInfo: {},
       isPost: false,
-      isStory: false
+      isStory: false,
+      navigateTitle: '写回忆'
     }
     config = {
       navigationBarTitleText: '写回忆',
@@ -2221,20 +2217,37 @@
         return this.content.trim().length === 0 || this.content === '' || this.content === null || this.content === undefined
       }
     }
+    _randomColors () {
+      let tempArray = []
+      for (let index in this.colors) {
+        tempArray.push(this.colors[index])
+      }
+      let result = []
+      let ranNum = 11
+      for (let i = 0; i < ranNum; i++) {
+        if (tempArray.length > 0) {
+          let ranIndex = Math.floor(Math.random() * tempArray.length)
+          // result.push(this.colors[ran])
+          result[i] = tempArray[ranIndex]
+          tempArray.splice(ranIndex, 1)
+        } else {
+          break
+        }
+      }
+      this.randomColors = result
+      this.$apply()
+    }
+
     methods = {
+      selectColor (item) {
+        this.selectedColor = item
+      },
+      nextColors () {
+        this._randomColors()
+      },
       changeColor () {
         this.isDisplay = !this.isDisplay
-        // randomColors () {
-        let result = []
-        let ranNum = 11
-        for (let i = 0; i < ranNum; i++) {
-          let ran = Math.floor(Math.random() * (this.colors.length - i))
-          result.push(this.colors[ran])
-          // this.colors[ran] = this.colors[this.colors.length - i - 1]
-        }
-        this.randomColors = result
-        // return result
-        // }
+        this._randomColors()
       },
       back () {
         this.$showDialog({
@@ -2257,20 +2270,16 @@
           parent: this.parent,
           title: `${this.title}-${new Date().getTime()}`,
           content: this.content,
-          categories: JSON.stringify(this.categories)
+          categories: JSON.stringify(this.categories),
+          meta: {
+            style: JSON.stringify(this.selectedColor)
+          }
         }
         const data = await postsApi.newRecallOrStory(postData)
         if (data) {
           this.$showTopTips('发布成功', {type: 'success'})
           this.loaded()
           this.$root.$parent.emitter.emit('newRecallAdd')
-          // 跳转至故事首页
-          // this.$redirect(`/pages/stories`)
-          // } else {
-          // 返回最爱主题页
-          // this.$root.$redirect(`/pages/recall/new?id=${this.detail.id}`)
-          // backOrNavigate
-          // Route.backOrRedirect(`/pages/love?id=${this.parent}`)
           // 返回指定层级页面，现在是返回 love 页，
           // 不使用 redirect 与 navigate 是为了防止多层级返回的问题
           wx.navigateBack({
@@ -2367,7 +2376,9 @@
       if (this.parent === null) {
         return
       }
+      this.navigateTitle = data.preload.title
       this.title = `${data.preload.title}-${this.parent}-${this.userInfo.userId}`
+      wepy.setNavigationBarTitle({title: `『${this.navigateTitle}』`})
     }
   }
 </script>

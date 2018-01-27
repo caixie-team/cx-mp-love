@@ -313,30 +313,39 @@
   }
 
   .c-recall-card {
-    position: relative;
-    background: #fff;
-    margin: 30rpx 18rpx;
-    padding: 20rpx;
-    overflow: hidden;
-    /*margin: rpx(10) rpx(32) rpx(10) auto;*/
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0.10) inset, /*左边阴影*/
-    0 2px 10px rgba(0, 0, 0, 0.10); /*右边阴影*/
-    display: inline-block;
-    box-sizing: border-box;
-    color: #666;
-    border: 1px solid #e5e5e5;
-    border-radius: 4px;
-    height: rpx(360);
-    width: 95%;
+    /*position: relative;*/
+    flex: 1;
+    padding: rpx(24) rpx(30);
+    /*width: 90%;*/
   }
 
   .c-recall-card__body {
     display: flex;
-    /*flex-direction: column;*/
-    flex-direction: column;
+    flex: 1;
+    height: rpx(360);
+    background: #fff;
+    /*box-shadow: 0 0 1px 1px rgba(0,0,0,0.05), 0 2px 2px 0 rgba(0,0,0,0.10);*/
+    border-radius: rpx(8);
+    padding: rpx(28) rpx(20) rpx(14);
+    position: relative;
     align-items: center;
+    flex-direction: column;
   }
+  .c-recall-card__content {
+    /*position: absolute;*/
+    /*left: rpx(20);*/
+    /*right: rpx(20);*/
+    /*top: rpx(20);*/
+    /*box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.05), 0 2px 2px 0 rgba(0, 0, 0, 0.08);*/
+    /*width: auto;*/
+    /*border-radius: 4px;*/
+    /*height: rpx(260);*/
+    box-sizing: border-box;
+    padding: rpx(30);
+    height: rpx(280);
+    width:100%;
 
+  }
   .c-recall-card__warpper {
     display: flex;
     flex-direction: column;
@@ -361,8 +370,15 @@
   .c-recall__meta {
     position: absolute;
     bottom: 10px;
-    width: rpx(600);
-    text-align: right;
+    /*width: rpx(600);*/
+    /*text-align: right;*/
+    /*font-size: rpx(36);*/
+    display: block;
+    line-height: 1.615;
+    /*font-weight: 300;*/
+    margin-bottom: rpx(14);
+    width: rpx(620);
+    text-align: center;
   }
 
 </style>
@@ -442,22 +458,31 @@
   <!--{{recallTitle}}-->
   <!--</view>-->
   <view class="c-recalls" wx:if="{{list.length > 0}}" style="width: 700rpx;">
-    <view class="c-cell c-cell--access u-mt-small u-c-gray-dark">
+    <view class="c-cell u-mt-small u-c-gray-dark">
       <view class="c-cell__bd">{{recallTitle}}</view>
-      <view class="c-cell__ft u-c-gray-dark">全部</view>
+      <!--<view class="c-cell__ft u-c-gray-dark">全部</view>-->
     </view>
     <swiper style="height: 500rpx; display: flex; justify-content: center; width: 750rpx;">
       <block wx:for="{{list}}" wx:key="index" wx:for-item="item">
         <swiper-item class="c-swiper__item" style="">
 
-          <view class=" c-recall-card  ">
+          <view class="c-recall-card">
             <view class="c-recall-card__body u-p-medium">
 
-              <view class="u-text-large u-flex" style="font-weight: 300; color: #344A5E;">
+              <view class="c-recall-card__content u-text-large u-flex" style="font-weight: 300; background:{{filter.rgb2hex('rgba('+ item.meta.style.RGB +',0.1)')}}; color: {{filter.rgb2hex('rgba('+ item.meta.style.RGB +',1)')}};  box-sizing: border-box;">
                 <Elip :line="line">{{item.content}}</Elip>
               </view>
-
-              <view class="u-flex u-justify-between c-recall__meta  u-text-small u-pl-large u-pr-large">
+              <view class="u-flex u-justify-between c-recall__meta  u-text-small">
+                <view class="c-btn c-btn--flat  c-btn--mini"
+                        @tap="delMyRecall({{item}})" wx:if="{{item.author.id === userInfo.userId}}">
+                  <image class="u-icon u-icon-small" mode="aspectFill" src="/images/icons/icon-love--active.png" ></image>
+                  0
+                </view>
+                <view class="c-btn c-btn--flat  c-btn--mini"
+                        @tap="delMyRecall({{item}})" wx:else>
+                  <image class="u-icon u-icon-small" mode="aspectFill" src="/images/icons/icon-love.png"></image>
+                  3
+                </view>
                 <button class="c-btn c-btn--flat c-btn--danger c-btn--mini" wx:if="{{item.author.id === userInfo.userId}}"
                         @tap="delMyRecall({{item}})">
                   删除
@@ -465,6 +490,7 @@
                 <view wx:else></view>
                 <text>──{{item.author.nicename}}</text>
               </view>
+
             </view>
 
           </view>
@@ -554,6 +580,7 @@
   import postsApi from '../api/posts'
   import cField from '../components/ui/c-field'
   import cDialog from '../components/ui/c-dialog'
+  import filter from '../wxs/filter.wxs'
 
   const $wxapp = wepy.$instance
   const device = wx.getSystemInfoSync()  //  获取设备信息
@@ -567,6 +594,9 @@
 
   export default class Love extends wepy.page {
     mixins = [base]
+    wxs = {
+      filter: filter
+    }
     config = {
       backgroundTextStyle: 'dark',
       // navigationBarTitleText: '故事。',
@@ -988,9 +1018,6 @@
     }
 
     async onShow (option) {
-      // const result = await auth.user({block: true, redirect: true})
-      // if (!result) return
-      // this.userInfo = JSON.parse($wxapp.globalData.auth.user)
     }
     onShareAppMessage () {
       const title = `采撷最爱`

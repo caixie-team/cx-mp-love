@@ -9,7 +9,7 @@
   import 'moment/locale/zh-cn'
   /* eslint-disable no-unused-vars,no-undef */
   // ENV
-  const env = 'production' // 'development' or 'production'
+  const env = 'development' // 'development' or 'production'
   // APP VERSION
   const version = 'v1'
 
@@ -98,6 +98,7 @@
     config = {
       pages: [
         'pages/index',
+        'pages/story/list',
         'pages/love',
         'pages/story/new',
         'pages/recall/new',
