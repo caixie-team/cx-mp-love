@@ -14,8 +14,6 @@
   }
 
   .o-me__header {
-    /*position: fixed;*/
-    /*top: 0;*/
     /*background: #fff;*/
     /*border-bottom-right-radius: rpx(32);*/
     /*border-bottom-left-radius: rpx(32);*/
@@ -26,7 +24,7 @@
     border-bottom: 1px solid #efefef;
   }
   .o-me__body {
-    /*margin-top: rpx(320);*/
+    background: #f5f5f5;
   }
   .o-me__title {
     padding: rpx(48) 0 rpx(20) rpx(48);
@@ -61,8 +59,8 @@
     align-items: center;
   }
   .c-me-profile__avatar {
-    width: rpx(80);
-    height: rpx(80);
+    /*width: rpx(80);*/
+    /*height: rpx(80);*/
     box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
     border-radius: rpx(50);
     border: 1px solid #ededed;
@@ -122,49 +120,351 @@
     font-size: rpx(22);
     color: #C2C4CA;
   }
+  .c-textarea {
+    border: none;
+    font-size: 24px;
+    width: auto;
+    height: 100px;
+    color: #FFF;
+  }
+  .c-add-btn {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    width: rpx(72);
+    height: rpx(72);
+    /*background-color: rgba(255, 255, 255, 0.50);*/
+    border-radius: rpx(50);
+    z-index: 100;
+  }
+
+  .c-loves {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    /*flex-direction: column;*/
+    flex-direction: row;
+    /*box-sizing: border-box;*/
+  }
+
+  .c-love-card {
+    display: inline-block;
+    vertical-align: middle;
+    overflow: hidden;
+    position: relative;
+    /*flex: 1;*/
+    padding: rpx(28) rpx(20) rpx(14);
+    /*padding: rpx(24) rpx(30);*/
+    box-sizing: border-box;
+  }
+
+  .c-love-card--isHover {
+    /*background: #FF7058;*/
+    > .c-love-card__body {
+      box-shadow: none;
+      background: #FF7058;
+      color: #fff;
+      transition: color .2s ease-in, -webkit-transform .15s cubic-bezier(.175, .885, .32, 1.275);
+      > .c-love-card__detail {
+        color: rgba(255, 255, 255, 0.80);
+      }
+    }
+  }
+
+  .c-love-card__body {
+    display: flex;
+    flex: 1;
+    background: #fff;
+    /*box-shadow: 0 0 1px 1px rgba(0,0,0,0.05), 0 2px 2px 0 rgba(0,0,0,0.10);*/
+
+    /*box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.1);*/
+    border-radius: rpx(8);
+    box-shadow: 0 rpx(4) rpx(20) 0 rgba(0, 0, 0, 0.1);
+    position: relative;
+    align-items: center;
+    flex-direction: column;
+
+    box-sizing: border-box;
+    /*padding: rpx(24) rpx(30);*/
+    width: rpx(300);
+    height: rpx(360);
+    /*border-radius: 2px;*/
+    /*background: rgba(255,255,255,0.19);*/
+    /*padding: 14px 10px 7px;*/
+    /*position: relative;*/
+
+  }
+
+  .c-love-card__title {
+    font-size: rpx(30);
+    display: block;
+    /*line-height: 2;*/
+    /*font-weight: 300;*/
+    margin-top: 10px;
+    margin-bottom: rpx(14);
+    width: rpx(260);
+    text-align: center;
+  }
+
+  .c-love-card__detail {
+    margin: 0 0 rpx(28);
+    font-size: rpx(26);
+    font-weight: 400;
+    color: rgba(31, 31, 31, 0.50);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.0769231;
+  }
+
+  .c-love-card__cover {
+    position: absolute;
+    left: rpx(20);
+    right: rpx(20);
+    bottom: rpx(20);
+    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.05), 0 2px 2px 0 rgba(0, 0, 0, 0.08);
+    width: auto;
+    height: rpx(186);
+  }
+  .c-detail {
+    font-size: rpx(30);
+    line-height: 1.3;
+    letter-spacing: 1.3px;
+  }
+
+
+  .c-tips-card {
+    /*position: relative;*/
+    flex: 1;
+    padding: rpx(72) rpx(30);
+    /*width: 90%;*/
+  }
+
+  .c-tips-card__body {
+    display: flex;
+    flex: 1;
+    height: rpx(420);
+    background: #fff;
+    /*box-shadow: 0 0 1px 1px rgba(0,0,0,0.05), 0 2px 2px 0 rgba(0,0,0,0.10);*/
+    border-radius: rpx(8);
+    padding: rpx(28) rpx(20) rpx(14);
+    position: relative;
+    align-items: center;
+    flex-direction: column;
+  }
+  .c-tips-card__content {
+    box-sizing: border-box;
+    padding: 0 rpx(30);
+    height: rpx(340);
+    width:100%;
+
+  }
+  .c-tips-card__warpper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    justify-self: center;
+  }
+
+  .c-tips__content {
+    flex: 1;
+    width: inherit;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    justify-self: center;
+  }
+
+  .c-tips__meta {
+    position: absolute;
+    bottom: 10px;
+    display: block;
+    margin-bottom: rpx(10);
+    width: rpx(620);
+    text-align: center;
+  }
+  .c-me-header {
+    /*position: fixed;*/
+    /*top: 0;*/
+    background: #4EC0AA;
+    /*box-shadow: 0 10px 30px 0 rgba(0,0,0,0.10);*/
+    height: rpx(380);
+    width: 100%;
+    z-index: 3;
+    border-bottom-right-radius: rpx(32);
+    border-bottom-left-radius: rpx(32);
+  }
+  .c-me-tab {
+    /*background: #66C6B9;*/
+    /*border-bottom-right-radius: rpx(32);*/
+    /*border-bottom-left-radius: rpx(32);*/
+  }
 </style>
 <template>
   <view class="o-me">
-    <view class="o-me__header" style="background: #fff;">
-      <view class="c-me-profile">
-        <view class="c-me-profile__detail">
-          <image class="c-me-profile__avatar"
-                 mode="aspectFill"
-                 src="{{profile.avatar}}"></image>
-          <view class="c-me-profile__username">{{profile.nicename}}</view>
-        </view>
-      </view>
-      <!--<Tab :tab.sync="tab"></Tab>-->
+    <view class="c-panel c-panel--without-margin-top c-panel--without-border c-me-header">
+      <!--<view style="position: absolute; bottom: 10px; left: 10px; color: rgba(255, 255, 255, 0.6)" class=" u-float-right u-m-small u-text-tiny">剩余字数：{{20 - wordCount}}</view>-->
+      <input
+        class="c-textarea u-m-large font-weight: 300; font-weight: 300;"
+        placeholder="在这：记录、寻找你最爱的"
+        placeholder-style="color: rgba(255, 255, 255, 0.8); font-weight: 300;"
+        value="{{title}}"
+        @input="bindinput"
+        @focus="bindfocus"
+        @blur="bindblur"
+        maxlength="20" />
+      <image
+        class="c-add-btn animated fadeIn"
+        mode="aspectFill"
+        src="/images/icons/icon-plus--round.png" wx:if="{{!isEmpty}}" @tap="postLove"></image>
+      <image
+        class="c-add-btn animated fadeIn"
+        mode="aspectFill"
+        src="/images/icons/icon-plus.png" wx:else></image>
+
 
     </view>
-    <view class="o-me__body">
-      <!--<view class="c-panel-title">-->
-        <!--我的-->
-      <!--</view>-->
+
+    <view class="animated fadeInUp" wx:if="{{isSearched && !isEmpty}}" style="z-index: 100;">
+      <view class="c-panel-title ">
+        类似的
+      </view>
       <view class="c-panel">
-        <view class="c-cell c-cell--access" @tap="showDetail('likes')">
-          <view class="c-cell__bd">最爱的</view>
-          <view class="c-cell__ft">{{profile.likes}}</view>
+        <block wx:for-items="{{list}}"
+               wx:for-index="index"
+               wx:for-item="item"
+               wx:key="id" @tap="tap({{item}})">
+          <view class="c-cell c-cell--access" @tap="tapAction({{item.id}})">
+            <image class="c-cell__icon u-icon-lg" mode="aspectFill" src="{{item.featured_image}}?imageMogr2/thumbnail/90x90/q/90/interlace/1"></image>
+            <view class="c-cell__bd" style="width: 450rpx;">
+              <Elip>{{item.title}}</Elip>
+            </view>
+            <view class="c-cell__ft u-text-mute">{{item.like_count}} 人最爱</view>
+          </view>
+        </block>
+      </view>
+
+    </view>
+
+    <view class=" c-panel c-panel--without-border o-me__body" hidden="{{isSearched && !isEmpty}}" wx:if="{{groupLikes.length > 0}}">
+      <view class="" style="position: relative;">
+        <Tab :tab.sync="tab"></Tab>
+      </view>
+
+      <view class="u-flex u-flex-wrap" style="flex-direction: column;" wx:if="{{tab.selectedId === '1'}}">
+        <block wx:for-items="{{groupLikes}}"
+             wx:for-index="index"
+             wx:for-item="list"
+             wx:key="year">
+        <view class="c-panel-title u-text-center u-mb-small u-mt-medium">
+          {{list.year}}年 最爱的
         </view>
-        <view class="c-cell c-cell--access" @tap="showDetail('recalls')">
-          <view class="c-cell__bd">回忆</view>
-          <view class="c-cell__ft"></view>
+          <view class="c-loves">
+
+        <block wx:for-items="{{list.likes}}"
+               wx:for-index="index"
+               wx:for-item="item"
+               wx:key="id">
+            <view class="c-love-card"
+                  hover-start-time="50"
+                  hover-stay-time="400"
+                  hover-stop-propagation="{{propagation}}"
+                  hover-class="c-love-card--isHover" @tap="tapAction({{item.id}})">
+
+              <view class="c-love-card__body">
+                <view class="c-love-card__title">
+                  <Elip>
+                    {{item.title}}
+                  </Elip>
+                </view>
+                <text class="c-love-card__detail">{{item.like_count}} 人最爱</text>
+
+                <image class="c-love-card__cover"
+                       mode="aspectFill"
+                       src="{{item.featured_image}}?imageMogr2/thumbnail/900x900/q/90/format/jpg/interlace/1"
+                       wx:if="{{item.featured_image}}"></image>
+              </view>
+            </view>
+        </block>
+          </view>
+
+        </block>
+      </view>
+      <view wx:else>
+        <view wx:if="{{page.list.length > 0}}" class="u-mt-medium">
+          <repeat for="{{page.list}}" key="index" index="index" item="item">
+            <c-swipe :swipeData="item" class="c-panel c-panel--without-margin-top" style="height: 200rpx;">
+              <view class="c-card" @tap="tapAction({{item.parent}})">
+                <!-- 商品标题行 -->
+                <!-- 每行可以使用 c-card__detail-row 来控制展示区域 -->
+                <!-- 每行里面可以用 c-card__left-col c-card__right-col 来控制左右展示 -->
+                <view class="c-card__detail-row u-mt-small">
+                  <!--<view class="c-card__left-col u-ellipsis&#45;&#45;l2 u-text-large">-->
+                  <Elip :line="line">
+                    {{item.content}}
+                  </Elip>
+                  <!--</view>-->
+
+                </view>
+                <!-- 商品附属信息展示行 -->
+                <view class="c-card__detail-row u-c-gray-darker">
+
+                  <view class="c-card__right-col u-width-50 u-c-gray u-text-right">
+                    <Elip :line="line">@{{item.title}}</Elip>
+                  </view>
+                  <view class="c-card__left-col">
+                    {{item.modified}}
+                  </view>
+                </view>
+              </view>
+            </c-swipe>
+          </repeat>
         </view>
-        <view class="c-cell c-cell--access" @tap="showDetail('stories')">
-          <view class="c-cell__bd">故事</view>
-          <view class="c-cell__ft"></view>
+        <view class="u-m-xlarge u-text-large u-text-mute" wx:else>
+          还没有记录。
         </view>
       </view>
-      <!--<view class="c-panel-title">-->
-        <!--与我相关的-->
-      <!--</view>-->
-      <!--<view>0</view>-->
     </view>
+    <view class="" wx:else>
+      <view class="c-tips-card">
+        <view class="c-tips-card__body ">
+
+          <view class="c-tips-card__content c-detail "
+                style="font-weight: 300; background:{{filter.rgb2hex('rgba('+ tips.style.RGB +',0.1)')}}; color: {{filter.rgb2hex('rgba('+ tips.style.RGB +',1)')}};  box-sizing: border-box;">
+            <text decode="true" space="true" wx:if="{{tips.content}}">
+              {{tips.content}}
+            </text>
+            <text decode="true" space="true" class="u-text-center" wx:else>
+              「采撷最爱」是一款备忘录小程序。它可以用来记录或寻找某个时间点下曾经、现在的最爱。
+
+              「最爱」在这里可以是一张图片，一段文字回忆，一个真实的故事，或者就是一个词语。
+              将它添加到你的最爱，让你的最爱有迹可循。
+            </text>
+          </view>
+          <view class="u-flex u-justify-between c-tips__meta  u-text-small">
+            <view></view>
+            <text>──采撷科技</text>
+          </view>
+
+        </view>
+
+      </view>
+
+      </view>
   </view>
+  <c-dialog :dialog.sync="dialog"></c-dialog>
 </template>
 
 <script>
-  /* eslint-disable no-undef,no-unused-vars */
+  /* eslint-disable no-undef,no-unused-vars,spaced-comment,indent */
 
   import wepy from 'wepy'
   // import Tips from '../utils/Tips'
@@ -177,27 +477,57 @@
   import user from '../api/users'
   // import postsApi from '../api/posts'
   // import moment from 'moment'
+  import Tips from '../utils/Tips'
+  // import pagination from '../../mixins/pagination'
+  import postsApi from '../api/posts'
+  import Cache from '../utils/Cache'
   import cSwipe from '../components/ui/c-swipe'
+  import cDialog from '../components/ui/c-dialog'
   const $wxapp = wepy.$instance
+  import _ from 'lodash'
+  import moment from 'moment'
+  const date = new Date()
+  const years = []
+  for (let i = 1920; i <= date.getFullYear(); i++) {
+    years.push(i)
+  }
+  import filter from '../wxs/filter.wxs'
 
   export default class Me extends wepy.page {
     mixins = [base, pagination]
+    wxs = {
+      filter: filter
+    }
     data = {
+      propagation: true,
+      isIpx: $wxapp.globalData.isIpx,
+      icon: '/images/icons/icon-flower--grey.svg',
+      app: {},
+      tips: {},
+      isFocus: true,
+      list: [],
+      title: '',
+      groupLikes: [],
+      page: {
+        added: [],
+        list: []
+      },
+      years: years,
+      year: date.getFullYear(),
+      value: [date.getFullYear()],
+      isCollapse: true,
+      placeholderText: '例如：早上醒来看见阳光☀️',
       profile: {
         avatar: 'data:image/png;base64,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'
       },
       likes: [],
       recalls: [],
       stories: [],
-      page: {
-        added: [],
-        list: []
-      },
       tab: {
         'list': [
           {
             id: '1',
-            title: '最爱'
+            title: '最爱的'
           },
           {
             id: '3',
@@ -214,9 +544,9 @@
     }
     config = {
       backgroundTextStyle: 'dark',
-      navigationBarBackgroundColor: '#FFF',
-      navigationBarTitleText: '我',
-      navigationBarTextStyle: 'black',
+      navigationBarBackgroundColor: '#4EC0AA',
+      navigationBarTitleText: '愿君，多采撷。',
+      navigationBarTextStyle: 'light',
       backgroundColor: '#f5f5f5',
       enablePullDownRefresh: true
     }
@@ -224,13 +554,86 @@
       imageWidth () {
         const device = wx.getSystemInfoSync()  //  获取设备信息
         return device.windowWidth
+      },
+      wordCount () {
+        return this._wordCount(this.title)
+      },
+      now () {
+        return +new Date()
+      },
+      isEmpty () {
+        return this.title === '' || this.title === null
+      },
+      isSearched () {
+        return this.list.length > 0
       }
     }
 
     methods = {
+      tapToggle (e) {
+        this.isCollapse = !this.isCollapse
+        this.$apply()
+      },
+      // tap(item) {
+      //   this.$navigate(`/pages/love?id=${item.id}`)
+      // },
+      tapAction (id, $event) {
+// eslint-disable-next-line spaced-comment
+        let forwardObj = {
+          url: `/pages/love?id=${id}`,
+          success () {
+            let t = setTimeout(function () {
+              $wxapp.globalData.isNavigating = false
+              clearTimeout(t)
+            }, 500)
+          }
+        }
+        if (!$wxapp.globalData.isNavigating) {
+          $wxapp.globalData.isNavigating = true
+          wx.navigateTo(forwardObj)
+        }
+      },
+      bindinput (e) {
+        this.title = this.checkString(e.detail.value)
+        this.$apply()
+        if (!this.isEmpty) {
+          $wxapp.emitter.emit('change', this.title)
+        }
+      },
+      bindfocus(e) {
+        this.isFocus = true
+        // this.$apply()
+      },
+      bindblur() {
+        this.isFocus = false
+      },
+      // postLove () {
+      //   this.$root.$navigate(`/pages/love/new`)
+      // },
+      async postLove() {
+        const data = await postsApi.newLove(this.title, this.year)
+        this.loaded()
+        if (data) {
+          this.title = ''
+          Tips.success('添加成功')
+          $wxapp.emitter.emit('newlove_added', data)
+          this.$preload({'from': 'Me'})
+          this.$redirect('/pages/love', {id: data.id})
+          // this.$navigate('/pages/love', {id: data.id})
+        } else {
+          Tips.error('添加失败')
+        }
+      },
       bindChange: function(e) {
         const val = e.detail.value
         this.year = this.years[val[0]]
+        this.$apply()
+      },
+      /**
+       * 监听日期picker选择器
+       */
+      listenerDatePickerSelected(e) {
+        this.date = e.detail.value
         this.$apply()
       },
       showDetail(cate) {
@@ -249,9 +652,9 @@
           }
         }
       },
-      tap(id) {
-        this.$root.$navigate(`/pages/love?id=${id}`)
-      },
+      // tap(id) {
+      //   this.$root.$navigate(`/pages/love?id=${id}`)
+      // },
       // 打开管理面板
       manage() {
         this.isPanelDisplay = 'true'
@@ -287,11 +690,73 @@
     };
     components = {
       Elip: Elip,
-      'c-swipe': cSwipe
+      Tab: Tab,
+      'c-swipe': cSwipe,
+      'c-dialog': cDialog
     };
+    /**
+     * 检查字符是否为特殊字符
+     * @param value
+     * @returns {string}
+     */
+    checkString(value) {
+      const pattern = new RegExp("[\\s+,`~!@#$^&*+()=|{}':;',\\[\\].\\-<>/?~！@#￥%……&*（）——|{}【】‘；：”“'。，、？]")
+      let rs = ''
+      for (let i = 0; i < value.length; i++) {
+        rs = rs + value.substr(i, 1).replace(pattern, '')
+        // console.log(rs)
+      }
+      return rs
+    }
+    /**
+     * 检查限制的字符数量
+     * @param data
+     * @returns {number}
+     * @private
+     */
+    _wordCount (data) {
+      const pattern = /[a-zA-Z0-9_\u0392-\u03c9\u0410-\u04F9]+|[\u4E00-\u9FFF\u3400-\u4dbf\uf900-\ufaff\u3040-\u309f\uac00-\ud7af]+/g
+
+      const m = data.match(pattern)
+      let count = 0
+      if (m === null) {
+        return count
+      }
+      for (let i = 0; i < m.length; i++) {
+        if (m[i].charCodeAt(0) >= 0x4E00) {
+          count += m[i].length
+        } else {
+          count += 1
+        }
+      }
+      return count
+    }
     events = {
+      'delItem': (item) => {
+        this.$showDialog({
+          content: '确定删除？',
+          showCancel: true
+        }).then(async () => {
+            const data = await postsApi.trash(item.id)
+            if (data) {
+              Tips.success(data)
+              // this.page.list
+              let recallArray = this.page.list
+              for (let i = 0; i < recallArray.length; i++) {
+                if (recallArray[i].id === item.id) {
+                  // console.log('lala ..册队')
+                  this.page.list.splice(i, 1)
+                }
+              }
+              this.$apply()
+            }
+          }
+        ).catch(() => {
+          Tips.error('删除失败')
+          // console.log('=== dialog ===', 'type: cancel')
+        })
+      },
       'change': async (data) => {
-        // console.log(JSON.stringify(data))
         switch (data.selectedId) {
           case '1': {
             await this.loadLikes()
@@ -309,13 +774,69 @@
         }
       }
     }
+    /*
+    events = {
+      'change': async (data) => {
+        this.selectedId = data.selectedId
+        if (data.selectedId.toString() === '1') {
+          this.groupLikes = _(this.likes)
+          // .sortBy(group => data.meta_value.indexOf(group[0]))
+            .groupBy(item => item.date)
+            .map((items, year) => {
+              return {
+                year: year,
+                likes: items
+              }
+            })
+            .reverse()
+            .value()
+          // this.$apply()
+        }
+        // this.selectedYear = data.selectedId.toString()
+      }
+    }*/
+    /**
+     * 加载最爱
+     * @returns {Promise<void>}
+     */
+    // async loadLikes () {
+    //   this.likes = await user.iLiked(this.profile.id)
+    //   this.loaded()
+    // }
     /**
      * 加载最爱
      * @returns {Promise<void>}
      */
     async loadLikes () {
       this.likes = await user.iLiked(this.profile.id)
+      for (let item of this.likes) {
+        item.modified = moment(item.modified).fromNow()
+      }
+      this.groupLikes = _(this.likes)
+      // .sortBy(group => data.meta_value.indexOf(group[0]))
+        .groupBy(item => item.date)
+        .map((items, year) => {
+          return {
+            year: year,
+            likes: items
+          }
+        })
+        .reverse()
+        .value()
       this.loaded()
+    }
+    /**
+     * 重新加载
+     */
+    async reload () {
+      await this.loadLikes()
+      wepy.stopPullDownRefresh()
+    }
+    async onShow () {
+      // this.title = ''
+      // this.$apply()
+      // console.log('onShow')
+      // await this.loadLikes()
     }
     async onLoad() {
       const result = await auth.user({block: true, redirect: true})
@@ -323,7 +844,17 @@
       this.userInfo = JSON.parse($wxapp.globalData.auth.user)
       this.profile = await user.me()
       await this.loadLikes()
+
+      this.app = await Cache.app()
+      this.tips = this.app.options.tips
+      this.placeholderText = this.app.options.placeholder
+      this.loaded()
       // this.loaded()
+      this.$root.$parent.emitter.on('change', async (value) => {
+        this.list = await postsApi.search(value)
+        this.loaded()
+      })
+      // await this.loadLikes()
     }
   }
 </script>

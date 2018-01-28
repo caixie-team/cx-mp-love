@@ -14,7 +14,6 @@
     width: 100%;
     bottom: 0;
     height: rpx(120);
-    border-top: 1px solid $color-border;
     display: flex;
     align-items: center;
   }
@@ -313,38 +312,51 @@
   }
 
   .c-recall-card {
+    /*box-sizing:border-box;*/
+    /*display: flex;*/
+    /*flex: 1;*/
+    /*height: rpx(360);*/
+    /*background: #fff;*/
+    /*box-shadow: 0 0 1px 1px rgba(0,0,0,0.05), 0 2px 2px 0 rgba(0,0,0,0.10);*/
+    /*border-radius: rpx(8);*/
+    /*padding: rpx(28) rpx(20) rpx(14);*/
     /*position: relative;*/
-    flex: 1;
-    padding: rpx(24) rpx(30);
+    /*align-items: center;*/
+    /*flex-direction: column;*/
+    /*position: relative;*/
+    /*flex: 1;*/
+    /*padding: rpx(24) rpx(30);*/
     /*width: 90%;*/
+    /*display: flex;*/
+    /*flex: 1;*/
+    /*height: rpx(400);*/
+    /*padding: rpx(28) rpx(14) rpx(14);*/
+    padding: rpx(20);
+    position: relative;
+  }
+  view {
+    box-sizing: border-box;
   }
 
   .c-recall-card__body {
-    display: flex;
-    flex: 1;
-    height: rpx(360);
     background: #fff;
+    box-sizing: border-box;
+    overflow: hidden;
     /*box-shadow: 0 0 1px 1px rgba(0,0,0,0.05), 0 2px 2px 0 rgba(0,0,0,0.10);*/
     border-radius: rpx(8);
     padding: rpx(28) rpx(20) rpx(14);
     position: relative;
     align-items: center;
     flex-direction: column;
+    width: 100%;
+    height: 100%;
   }
   .c-recall-card__content {
-    /*position: absolute;*/
-    /*left: rpx(20);*/
-    /*right: rpx(20);*/
-    /*top: rpx(20);*/
-    /*box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.05), 0 2px 2px 0 rgba(0, 0, 0, 0.08);*/
-    /*width: auto;*/
-    /*border-radius: 4px;*/
-    /*height: rpx(260);*/
     box-sizing: border-box;
     padding: rpx(30);
-    height: rpx(280);
+    height: rpx(275);
     width:100%;
-
+    /*box-shadow: 0 0 1px 1px rgba(0,0,0,0.05),0 2px 2px 0 rgba(0,0,0,0.08);*/
   }
   .c-recall-card__warpper {
     display: flex;
@@ -368,19 +380,26 @@
   }
 
   .c-recall__meta {
-    position: absolute;
-    bottom: 10px;
+    /*position: absolute;*/
+    /*bottom: 10px;*/
+    /*padding: 0 10px 0 10px;*/
+    box-sizing: border-box;
     /*width: rpx(600);*/
     /*text-align: right;*/
     /*font-size: rpx(36);*/
     display: block;
     line-height: 1.615;
     /*font-weight: 300;*/
-    margin-bottom: rpx(14);
-    width: rpx(620);
-    text-align: center;
+    /*width: rpx(620);*/
+    width: 100%;
+    /*text-align: center;*/
   }
 
+  .c-swiper__item{
+    /*wx-swiper-item {*/
+    width: 100% !important;
+    /*margin-left: 5% !important;*/
+  }
 </style>
 <template>
 
@@ -421,7 +440,6 @@
       </view>
     </view>
 
-
   </view>
   <view class="c-panel c-panel--without-margin-top">
 
@@ -457,42 +475,40 @@
   <!--<view class="c-panel-title">-->
   <!--{{recallTitle}}-->
   <!--</view>-->
-  <view class="c-recalls" wx:if="{{list.length > 0}}" style="width: 700rpx;">
-    <view class="c-cell u-mt-small u-c-gray-dark">
-      <view class="c-cell__bd">{{recallTitle}}</view>
-      <!--<view class="c-cell__ft u-c-gray-dark">全部</view>-->
+  <view class="c-recalls" wx:if="{{list.length > 0}}">
+    <view class="c-panel-title u-flex u-justify-between">
+      <view>{{recallTitle}}</view>
+      <view>{{pageNumber}}/{{list.length}}</view>
     </view>
-    <swiper style="height: 500rpx; display: flex; justify-content: center; width: 750rpx;">
+    <swiper style="height: 500rpx; " current="{{current}}" @change="bindSwiperChange">
       <block wx:for="{{list}}" wx:key="index" wx:for-item="item">
         <swiper-item class="c-swiper__item" style="">
-
           <view class="c-recall-card">
-            <view class="c-recall-card__body u-p-medium">
+            <view class="c-recall-card__body">
 
-              <view class="c-recall-card__content u-text-large u-flex" style="font-weight: 300; background:{{filter.rgb2hex('rgba('+ item.meta.style.RGB +',0.1)')}}; color: {{filter.rgb2hex('rgba('+ item.meta.style.RGB +',1)')}};  box-sizing: border-box;">
-                <Elip :line="line">{{item.content}}</Elip>
-              </view>
-              <view class="u-flex u-justify-between c-recall__meta  u-text-small">
-                <view class="c-btn c-btn--flat  c-btn--mini"
-                        @tap="delMyRecall({{item}})" wx:if="{{item.author.id === userInfo.userId}}">
-                  <image class="u-icon u-icon-small" mode="aspectFill" src="/images/icons/icon-love--active.png" ></image>
-                  0
-                </view>
-                <view class="c-btn c-btn--flat  c-btn--mini"
-                        @tap="delMyRecall({{item}})" wx:else>
-                  <image class="u-icon u-icon-small" mode="aspectFill" src="/images/icons/icon-love.png"></image>
-                  3
-                </view>
-                <button class="c-btn c-btn--flat c-btn--danger c-btn--mini" wx:if="{{item.author.id === userInfo.userId}}"
-                        @tap="delMyRecall({{item}})">
-                  删除
-                </button>
-                <view wx:else></view>
-                <text>──{{item.author.nicename}}</text>
-              </view>
-
+            <view class="c-recall-card__content u-text-large u-flex" style="font-weight: 300; background:{{filter.rgb2hex('rgba('+ item.meta.style.RGB +',0.1)')}}; color: {{filter.rgb2hex('rgba('+ item.meta.style.RGB +',1)')}};  box-sizing: border-box;">
+              <Elip :line="line">{{item.content}}</Elip>
+            </view>
+            <view class="u-flex u-justify-between c-recall__meta  u-text-small u-mt-small">
+              <!--                <view class="c-btn c-btn&#45;&#45;flat  c-btn&#45;&#45;mini"
+                                      @tap="delMyRecall({{item}})" wx:if="{{item.author.id === userInfo.userId}}">
+                                <image class="u-icon u-icon-small" mode="aspectFill" src="/images/icons/icon-love&#45;&#45;active.png" ></image>
+                                0
+                              </view>
+                              <view class="c-btn c-btn&#45;&#45;flat  c-btn&#45;&#45;mini"
+                                      @tap="delMyRecall({{item}})" wx:else>
+                                <image class="u-icon u-icon-small" mode="aspectFill" src="/images/icons/icon-love.png"></image>
+                                3
+                              </view>-->
+              <button class="c-btn c-btn--plain c-btn--danger c-btn--mini" wx:if="{{item.author.id === userInfo.userId}}"
+                      @tap="delMyRecall({{item}})">
+                删除
+              </button>
+              <view wx:else></view>
+              <text>──{{item.author.nicename}}</text>
             </view>
 
+          </view>
           </view>
         </swiper-item>
       </block>
@@ -503,9 +519,9 @@
     还没有回忆。
   </view>
 
-  <view class="c-panel-title">
-    故事
-  </view>
+  <!--<view class="c-panel-title">-->
+    <!--故事-->
+  <!--</view>-->
   <view class="c-btn c-btn--large c-btn--loading c-btn--flat" wx:if="{{isStoryLoading}}"></view>
 
   <view style="height: 160rpx;" wx:if="{{isIpx}}"></view>
@@ -564,7 +580,15 @@
     </view>
 
   </SliderLove>
+  <view class="c-tabbar {{isIpx?'fix-iphonex':''}} u-justify-center u-align-items-center" wx:if="{{isFromMe}}">
+    <navigator url="/pages/me" open-type="switchTab" class="c-btn c-btn--flat c-btn--small u-width-25">←返回</navigator>
+    <navigator
+      url="/pages/index" open-type="switchTab"
+      class="c-btn c-btn--primary c-btn--flat c-btn--small u-width-50 u-ml-small">
+      寻找最爱↗
+    </navigator>
 
+  </view>
 </template>
 
 <script>
@@ -607,6 +631,7 @@
     }
     def = {
       id: '',
+      current: 0,
       propagation: true,
       isIpx: $wxapp.globalData.isIpx,
       isCatch: false,
@@ -625,6 +650,7 @@
       detail: {
         i_like: false
       },
+      from: '', // 来源
       currentSwiper: 0,
       lovers: [],
       list: [],
@@ -636,7 +662,7 @@
       value: [date.getFullYear()],
       pictures: [],
       maxSize: {
-        detault: '2'
+        detault: '1'
       },
       scrollStatus: '',
       isPanelDisplay: false,
@@ -657,6 +683,12 @@
     data = {...this.def}
 
     computed = {
+      pageNumber () {
+        return this.current + 1
+      },
+      isFromMe () {
+        return this.from === 'Me'
+      },
       loverTitle () {
         // return     {{lovers.length}} 人最爱
         if (this.lovers.length > 0) {
@@ -692,6 +724,15 @@
     }
 
     methods = {
+      bindSwiperChange (e) {
+        this.current = e.detail.current
+      },
+      toIndexPage () {
+        this.$root.$redirect('/pages/index')
+      },
+      goMePage () {
+        wx.switchTab('/pages/me')
+      },
       showDialog () {
         this.$showDialog({
           content: '确定删除？',
@@ -1026,6 +1067,12 @@
       return Tips.share(title, url, desc)
     }
     async onLoad (option, data) {
+      console.log(data)
+      if (!Object.is(data.preload, undefined) && (!Object.is(data.preload.from, undefined))) {
+        this.from = data.preload.from
+      }
+      // console.log(data.from.$name === 'Me')
+      // this.from = data.from.$name
       this.id = option.id
       const result = await auth.user({block: true, redirect: true})
       if (!result) return

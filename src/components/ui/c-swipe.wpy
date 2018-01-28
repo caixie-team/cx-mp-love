@@ -8,7 +8,7 @@
   }
 
   .movable-wrapper {
-    min-height: 120rpx;
+    min-height: 150rpx;
     background: #ddd;
     flex: 1;
     position: relative;
@@ -16,7 +16,7 @@
 
   .movable-item {
     position: relative;
-    height: 120rpx;
+    height: 150rpx;
     width: 750rpx;
     background: #fff;
     flex: 1

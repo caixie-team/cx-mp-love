@@ -9,7 +9,7 @@
   import 'moment/locale/zh-cn'
   /* eslint-disable no-unused-vars,no-undef */
   // ENV
-  const env = 'development' // 'development' or 'production'
+  const env = 'production' // 'development' or 'production'
   // APP VERSION
   const version = 'v1'
 
@@ -97,6 +97,10 @@
 
     config = {
       pages: [
+        'pages/me',
+        // 'pages/me/likes',
+        // 'pages/me/recalls',
+        // 'pages/me/stories',
         'pages/index',
         'pages/story/list',
         'pages/love',
@@ -106,17 +110,13 @@
         'pages/story',
         'pages/stories',
         'pages/lover',
-        'pages/me',
-        'pages/me/likes',
-        'pages/me/recalls',
-        'pages/me/stories',
         'pages/login'
       ],
       window: {
         backgroundTextStyle: 'dark',
         navigationBarBackgroundColor: '#F5F5F5',
         navigationBarTitleText: '愿君，多采撷。',
-        navigationBarTextStyle: 'black',
+        navigationBarTextStyle: 'light',
         backgroundColor: '#F5F5F5',
         enablePullDownRefresh: true
       },
@@ -125,16 +125,16 @@
         selectedColor: '#344A5E',
         backgroundColor: '#FFF',
         // borderStyle: 'white',
-        list: [{
-          pagePath: 'pages/me',
-          iconPath: 'images/icons/icon-me.png',
-          selectedIconPath: 'images/icons/icon-me--active.png',
-          text: '我'
-        }, {
+        list: [ {
           pagePath: 'pages/index',
           iconPath: 'images/icons/icon-love.png',
           selectedIconPath: 'images/icons/icon-love--active.png',
-          text: '最爱的'
+          text: '最爱'
+        }, {
+          pagePath: 'pages/me',
+          iconPath: 'images/icons/icon-me.png',
+          selectedIconPath: 'images/icons/icon-me--active.png',
+          text: '我的'
         }, {
           pagePath: 'pages/stories',
           iconPath: 'images/icons/icon-story.png',

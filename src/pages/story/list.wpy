@@ -189,8 +189,8 @@
           // 按钮是否显示为 loading
           loading: false
         }, {
-          name: '私密发布',
-          subname: '仅受邀的人员可见',
+          name: '私密记录',
+          subname: '(此功能开发中~)',
           className: 'action-class',
           loading: false
         }]
