@@ -6,7 +6,21 @@
     height: 100%;
     background: #f5f5f5;
   }
-
+  .c-topbar {
+    position: fixed;
+    top: 0;
+    background: #415A6B;
+    border-bottom-right-radius: rpx(32);
+    border-bottom-left-radius: rpx(32);
+    /*box-shadow: 0 10px 30px 0 rgba(0,0,0,0.10);*/
+    height: rpx(32);
+    width: 100%;
+    z-index: 3;
+    font-size: rpx(40);
+    text-align: center;
+    color: #F3F3F395;
+    font-weight: 300;
+  }
   .c-button {
     display: flex;
     background: #FF7058;
@@ -64,7 +78,10 @@
     position: relative;
     padding: rpx(24) rpx(30);
     display: flex;
-    /*border-bottom: 1px solid #ededed;*/
+    border-radius: rpx(32);
+    border: 1px solid #FFF;
+    /*box-shadow: 0 0 0 rpx(2) rgba(255,255,255,1),0 0 0 rpx(4) rgba(31,31,31,.1);*/
+
     flex-direction: column;
   }
 
@@ -174,7 +191,9 @@
 
 </style>
 <template>
-  <view class="o-home">
+  <view class="o-home" style="margin-top: 38rpx;">
+
+    <view class="c-topbar"></view>
     <view class="c-stories"
           @touchstart="touchstart"
           @touchmove="touchmove"
@@ -184,7 +203,7 @@
              wx:for-item="item"
              wx:key="id">
 
-        <view class="c-story-card c-panel animated fadeIn"
+        <view class="c-story-card c-panel c-panel--without-border animated fadeIn"
               hover-start-time="50"
               hover-stay-time="400"
               hover-stop-propagation="{{propagation}}"
@@ -263,10 +282,12 @@
     }
 
     config = {
-      backgroundTextStyle: 'dark',
+      backgroundTextStyle: 'light',
       navigationBarTitleText: '故事',
-      navigationBarTextStyle: 'black',
-      enablePullDownRefresh: true
+      navigationBarTextStyle: 'light',
+      enablePullDownRefresh: true,
+      backgroundColor: '#415A6B',
+      navigationBarBackgroundColor: '#415A6B'
     }
     computed = {}
 

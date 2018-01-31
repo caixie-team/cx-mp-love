@@ -2204,6 +2204,9 @@
       navigationBarTitleText: '写回忆',
       // backgroundTextStyle: 'dark',
       enablePullDownRefresh: false,
+      navigationBarBackgroundColor: '#FFF',
+      navigationBarTextStyle: 'black',
+      // backgroundTextStyle: 'dark',
       disableScroll: true
     }
     computed = {

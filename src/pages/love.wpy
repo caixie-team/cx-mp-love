@@ -458,7 +458,7 @@
   </view>
 
 
-  <view class="c-panel-title" @tap="showDialog">
+  <view class="c-panel-title">
     {{loverTitle}}
     <!--{{lovers.length}} 人最爱-->
   </view>

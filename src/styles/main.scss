@@ -350,6 +350,9 @@ textarea.c-input {
 //@import "utilities/utilities.borders";
 @import "utilities/utilities.flex";
 //@import "utilities/utilities.responsive";
+@import "utilities/utilities.hairline";
+@import "utilities/utilities.text";
+@import "utilities/utilities.ellipsis";
 @import "utilities/utilities.opacity";
 @import "utilities/utilities.sizes";
 @import "utilities/utilities.icons";
@@ -396,88 +399,17 @@ textarea.c-input {
   font-size: $h6-font-size;
 }
 
-/**
- * Text Utilitites
- */
-
-/**
- * Text Colors
- */
-.u-text-mute {
-  color: $text-mute-color !important;
-}
-
-.u-text-danger {
-  color: $color-danger !important;
-}
-
-.u-text-success {
-  color: #45B854 !important;
-}
-
-.u-text-dark {
-  color: #354052;
-}
-
-.u-text-white {
-  color: $white;
-}
-
-/**
-  * Text Sizes
-  */
-.u-text-tiny {
-  font-size: $text-tiny-font-size !important;
-}
-
-.u-text-xsmall {
-  font-size: $text-small-font-size !important;
-}
-
-.u-text-small {
-  font-size: $text-font-size !important;
-}
-
-.u-text-large {
-  font-size: $h6-font-size !important;
-}
-
-
-/**
-  * Font Weights
-  */
-.u-text-bold {
-  font-weight: $font-weight-bold !important;
-}
-
-/**
-  * Aligning Text
-  */
-.u-text-right {
-  text-align: right !important;
-}
-
-.u-text-left {
-  text-align: left !important;
-}
-
-.u-text-center {
-  text-align: center !important;
-}
-
-/**
- * Transforming Text
- */
-.u-text-uppercase {
-  text-transform: uppercase !important;
-}
-
-.u-text-lowercase {
-  text-transform: lowercase !important;
-}
-
-.u-text-capitalize {
-  text-transform: capitalize !important;
+.u-arrow {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  display: inline-block;
+  height: 6px;
+  width: 6px;
+  border-width: 2px 2px 0 0;
+  border-color: #c8c8c8;
+  border-style: solid;
+  transform: translateY(-50%) matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
 }
 .fix-iphonex {
   bottom: rpx(40) !important;

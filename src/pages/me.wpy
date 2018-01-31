@@ -85,7 +85,6 @@
     height: auto;
     width: auto;
     border-radius: rpx(16);
-
     border: 1px solid #ededed;
   }
   .c-story__body {
@@ -122,20 +121,33 @@
   }
   .c-textarea {
     border: none;
-    font-size: 24px;
+    font-size: rpx(40);
     width: auto;
-    height: 100px;
+    height: 60px;
     color: #FFF;
+    text-align: center;
+    padding-top: rpx(50);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   }
   .c-add-btn {
     position: absolute;
     bottom: 15px;
     right: 15px;
+    /*width: 36px;*/
+    /*height: 36px;*/
+    /*width: rpx(72);*/
+    /*height: rpx(72);*/
     width: rpx(72);
     height: rpx(72);
-    /*background-color: rgba(255, 255, 255, 0.50);*/
+    background-color: rgba(255, 255, 255, 0.30);
     border-radius: rpx(50);
     z-index: 100;
+    /*box-shadow: 0 0 0 rpx(2) #66C6B9,0 0 0 rpx(4) rgba(168,59,75,.1);*/
+    /*box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.05), 0 2px 2px 0 rgba(0, 0, 0, 0.10);*/
+
+    /*background-color: rgba(255, 255, 255, 0.50);*/
+    /*border-radius: rpx(50);*/
+    /*z-index: 100;*/
   }
 
   .c-loves {
@@ -190,7 +202,7 @@
     box-sizing: border-box;
     /*padding: rpx(24) rpx(30);*/
     width: rpx(300);
-    height: rpx(360);
+    height: rpx(380);
     /*border-radius: 2px;*/
     /*background: rgba(255,255,255,0.19);*/
     /*padding: 14px 10px 7px;*/
@@ -227,27 +239,33 @@
     bottom: rpx(20);
     box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.05), 0 2px 2px 0 rgba(0, 0, 0, 0.08);
     width: auto;
-    height: rpx(186);
+    height: rpx(240);
   }
   .c-detail {
     font-size: rpx(30);
-    line-height: 1.3;
+    line-height: 1.8;
     letter-spacing: 1.3px;
   }
 
 
   .c-tips-card {
+    display: flex;
+    flex-direction: column;
     /*position: relative;*/
-    flex: 1;
-    padding: rpx(72) rpx(30);
+    /*flex: 1;*/
+    padding-top: rpx(30);
+    /*padding: rpx(72) rpx(30);*/
     /*width: 90%;*/
+    text-align: center;
+    background: #fff;
   }
-
+  .c-tips-card__title {
+    /*font-size: rpx(48);*/
+  }
   .c-tips-card__body {
     display: flex;
     flex: 1;
-    height: rpx(420);
-    background: #fff;
+    height: rpx(450);
     /*box-shadow: 0 0 1px 1px rgba(0,0,0,0.05), 0 2px 2px 0 rgba(0,0,0,0.10);*/
     border-radius: rpx(8);
     padding: rpx(28) rpx(20) rpx(14);
@@ -258,7 +276,7 @@
   .c-tips-card__content {
     box-sizing: border-box;
     padding: 0 rpx(30);
-    height: rpx(340);
+    height: rpx(300);
     width:100%;
 
   }
@@ -286,15 +304,19 @@
   .c-tips__meta {
     position: absolute;
     bottom: 10px;
+    /*left: 10px;*/
+    /*right: 10px;*/
     display: block;
-    margin-bottom: rpx(10);
-    width: rpx(620);
+    /*margin-bottom: rpx(10);*/
+    padding: rpx(20);
+    box-sizing: border-box;
+    width: 100%;
     text-align: center;
   }
   .c-me-header {
     /*position: fixed;*/
     /*top: 0;*/
-    background: #4EC0AA;
+    background: #47BAA4;
     /*box-shadow: 0 10px 30px 0 rgba(0,0,0,0.10);*/
     height: rpx(380);
     width: 100%;
@@ -307,11 +329,120 @@
     /*border-bottom-right-radius: rpx(32);*/
     /*border-bottom-left-radius: rpx(32);*/
   }
+  .c-button {
+    display: flex;
+    /*background: #FF7058;*/
+    font-weight: 400;
+    width: rpx(90);
+    height: rpx(90);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.05), 0 2px 2px 0 rgba(0, 0, 0, 0.10);
+    border-radius: rpx(8);
+  }
+
+  .c-post__button {
+    float: right;
+    /*background-color: #344A5E;*/
+    position: fixed;
+    bottom: 20px;
+    right: 10px;
+    border: 0 solid #ffffff;
+    border-radius: rpx(100);
+  }
+
+  .c-button__icon {
+    height: rpx(80);
+    width: rpx(80);
+    vertical-align: middle;
+  }
 </style>
 <template>
-  <view class="o-me">
+  <view class="o-me"
+        @touchstart="onTouchStart"
+        @touchmove="onTouchMove"
+        @touchend="onTouchEnd"
+        @touchcancel="onTouchEnd">
+    <view class="c-tips-card animated {{!isTips ? 'slideOutUp' : 'fadeIn'}}" wx:if="{{isTips}}">
+      <view class="c-tips-card__title u-text-large u-text-bold u-flex u-align-items-center u-justify-center">
+        <image
+          class="u-icon u-icon-small animated fadeIn"
+          mode="aspectFill"
+          src="/images/icons/icon-love--active.png"></image>
+        <text class="u-ml-small">欢迎使用!</text>
+      </view>
+      <view class="c-tips-card__body ">
+
+        <view class="c-tips-card__content c-detail "
+              style="font-weight: 300; background:{{filter.rgb2hex('rgba('+ tips.style.RGB +',0.1)')}}; color: {{filter.rgb2hex('rgba('+ tips.style.RGB +',1)')}};  box-sizing: border-box;">
+        <!--<text decode="true" space="true" wx:if="{{tips.content}}">-->
+            <!--{{tips.content}}-->
+          <!--</text>-->
+          <text decode="true" space="true" class="u-text-small" style="">
+            这是一款备忘录小程序
+            您可以用它来记录、收藏「最爱」的事物
+            形成专属于自己的「历史上的今天」
+          </text>
+        </view>
+        <!--<view class="  c-tips__meta u-align-items-center u-text-small">-->
+          <view class="c-btn c-btn--primary c-btn--small u-mt-medium c-btn--plain">如何添加最爱?</view>
+          <text
+            class="c-btn c-btn--primary c-btn--plain c-btn--flat c-btn--small u-mt-small"
+            @tap="hideTips">我懂，不再显示</text>
+        <!--</view>-->
+
+      </view>
+
+    </view>
+
+
+    <view class="u-flex u-align-items-center u-pt-medium u-pb-medium u-pl-medium c-panel c-panel--without-margin-top" >
+      <!--<c-field :icon="icon" class="u-width-50">-->
+        <!--<input class="c-input"-->
+               <!--style="color: #344A5E;"-->
+               <!--@input="bindinput"-->
+               <!--@focus="bindfocus"-->
+               <!--@blur="bindblur"-->
+               <!--value="{{title}}"-->
+               <!--maxlength="20"-->
+               <!--placeholder="寻找你最爱的"/>-->
+      <!--</c-field>-->
+      <button class="c-btn c-btn--flat c-btn--small u-width-75 u-flex u-align-items-center"
+              style="border: 1px solid #ededed; border-radius: 4px; text-align: left; background: #f5f5f5;" @tap="searchPost">
+        <image
+          class="u-icon u-icon-small animated fadeIn u-mr-small"
+          mode="aspectFill"
+          src="/images/icons/icon-find.svg"></image>
+        搜索
+      </button>
+      <!--<c-field :icon="icon" class="u-width-50">-->
+        <!--<input class="c-input"-->
+               <!--style="color: #344A5E;"-->
+               <!--@input="bindinput"-->
+               <!--@focus="bindfocus"-->
+               <!--@blur="bindblur"-->
+               <!--value="{{title}}"-->
+               <!--maxlength="20"-->
+               <!--placeholder="寻找你最爱的"/>-->
+      <!--</c-field>-->
+      <view class="u-flex u-align-items-center u-justify-center u-width-25">
+
+        <image
+          class="u-icon u-icon-lg animated fadeIn u-mr-small animated fadeIn"
+          mode="aspectFill"
+          src="{{modeIcon}}" @tap="changeMode"></image>
+        <image
+          class="u-icon u-icon-lg animated fadeIn"
+          mode="aspectFill"
+          src="/images/icons/icon-plus1.svg"
+          @tap="newPost"></image>
+      </view>
+    </view>
+
+
+    <!--
     <view class="c-panel c-panel--without-margin-top c-panel--without-border c-me-header">
-      <!--<view style="position: absolute; bottom: 10px; left: 10px; color: rgba(255, 255, 255, 0.6)" class=" u-float-right u-m-small u-text-tiny">剩余字数：{{20 - wordCount}}</view>-->
       <input
         class="c-textarea u-m-large font-weight: 300; font-weight: 300;"
         placeholder="在这：记录、寻找你最爱的"
@@ -324,21 +455,53 @@
       <image
         class="c-add-btn animated fadeIn"
         mode="aspectFill"
-        src="/images/icons/icon-plus--round.png" wx:if="{{!isEmpty}}" @tap="postLove"></image>
+        src="/images/icons/13-1.png" wx:if="{{!isEmpty}}" @tap="postLove"></image>
       <image
         class="c-add-btn animated fadeIn"
         mode="aspectFill"
-        src="/images/icons/icon-plus.png" wx:else></image>
-
-
+        src="/images/icons/13.png" wx:else></image>
     </view>
+    -->
+    <view class="o-me__body">
 
-    <view class="animated fadeInUp" wx:if="{{isSearched && !isEmpty}}" style="z-index: 100;">
+    <view class="animated fadeIn" wx:if="{{isListMode && likes.length > 0}}"
+          style="z-index: 100;">
       <view class="c-panel-title ">
-        类似的
+        有 {{likes.length}} 个我最爱的
       </view>
-      <view class="c-panel">
-        <block wx:for-items="{{list}}"
+        <block wx:for-items="{{likes}}"
+               wx:for-index="index"
+               wx:for-item="item"
+               wx:key="id" @tap="tap({{item}})">
+          <view class="c-panel">
+
+          <view class="c-card" @tap="tapAction({{item.id}})">
+            <view class="c-card__thumb">
+              <image class="c-card__img"
+                     src="{{item.featured_image}}?imageMogr2/thumbnail/300x300/q/90/format/jpg/interlace/1"
+                     mode="aspectFit"></image>
+            </view>
+            <view class="c-card__detail u-mt-medium">
+              <view class="c-card__detail-row">
+                <view class=" u-ellipsis--l2">
+                  {{item.title}}
+                </view>
+              </view>
+
+            </view>
+            <!-- 商品附属信息展示行 -->
+            <view class="c-card__detail u-mt-small">
+              <view class="c-card__right-col">
+                {{item.modified}}
+              </view>
+              <view class="c-card__left-col">{{item.like_count}} 人最爱</view>
+            </view>
+          </view>
+          </view>
+
+        </block>
+        <!--
+        <block wx:for-items="{{likes}}"
                wx:for-index="index"
                wx:for-item="item"
                wx:key="id" @tap="tap({{item}})">
@@ -350,21 +513,18 @@
             <view class="c-cell__ft u-text-mute">{{item.like_count}} 人最爱</view>
           </view>
         </block>
-      </view>
+        -->
 
     </view>
-
-    <view class=" c-panel c-panel--without-border o-me__body" hidden="{{isSearched && !isEmpty}}" wx:if="{{groupLikes.length > 0}}">
-      <view class="" style="position: relative;">
-        <Tab :tab.sync="tab"></Tab>
-      </view>
-
-      <view class="u-flex u-flex-wrap" style="flex-direction: column;" wx:if="{{tab.selectedId === '1'}}">
+    <view class="animated fadeIn" wx:if="{{!isListMode && groupLikes.length > 0}}">
+      <view class="u-flex u-flex-wrap"
+            style="flex-direction: column;"
+            wx:if="{{tab.selectedId === '1'}}">
         <block wx:for-items="{{groupLikes}}"
              wx:for-index="index"
              wx:for-item="list"
              wx:key="year">
-        <view class="c-panel-title u-text-center u-mb-small u-mt-medium">
+        <view class="c-panel-title u-text-center u-mb-small ">
           {{list.year}}年 最爱的
         </view>
           <view class="c-loves">
@@ -433,32 +593,10 @@
         </view>
       </view>
     </view>
-    <view class="" wx:else>
-      <view class="c-tips-card">
-        <view class="c-tips-card__body ">
-
-          <view class="c-tips-card__content c-detail "
-                style="font-weight: 300; background:{{filter.rgb2hex('rgba('+ tips.style.RGB +',0.1)')}}; color: {{filter.rgb2hex('rgba('+ tips.style.RGB +',1)')}};  box-sizing: border-box;">
-            <text decode="true" space="true" wx:if="{{tips.content}}">
-              {{tips.content}}
-            </text>
-            <text decode="true" space="true" class="u-text-center" wx:else>
-              「采撷最爱」是一款备忘录小程序。它可以用来记录或寻找某个时间点下曾经、现在的最爱。
-
-              「最爱」在这里可以是一张图片，一段文字回忆，一个真实的故事，或者就是一个词语。
-              将它添加到你的最爱，让你的最爱有迹可循。
-            </text>
-          </view>
-          <view class="u-flex u-justify-between c-tips__meta  u-text-small">
-            <view></view>
-            <text>──采撷科技</text>
-          </view>
-
-        </view>
-
-      </view>
-
-      </view>
+    </view>
+    <view class="c-button c-post__button animated {{fabClass}}" @tap="post" hidden="{{!isFAB}}">
+      <image class="c-button__icon" mode="aspectFill" src="/images/icons/13-1.png"></image>
+    </view>
   </view>
   <c-dialog :dialog.sync="dialog"></c-dialog>
 </template>
@@ -483,6 +621,7 @@
   import Cache from '../utils/Cache'
   import cSwipe from '../components/ui/c-swipe'
   import cDialog from '../components/ui/c-dialog'
+  import cField from '../components/ui/c-field'
   const $wxapp = wepy.$instance
   import _ from 'lodash'
   import moment from 'moment'
@@ -494,14 +633,15 @@
   import filter from '../wxs/filter.wxs'
 
   export default class Me extends wepy.page {
-    mixins = [base, pagination]
+    mixins = [base]
     wxs = {
       filter: filter
     }
     data = {
       propagation: true,
       isIpx: $wxapp.globalData.isIpx,
-      icon: '/images/icons/icon-flower--grey.svg',
+      touchStartPosition: null,
+      touchEndPosition: null,
       app: {},
       tips: {},
       isFocus: true,
@@ -512,6 +652,9 @@
         added: [],
         list: []
       },
+      isFAB: false,
+      isTips: true,
+      userInfo: {},
       years: years,
       year: date.getFullYear(),
       value: [date.getFullYear()],
@@ -540,17 +683,31 @@
         ],
         'selectedId': '1',
         'scroll': false
-      }
+      },
+      isListMode: true
     }
     config = {
-      backgroundTextStyle: 'dark',
-      navigationBarBackgroundColor: '#4EC0AA',
-      navigationBarTitleText: '愿君，多采撷。',
-      navigationBarTextStyle: 'light',
-      backgroundColor: '#f5f5f5',
-      enablePullDownRefresh: true
+      backgroundTextStyle: 'black',
+      navigationBarBackgroundColor: '#FFF',
+      navigationBarTitleText: '愿君，多采撷',
+      navigationBarTextStyle: 'black',
+      backgroundColor: '#F5F5F5',
+      enablePullDownRefresh: false
     }
     computed = {
+      fabClass () {
+        return this.isMove ? '' : 'fadeIn'
+      },
+      modeIcon () {
+        return this.isListMode ? '/images/icons/icon-grid.svg' : '/images/icons/icon-list.svg'
+      },
+      icon () {
+        let avatar = '/images/icons/icon-find.svg'
+        if (this.userInfo.avatarUrl) {
+          avatar = this.userInfo.avatarUrl
+        }
+        return avatar
+      },
       imageWidth () {
         const device = wx.getSystemInfoSync()  //  获取设备信息
         return device.windowWidth
@@ -570,6 +727,132 @@
     }
 
     methods = {
+      onTouchStart (event) {
+        if (event.touches[0]) {
+          this.touchStartPosition = event.touches[0].clientY
+        }
+        // this.setData({
+        //   swipeData: this.props.swipeData
+        // })
+      },
+      onTouchMove (event) {
+        if (event.touches[0]) {
+          this.touchEndPosition = event.touches[0].clientY
+        }
+        console.log(this.touchEndPosition + 'xxxxx')
+        // this.setData({
+        //   swipeData: this.props.swipeData
+        // })
+      },
+      onTouchEnd (event) {
+        if (this.touchStartPosition && this.touchEndPosition) {
+          // console.log(this.touchStartPosition - this.touchEndPosition)
+          let delta = this.touchStartPosition - this.touchEndPosition
+          // if (delta > 40) {
+          //   this.isMove = true
+          // } else {
+          //   this.isMove = false
+          // }
+          // console.log(delta)
+          // left
+          // if (delta > 0) {
+          //   if (delta > 40) {
+          //     this.swipeData.x = -100
+          //     // this.setData({
+          //     //   x: -100
+          //     // })
+          //   } else {
+          //     this.swipeData.x = 0
+          //     // this.setData({
+          //     //   x: 0
+          //     // })
+          //   }
+          // } else {
+          //   // right
+          //   if (Math.abs(delta) > 40) {
+          //     this.swipeData.x = 0
+          //     // this.setData({
+          //     //   x: 0
+          //     // })
+          //   } else {
+          //     this.swipeData.x = -100
+          //     // this.setData({
+          //     //   x: -100
+          //     // })
+          //     // this.setData({
+          //     //   swipeData: this.props.swipeData
+          //     // })
+          //   }
+          // }
+          this.touchStartPosition = null
+          this.touchEndPosition = null
+          // this.setData({
+          //   swipeData: this.props.swipeData
+          // })
+        }
+      },
+
+      async hideTips () {
+        await auth.setConfig('isTips', false)
+        this.isTips = false
+        this.$apply()
+      },
+      changeMode () {
+        this.isListMode = !this.isListMode
+        // this.$apply()
+        // this.$showDialog({
+        //   buttonsShowVertical: true,
+        //   content: '内容排序',
+        //   buttons: [{
+        //     text: '按最近添加排序',
+        //     color: '#3CC51F',
+        //     type: 'cash'
+        //   }, {
+        //     text: '按「最爱」时间分组',
+        //     color: '#3CC51F',
+        //     type: 'wechat'
+        //   }, {
+        //     text: '取消',
+        //     type: 'cancel'
+        //   }]
+        // }).then(async () => {
+        //     console.log('lala')
+        //   }
+        // ).catch(() => {
+        //   // console.log('=== dialog ===', 'type: cancel')
+        // })
+      },
+      searchPost () {
+        let forwardObj = {
+          url: `/pages/love/search`,
+          success () {
+            let t = setTimeout(function () {
+              $wxapp.globalData.isNavigating = false
+              clearTimeout(t)
+            }, 500)
+          }
+        }
+        if (!$wxapp.globalData.isNavigating) {
+          $wxapp.globalData.isNavigating = true
+          wx.navigateTo(forwardObj)
+        }
+      },
+      newPost () {
+        // eslint-disable-next-line spaced-comment
+        let forwardObj = {
+          url: `/pages/love/new`,
+          success () {
+            let t = setTimeout(function () {
+              $wxapp.globalData.isNavigating = false
+              clearTimeout(t)
+            }, 500)
+          }
+        }
+        if (!$wxapp.globalData.isNavigating) {
+          $wxapp.globalData.isNavigating = true
+          wx.navigateTo(forwardObj)
+        }
+      },
       tapToggle (e) {
         this.isCollapse = !this.isCollapse
         this.$apply()
@@ -690,9 +973,9 @@
     };
     components = {
       Elip: Elip,
-      Tab: Tab,
       'c-swipe': cSwipe,
-      'c-dialog': cDialog
+      'c-dialog': cDialog,
+      'c-field': cField
     };
     /**
      * 检查字符是否为特殊字符
@@ -830,6 +1113,7 @@
      */
     async reload () {
       await this.loadLikes()
+      // this.$root.$navigate('/pages/love/new')
       wepy.stopPullDownRefresh()
     }
     async onShow () {
@@ -838,13 +1122,26 @@
       // console.log('onShow')
       // await this.loadLikes()
     }
+    onReady () {
+      this.isTips = $wxapp.globalData.auth.isTips === undefined ? true : $wxapp.globalData.auth.isTips
+    }
+    async onPageScroll (e) {
+      if (e.scrollTop > 40) {
+        this.isFAB = true
+      } else {
+        this.isFAB = false
+      }
+    }
+
+    async onReachBottom () {
+      console.log('到底了。')
+    }
     async onLoad() {
       const result = await auth.user({block: true, redirect: true})
       if (!result) return
       this.userInfo = JSON.parse($wxapp.globalData.auth.user)
       this.profile = await user.me()
       await this.loadLikes()
-
       this.app = await Cache.app()
       this.tips = this.app.options.tips
       this.placeholderText = this.app.options.placeholder

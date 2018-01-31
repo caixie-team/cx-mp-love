@@ -201,7 +201,9 @@
     }
     config = {
       navigationBarTitleText: '写故事',
-      // backgroundTextStyle: 'dark',
+      navigationBarBackgroundColor: '#FFF',
+      navigationBarTextStyle: 'black',
+      backgroundTextStyle: 'dark',
       enablePullDownRefresh: false,
       disableScroll: true
     }

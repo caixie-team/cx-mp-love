@@ -1,0 +1,354 @@
+<style lang="scss">
+  @import "../../styles/variable";
+
+  page{
+    height: 100%;
+    color: $color-primary;
+    background: #FFF;
+  }
+  .c-topbar {
+    position: fixed;
+    top: 0;
+    background: #fff;
+    /*background: #FF7058;*/
+    /*border-bottom-right-radius: rpx(32);*/
+    /*border-bottom-left-radius: rpx(32);*/
+    /*box-shadow: 0 10px 30px 0 rgba(0,0,0,0.10);*/
+    height: rpx(200);
+    width: 100%;
+    z-index: 3;
+  }
+  body.c-home {
+    color: $color-primary;
+    height: 100%;
+    width: 100%;
+  }
+  .c-tabbar {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    height: rpx(120);
+    border-top: 1px solid $color-border;
+    display:flex;
+    background: #fff;
+    align-items:center;
+  }
+  .c-tabbar__tab {
+    color: #1F1F1F;
+    width: rpx(710);
+    margin-left: rpx(20);
+    background: #FFFFFF;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.10) inset, /*左边阴影*/
+    0 2px 4px rgba(0, 0, 0, 0.20); /*右边阴影*/
+    white-space: nowrap;
+    .tab_item {
+      display: flex;
+      flex-flow: column;
+      width: 33.33333%;
+      text-align: center;
+      align-content: center;
+      align-items: center;
+      padding: rpx(6);
+      height: rpx(100);
+      .icon {
+        display: flex;
+        width: rpx(60);
+        height: rpx(60);
+      }
+      .icon-title {
+        font-size: rpx(24);
+      }
+      .icon-active {
+        color: #476DDC;
+      }
+    }
+    .toolbar {
+      display: flex;
+    }
+  }
+  .c-toolbar {
+    display: flex;
+    flex-direction: row;
+    padding: 0 rpx(40);
+    align-items: center;
+    width: 100%;
+  }
+
+  .c-placeholder {
+    font-weight: 300;
+  }
+  .c-textarea {
+    border: none;
+    font-size: 24px;
+    width: auto;
+    font-weight: 300;
+    height: 100px;
+  }
+  .c-input {
+    padding: rpx(10) 0;
+    /*color: #ededed;*/
+    width: auto;
+    /*border-radius: rpx(100);*/
+    border: none;
+    background: #f5f5f5;
+    font-size: rpx(28);
+    /*box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.05), 0 2px 2px 0 rgba(0, 0, 0, 0.08);*/
+  }
+</style>
+<template>
+  <view class="o-page">
+    <view class="c-topbar">
+      <c-field :icon.sync="icon" class="u-mt-small u-ml-large u-mr-large">
+        <input class="c-input"
+               style="color: #344A5E;"
+               placeholder="{{placeholderText}}"
+               placeholder-style="color: #c9c9c9;"
+               @input="bindinput"
+               @focus="bindfocus"
+               @blur="bindblur"
+               value="{{title}}"
+               focus="{{true}}"
+               maxlength="20"/>
+      </c-field>
+      <view class="c-panel" style="position: relative;">
+        <Tab :tab.sync="tab"></Tab>
+      </view>
+    </view>
+    <!--<button class="c-btn c-btn&#45;&#45;flat c-btn&#45;&#45;small u-width-75 u-flex u-align-items-center"-->
+            <!--style="border: 1px solid #ededed; border-radius: 4px; text-align: left;" @tap="searchPost">-->
+      <!--<image-->
+        <!--class="u-icon u-icon-small animated fadeIn u-mr-small"-->
+        <!--mode="aspectFill"-->
+        <!--src="/images/icons/icon-find.svg"></image>-->
+      <!--寻找你最爱的-->
+    <!--</button>-->
+
+    <!--<view class="c-panel-title u-mt-medium">-->
+      <!--寻找或加入你的最爱-->
+    <!--</view>-->
+    <!--<view class="c-panel" style="height: 150px;">-->
+      <!--<input-->
+        <!--class="c-textarea u-m-large font-weight: 300;"-->
+        <!--placeholder="{{placeholderText}}"-->
+        <!--placeholder-style="color: #c9c9c9;"-->
+        <!--focus="{{isFocus}}"-->
+        <!--@input="bindinput"-->
+        <!--@focus="bindfocus"-->
+        <!--@blur="bindblur"-->
+        <!--maxlength="20" />-->
+    <!--</view>-->
+    <!--<view class="u-c-gray u-float-right u-m-small u-text-tiny">剩余字数：{{20 - wordCount}}</view>-->
+
+    <view  wx:if="{{list.length > 0}}" style="margin-top: 200rpx;" class="animated slideInRight">
+      <!--<view class="c-panel-title u-mt-medium">-->
+        <!--类似的最爱-->
+      <!--</view>-->
+      <view class="c-panel">
+        <block wx:for-items="{{list}}"
+               wx:for-index="index"
+               wx:for-item="item"
+               wx:key="id" @tap="tap({{item}})">
+          <view class="c-cell c-cell--access" @tap="tap({{item}})">
+            <image class="c-cell__icon u-icon-lg" mode="aspectFill" src="{{item.featured_image}}?imageMogr2/thumbnail/90x90/q/90/interlace/1"></image>
+            <view class="c-cell__bd" style="width: 450rpx;">
+              <Elip>{{item.title}}</Elip>
+            </view>
+            <view class="c-cell__ft u-text-mute">{{item.like_count}} 人最爱</view>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <view style="height: 160rpx;"></view>
+
+  </view>
+</template>
+
+<script>
+  /* eslint-disable no-unused-vars,no-undef */
+  import wepy from 'wepy'
+  import Tips from '../../utils/Tips'
+  import base from '../../mixins/_base'
+  // import pagination from '../../mixins/pagination'
+  import postsApi from '../../api/posts'
+  const $wxapp = wepy.$instance
+  import Elip from '../../components/ui/elip'
+  import Cache from '../../utils/Cache'
+  import Tab from '../../components/ui/tab'
+  import cField from '../../components/ui/c-field'
+
+  const date = new Date()
+  const years = []
+  for (let i = 1920; i <= date.getFullYear(); i++) {
+    years.push(i)
+  }
+  export default class NewLove extends wepy.page {
+    mixins = [base]
+
+    components = {
+      'Elip': Elip,
+      'Tab': Tab,
+      'c-field': cField
+    }
+
+    data = {
+      isIpx: $wxapp.globalData.isIpx,
+      app: {},
+      isFocus: true,
+      list: [],
+      title: '',
+      page: {
+        added: [],
+        list: []
+      },
+      userInfo: {},
+      tab: {
+        'list': [
+          {
+            id: '1',
+            title: '我的'
+          },
+          {
+            id: '3',
+            title: '故事'
+          },
+          {
+            id: '4',
+            title: '最爱'
+          }
+        ],
+        'selectedId': '1',
+        'scroll': false
+      },
+      years: years,
+      year: date.getFullYear(),
+      value: [date.getFullYear()],
+      isCollapse: true,
+      placeholderText: '例如：早上醒来看见阳光☀️'
+    }
+    config = {
+      backgroundTextStyle: 'black',
+      navigationBarBackgroundColor: '#FFF',
+      navigationBarTitleText: '愿君，多采撷',
+      navigationBarTextStyle: 'black',
+      backgroundColor: '#47BAA4',
+      enablePullDownRefresh: false
+    }
+    computed = {
+      icon () {
+        let avatar = '/images/icons/icon-find.svg'
+        // if (this.userInfo.avatarUrl) {
+        //   avatar = this.userInfo.avatarUrl
+        // }
+        return avatar
+      },
+      wordCount () {
+        return this._wordCount(this.title)
+      },
+      now () {
+        return +new Date()
+      },
+      isEmpty () {
+        return this.title === '' || this.title === null
+      }
+    }
+    methods = {
+      tapToggle (e) {
+        this.isCollapse = !this.isCollapse
+        this.$apply()
+      },
+      tap(item) {
+        this.$root.$navigate(`/pages/love?id=${item.id}`)
+      },
+      bindinput (e) {
+        this.title = this.checkString(e.detail.value)
+        this.$apply()
+        if (!this.isEmpty) {
+          $wxapp.emitter.emit('change', this.title)
+        }
+      },
+      bindfocus(e) {
+        this.isFocus = true
+        // this.$apply()
+      },
+      bindblur() {
+        this.isFocus = false
+      },
+      async postLove() {
+        const data = await postsApi.newLove(this.title, this.year)
+        this.loaded()
+        if (data) {
+          Tips.success('添加成功')
+          $wxapp.emitter.emit('newlove_added', data)
+          this.$redirect('/pages/love', {id: data.id})
+        } else {
+          Tips.error('添加失败')
+        }
+      },
+      bindChange: function(e) {
+        const val = e.detail.value
+        this.year = this.years[val[0]]
+        this.$apply()
+      },
+      /**
+       * 监听日期picker选择器
+       */
+      listenerDatePickerSelected(e) {
+        this.date = e.detail.value
+        this.$apply()
+      }
+    }
+
+    /**
+     * 检查字符是否为特殊字符
+     * @param value
+     * @returns {string}
+     */
+    checkString(value) {
+      const pattern = new RegExp("[\\s+,`~!@#$^&*+()=|{}':;',\\[\\].\\-<>/?~！@#￥%……&*（）——|{}【】‘；：”“'。，、？]")
+      let rs = ''
+      for (let i = 0; i < value.length; i++) {
+        rs = rs + value.substr(i, 1).replace(pattern, '')
+        // console.log(rs)
+      }
+      return rs
+    }
+
+    /**
+     * 检查限制的字符数量
+     * @param data
+     * @returns {number}
+     * @private
+     */
+    _wordCount (data) {
+      const pattern = /[a-zA-Z0-9_\u0392-\u03c9\u0410-\u04F9]+|[\u4E00-\u9FFF\u3400-\u4dbf\uf900-\ufaff\u3040-\u309f\uac00-\ud7af]+/g
+
+      const m = data.match(pattern)
+      let count = 0
+      if (m === null) {
+        return count
+      }
+      for (let i = 0; i < m.length; i++) {
+        if (m[i].charCodeAt(0) >= 0x4E00) {
+          count += m[i].length
+        } else {
+          count += 1
+        }
+      }
+      return count
+    }
+    events = {
+    }
+    async onShow() {
+      this.app = await Cache.app()
+      this.placeholderText = this.app.options.placeholder
+    }
+    onLoad() {
+      this.$root.$parent.emitter.on('change', async (value) => {
+        this.list = await postsApi.search(value)
+        this.loaded()
+      })
+      this.userInfo = JSON.parse($wxapp.globalData.auth.user)
+    }
+  }
+</script>

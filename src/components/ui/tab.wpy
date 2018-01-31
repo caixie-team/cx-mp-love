@@ -125,8 +125,9 @@
   }
 
   .c-tab__item--selected .c-tab__title {
-    color: #F3705A;
-    border-bottom: 2px solid #F3705A;
+    color: #344A5E;
+    border-bottom: 3px solid rgba(52, 74, 94, 0.8);
+    width: 100%;
   }
 
   .c-tab__bd--scroll {

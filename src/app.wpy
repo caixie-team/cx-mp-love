@@ -71,6 +71,7 @@
       // 同步权限数据
       this.syncStoreConfig('_token')
       this.syncStoreConfig('user')
+      this.syncStoreConfig('isTips')
 
       // 获取保存场景值
       if (param && param.scene) {
@@ -98,6 +99,7 @@
     config = {
       pages: [
         'pages/me',
+        'pages/love/search',
         // 'pages/me/likes',
         // 'pages/me/recalls',
         // 'pages/me/stories',
@@ -126,20 +128,20 @@
         backgroundColor: '#FFF',
         // borderStyle: 'white',
         list: [ {
-          pagePath: 'pages/index',
+          pagePath: 'pages/me',
           iconPath: 'images/icons/icon-love.png',
           selectedIconPath: 'images/icons/icon-love--active.png',
           text: '最爱'
         }, {
-          pagePath: 'pages/me',
-          iconPath: 'images/icons/icon-me.png',
-          selectedIconPath: 'images/icons/icon-me--active.png',
-          text: '我的'
-        }, {
-          pagePath: 'pages/stories',
+          pagePath: 'pages/index',
           iconPath: 'images/icons/icon-story.png',
           selectedIconPath: 'images/icons/icon-story--active.png',
-          text: '故事'
+          text: '发现'
+        }, {
+          pagePath: 'pages/stories',
+          iconPath: 'images/icons/icon-me.png',
+          selectedIconPath: 'images/icons/icon-me--active.png',
+          text: '更多'
         }]
       }
     }

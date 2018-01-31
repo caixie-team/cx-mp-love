@@ -22,7 +22,7 @@
     background: #FF7058;
     border-bottom-right-radius: rpx(32);
     border-bottom-left-radius: rpx(32);
-    /*box-shadow: 0 10px 30px 0 rgba(0,0,0,0.10);*/
+    box-shadow: 0 10px 30px 0 rgba(0,0,0,0.10);
     height: rpx(100);
     width: 100%;
     z-index: 3;
@@ -164,7 +164,9 @@
   }
 </style>
 <template>
-  <view class="c-topbar">
+
+  <view class="o-home">
+    <view class="c-topbar">
       <c-filed :icon.sync="icon" class="u-mt-small u-ml-large u-mr-large">
         <input class="c-input"
                style="color: #344A5E;"
@@ -175,10 +177,7 @@
                maxlength="20"
                placeholder="寻找你最爱的"/>
       </c-filed>
-
     </view>
-  <view class="o-home">
-
     <view class="c-loves">
       <block wx:for-items="{{page.list}}"
              wx:for-index="index"
@@ -239,8 +238,10 @@
   export default class Index extends wepy.page {
     mixins = [base, pagination]
     config = {
+      backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#FF7058',
-      navigationBarTextStyle: 'light'
+      navigationBarTextStyle: 'light',
+      backgroundColor: '#FF7058'
       // backgroundTextStyle: 'dark',
       // enablePullDownRefresh: true
     }

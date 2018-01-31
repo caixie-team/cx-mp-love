@@ -70,10 +70,10 @@
       ElipContent: Elip
     }
     config = {
-      // backgroundTextStyle: 'dark',
+      backgroundTextStyle: 'dark',
       // navigationBarTitleText: '故事。',
-      // navigationBarBackgroundColor: '#936d3b',
-      // navigationBarTextStyle: 'black',
+      navigationBarBackgroundColor: '#FFF',
+      navigationBarTextStyle: 'black'
       // backgroundColor: '#f9f9f9',
       // enablePullDownRefresh: false
     }
@@ -81,6 +81,7 @@
       id: '',
       detail: {},
       parent: {},
+      title: '愿君，多采撷。',
       page: {
         added: [],
         list: []
@@ -196,6 +197,7 @@
       // console.log(JSON.stringify(this.detail))
       this.detail.modified = wepy.$instance.moment(this.detail.modified).fromNow()
       await this.getParent(this.detail.parent)
+      wepy.setNavigationBarTitle({title: this.detail.title.split('-')[0]})
       this.loaded()
       // console.log(JSON.stringify(this.detail))
     }
