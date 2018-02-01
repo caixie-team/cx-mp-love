@@ -175,6 +175,19 @@ var rgb2hex = function (rgbaValue, bgValue) {
   // console.log(rgb + '----xxx')
   // return rgb
 }
+// getDate = () => {
+//   let date = getDate()
+//   const year = date.getFullYear()
+//   let month = date.getMonth() + 1
+//   month = (month < 10 ? '0' + month : month)
+//   let currDate = (year.toString() + '-' + month.toString())
+//   return currDate
+// }
+
+var monthFormat = function (m) {
+  let month = m + 1
+  return month < 10 ? '0' + month : '' + month // 如果是1-9月，那么前面补0
+}
 module.exports = {
   rgb2hex: rgb2hex
 }

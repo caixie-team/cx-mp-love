@@ -19,7 +19,7 @@ export default class Cache {
   /**
    * 判断是否过期
    */
-  static isExpired(key, minute = 5) {
+  static isExpired(key, minute = 60) {
     const value = this.cache.get(key)
     if (value === undefined || value === null) {
       this.log(`[cache]${key} not exists`)

@@ -1,6 +1,6 @@
 <template>
   <!--遮罩层-->
-  <view class="slider-panel-cover" wx:if="{{isModal}}" @tap="close"></view>
+  <view class="slider-panel-cover" wx:if="{{isModal && display}}" @tap="close"></view>
 
   <!--滑动面板-->
   <view class="slider-panel-box {{display ? 'slider-panel-show' : '' }} " style="min-height: {{minHeight}}; {{isModal ? '' : 'box-shadow: rgba(84, 70, 35, 0.3) 0px 6px 20px, rgba(84, 70, 35, 0.14) 0px 1px 3px, rgba(0, 0, 0, 0.08) 0px 0px 1px;'}}">
@@ -94,8 +94,8 @@
 
     .header-box{
       text-align: center;
-      padding: 30rpx 0 10rpx 0;
-
+      padding: 30rpx 0 20rpx 0;
+      border-bottom: 1px solid #ededed;
       .title-box view{
         font-size: $text-lg;
         color: $color-muted;

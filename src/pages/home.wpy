@@ -6,7 +6,7 @@
     color: #344A5E;
     /*background-color: #fff;*/
   }
-  .o-me {
+  .o-home {
     height: 100%;
     width: 100%;
     /*display: flex;*/
@@ -14,13 +14,11 @@
   }
 
   .o-me__header {
-    background: #fff;
-    /*border-radius: 0 0 200% 200%;*/
-    /*border-radius: ;*/
-    /*border-bottom-right-radius: 200%;*/
-    /*border-bottom-left-radius: 200%;*/
+    /*background: #fff;*/
+    /*border-bottom-right-radius: rpx(32);*/
+    /*border-bottom-left-radius: rpx(32);*/
     /*box-shadow: 0 10px 30px 0 rgba(0,0,0,0.10);*/
-    height: rpx(150);
+    height: rpx(260);
     width: rpx(750);
     z-index: 3;
     border-bottom: 1px solid #efefef;
@@ -361,36 +359,242 @@
   }
 </style>
 <template>
-  <view class="o-me">
-    <view class="c-me-profile c-panel">
-      <view class="c-me-profile__avatar">
+  <view class="o-home">
+    <view class="c-tips-card animated {{!isTips ? 'slideOutUp' : 'fadeIn'}}" wx:if="{{isTips}}">
+      <view class="c-tips-card__title u-text-large u-text-bold u-flex u-align-items-center u-justify-center">
         <image
-          class="u-icon u-icon-xl u-icon-round animated fadeIn"
+          class="u-icon u-icon-small animated fadeIn"
           mode="aspectFill"
-          src="{{profile.avatar}}"></image>
+          src="/images/icons/icon-love--active.png"></image>
+        <text class="u-ml-small">欢迎使用!</text>
       </view>
-      <view class="c-me-profile__username">{{profile.nicename}}</view>
+      <view class="c-tips-card__body ">
+
+        <view class="c-tips-card__content c-detail "
+              style="font-weight: 300; background:{{filter.rgb2hex('rgba('+ tips.style.RGB +',0.1)')}}; color: {{filter.rgb2hex('rgba('+ tips.style.RGB +',1)')}};  box-sizing: border-box;">
+        <!--<text decode="true" space="true" wx:if="{{tips.content}}">-->
+            <!--{{tips.content}}-->
+          <!--</text>-->
+          <text decode="true" space="true" class="u-text-small" style="">
+            这是一款备忘录小程序
+            您可以用它来记录、收藏「最爱」的事物
+            形成专属于自己的「历史上的今天」
+          </text>
+        </view>
+        <!--<view class="  c-tips__meta u-align-items-center u-text-small">-->
+          <view class="c-btn c-btn--primary c-btn--small u-mt-medium c-btn--plain u-text-bold">如何添加最爱?</view>
+          <text
+            class="c-btn c-btn--primary c-btn--plain c-btn--flat c-btn--small u-mt-small"
+            @tap="hideTips">我懂，不再显示</text>
+        <!--</view>-->
+
+      </view>
+
     </view>
-    <view class="c-panel">
-      <view class="c-cell ">
-        <view class="c-cell__bd u-text-mute">我的主页(近期开放)</view>
-        <view class="c-cell__ft u-text-mute"></view>
-      </view>
-      <view class="c-cell c-cell--access" @tap="showDetail('recalls')">
-        <view class="c-cell__bd">我的回忆</view>
-        <view class="c-cell__ft"></view>
-      </view>
-      <view class="c-cell c-cell--access" @tap="showDetail('stories')">
-        <view class="c-cell__bd">我的故事</view>
-        <view class="c-cell__ft"></view>
+
+
+    <view class="u-flex u-align-items-center u-pt-medium u-pb-medium u-pl-medium c-panel c-panel--without-margin-top" >
+      <!--<c-field :icon="icon" class="u-width-50">-->
+        <!--<input class="c-input"-->
+               <!--style="color: #344A5E;"-->
+               <!--@input="bindinput"-->
+               <!--@focus="bindfocus"-->
+               <!--@blur="bindblur"-->
+               <!--value="{{title}}"-->
+               <!--maxlength="20"-->
+               <!--placeholder="寻找你最爱的"/>-->
+      <!--</c-field>-->
+      <button class="c-btn c-btn--flat c-btn--small u-width-75 u-flex u-align-items-center"
+              style="border: 1px solid #ededed; border-radius: 4px; text-align: left; background: #f5f5f5;" @tap="searchPost">
+        <image
+          class="u-icon u-icon-small animated fadeIn u-mr-small"
+          mode="aspectFill"
+          src="/images/icons/icon-find.svg"></image>
+        搜索
+      </button>
+      <!--<c-field :icon="icon" class="u-width-50">-->
+        <!--<input class="c-input"-->
+               <!--style="color: #344A5E;"-->
+               <!--@input="bindinput"-->
+               <!--@focus="bindfocus"-->
+               <!--@blur="bindblur"-->
+               <!--value="{{title}}"-->
+               <!--maxlength="20"-->
+               <!--placeholder="寻找你最爱的"/>-->
+      <!--</c-field>-->
+      <view class="u-flex u-align-items-center u-justify-center u-width-25">
+
+        <image
+          class="u-icon u-icon-lg animated fadeIn u-mr-small animated fadeIn"
+          mode="aspectFill"
+          src="{{modeIcon}}" @tap="changeMode"></image>
+        <image
+          class="u-icon u-icon-lg animated fadeIn"
+          mode="aspectFill"
+          src="/images/icons/icon-plus1.svg"
+          @tap="newPost"></image>
       </view>
     </view>
-    <view class="u-m-large u-flex u-justify-center u-align-items-center u-text-tiny u-text-mute"
-          style="flex-direction: column">
-      <text>v 0.2.0</text>
-      <view style="letter-spacing: 2px;">Caixie.top</view>
+
+
+    <!--
+    <view class="c-panel c-panel--without-margin-top c-panel--without-border c-me-header">
+      <input
+        class="c-textarea u-m-large font-weight: 300; font-weight: 300;"
+        placeholder="在这：记录、寻找你最爱的"
+        placeholder-style="color: rgba(255, 255, 255, 0.8); font-weight: 300;"
+        value="{{title}}"
+        @input="bindinput"
+        @focus="bindfocus"
+        @blur="bindblur"
+        maxlength="20" />
+      <image
+        class="c-add-btn animated fadeIn"
+        mode="aspectFill"
+        src="/images/icons/13-1.png" wx:if="{{!isEmpty}}" @tap="postLove"></image>
+      <image
+        class="c-add-btn animated fadeIn"
+        mode="aspectFill"
+        src="/images/icons/13.png" wx:else></image>
+    </view>
+    -->
+    <view class="o-me__body">
+
+    <view class="animated fadeIn" wx:if="{{isListMode && likes.length > 0}}"
+          style="z-index: 100;">
+      <view class="c-panel-title ">
+        有 {{likes.length}} 个最爱的
+      </view>
+        <block wx:for-items="{{likes}}"
+               wx:for-index="index"
+               wx:for-item="item"
+               wx:key="id" @tap="tap({{item}})">
+          <view class="c-panel">
+
+          <view class="c-card" @tap="tapAction({{item.id}})">
+            <view class="c-card__thumb">
+              <image class="c-card__img"
+                     src="{{item.featured_image}}?imageMogr2/thumbnail/300x300/q/90/format/jpg/interlace/1"
+                     mode="aspectFit"></image>
+            </view>
+            <view class="c-card__detail u-mt-medium">
+              <view class="c-card__detail-row">
+                <view class=" u-ellipsis--l2">
+                  {{item.title}}
+                </view>
+              </view>
+
+            </view>
+            <!-- 商品附属信息展示行 -->
+            <view class="c-card__detail u-mt-small">
+              <view class="c-card__right-col">
+                {{item.modified}}
+              </view>
+              <view class="c-card__left-col">{{item.like_count}} 人最爱</view>
+            </view>
+          </view>
+          </view>
+
+        </block>
+        <!--
+        <block wx:for-items="{{likes}}"
+               wx:for-index="index"
+               wx:for-item="item"
+               wx:key="id" @tap="tap({{item}})">
+          <view class="c-cell c-cell--access" @tap="tapAction({{item.id}})">
+            <image class="c-cell__icon u-icon-lg" mode="aspectFill" src="{{item.featured_image}}?imageMogr2/thumbnail/90x90/q/90/interlace/1"></image>
+            <view class="c-cell__bd" style="width: 450rpx;">
+              <Elip>{{item.title}}</Elip>
+            </view>
+            <view class="c-cell__ft u-text-mute">{{item.like_count}} 人最爱</view>
+          </view>
+        </block>
+        -->
+
+    </view>
+    <view class="animated fadeIn" wx:if="{{!isListMode && groupLikes.length > 0}}">
+      <view class="u-flex u-flex-wrap"
+            style="flex-direction: column;"
+            wx:if="{{tab.selectedId === '1'}}">
+        <block wx:for-items="{{groupLikes}}"
+             wx:for-index="index"
+             wx:for-item="list"
+             wx:key="year">
+        <view class="c-panel-title u-text-center u-mb-small ">
+          {{list.year}}年 最爱的
+        </view>
+          <view class="c-loves">
+
+        <block wx:for-items="{{list.likes}}"
+               wx:for-index="index"
+               wx:for-item="item"
+               wx:key="id">
+            <view class="c-love-card"
+                  hover-start-time="50"
+                  hover-stay-time="400"
+                  hover-stop-propagation="{{propagation}}"
+                  hover-class="c-love-card--isHover" @tap="tapAction({{item.id}})">
+
+              <view class="c-love-card__body">
+                <view class="c-love-card__title">
+                  <Elip>
+                    {{item.title}}
+                  </Elip>
+                </view>
+                <text class="c-love-card__detail">{{item.like_count}} 人最爱</text>
+
+                <image class="c-love-card__cover"
+                       mode="aspectFill"
+                       src="{{item.featured_image}}?imageMogr2/thumbnail/900x900/q/90/format/jpg/interlace/1"
+                       wx:if="{{item.featured_image}}"></image>
+              </view>
+            </view>
+        </block>
+          </view>
+
+        </block>
+      </view>
+      <view wx:else>
+        <view wx:if="{{page.list.length > 0}}" class="u-mt-medium">
+          <repeat for="{{page.list}}" key="index" index="index" item="item">
+            <c-swipe :swipeData="item" class="c-panel c-panel--without-margin-top" style="height: 200rpx;">
+              <view class="c-card" @tap="tapAction({{item.parent}})">
+                <!-- 商品标题行 -->
+                <!-- 每行可以使用 c-card__detail-row 来控制展示区域 -->
+                <!-- 每行里面可以用 c-card__left-col c-card__right-col 来控制左右展示 -->
+                <view class="c-card__detail-row u-mt-small">
+                  <!--<view class="c-card__left-col u-ellipsis&#45;&#45;l2 u-text-large">-->
+                  <Elip :line="line">
+                    {{item.content}}
+                  </Elip>
+                  <!--</view>-->
+
+                </view>
+                <!-- 商品附属信息展示行 -->
+                <view class="c-card__detail-row u-c-gray-darker">
+
+                  <view class="c-card__right-col u-width-50 u-c-gray u-text-right">
+                    <Elip :line="line">@{{item.title}}</Elip>
+                  </view>
+                  <view class="c-card__left-col">
+                    {{item.modified}}
+                  </view>
+                </view>
+              </view>
+            </c-swipe>
+          </repeat>
+        </view>
+        <view class="u-m-xlarge u-text-large u-text-mute" wx:else>
+          还没有记录。
+        </view>
+      </view>
+    </view>
+    </view>
+    <view class="c-button c-post__button animated {{fabClass}}" @tap="newPost" hidden="{{!isFAB}}">
+      <image class="c-button__icon" mode="aspectFill" src="/images/icons/13-1.png"></image>
     </view>
   </view>
+  <c-dialog :dialog.sync="dialog"></c-dialog>
 </template>
 
 <script>
@@ -480,10 +684,10 @@
     }
     config = {
       backgroundTextStyle: 'black',
-      navigationBarBackgroundColor: '#f5f5f5',
-      navigationBarTitleText: '我',
-      navigationBarTextStyle: 'black',
-      backgroundColor: '#F5F5F5',
+      navigationBarBackgroundColor: '#FF7058',
+      navigationBarTitleText: '愿君，多采撷',
+      navigationBarTextStyle: 'light',
+      backgroundColor: '#FF7058',
       enablePullDownRefresh: true
     }
     computed = {

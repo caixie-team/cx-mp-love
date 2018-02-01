@@ -446,8 +446,9 @@
     <view class="c-btns u-flex u-flex-nowrap ">
       <view
         class="c-btn c-btn--small c-btn--plain c-btn--warm u-width-100 u-flex u-align-items-center u-justify-between"
+        style="padding-left: 10rpx !important;padding-right: 10rpx !important;"
         @tap="loveIt" wx:if="{{isLoved}}">
-        {{year}}年爱上
+        {{date}}
         <image mode="aspectFit" class="c-select_arrow" src="/images/icons/arrow--down.png"></image>
       </view>
       <view class="c-btn c-btn--small c-btn--primary u-width-100" @tap="loveIt" wx:else>加最爱</view>
@@ -529,7 +530,7 @@
   <c-dialog :dialog.sync="dialog"></c-dialog>
 
   <!--上传管理器-->
-  <SliderPanel :display.sync="isPanelDisplay">
+  <SliderPanel :isModal.sync="isModal" :display.sync="isPanelDisplay">
     <view slot="title">编辑图片</view>
     <view slot="content" class="manage-box column">
 
@@ -553,29 +554,35 @@
       <text class="muted sm mt10 ml20">提示：删除后可以重新上传新的封面图</text>
     </view>
   </SliderPanel>
-  <SliderLove :display.sync="isDateDisplay">
-    <view slot="title">
+  <SliderLove :isModal.sync="isModal" :display.sync="isDateDisplay">
+    <view slot="title" class="">
       <view wx:if="{{!isLoved}}">我在
-        <text style="color: #47BAA4;">{{year}}</text>
-        年爱上
+        <text style="color: #47BAA4;">{{date}}</text>
+        爱上
       </view>
       <view wx:else>从
-        <text style="color: #47BAA4;">{{year}}</text>
-        年开始爱上
+        <text style="color: #47BAA4;">{{date}}</text>
+        开始爱上
       </view>
     </view>
     <view slot="content" class="">
       <picker-view
-        indicator-style="height: 48px;" style="font-size: 32rpx; width: 100%; height: 200px; text-align: center;"
-        value="{{value}}" bindchange="bindChange">
+        indicator-style="height: 40px;" style="font-size: 28rpx; width: 100%; height: 180px; text-align: center;"
+        value="{{value}}" bindchange="listenerDatePickerSelected">
         <picker-view-column>
-          <view wx:for="{{years}}" wx:for-item="year" wx:key="{{year}}" style="line-height: 50px">{{year}}年</view>
+          <view wx:for="{{years}}" wx:for-item="year" wx:key="{{year}}" style="line-height: 40px">{{year}}年</view>
+        </picker-view-column>
+        <picker-view-column>
+          <view wx:for="{{months}}" wx:for-item="month" wx:key="{{month}}" style="line-height: 40px">{{month}}月</view>
+        </picker-view-column>
+        <picker-view-column>
+          <view wx:for="{{days}}" wx:for-item="day" wx:key="{{day}}" style="line-height: 40px">{{day}}日</view>
         </picker-view-column>
       </picker-view>
       <view class="c-panel__footer">
-        <view class="c-btn u-width-25" wx:if="{{isLoved}}" @tap="iDont">不爱了</view>
-        <view class="c-btn c-btn--primary u-width-75 u-ml-medium" wx:if="{{isLoved}}" @tap="iDo">修改日期</view>
-        <view class="c-btn c-btn--primary u-width-100 u-align-self-center" @tap="iDo" wx:else>确定</view>
+        <view class="c-btn u-width-25  u-text-small" wx:if="{{isLoved}}" @tap="iDont">不爱了</view>
+        <view class="c-btn c-btn--primary u-width-75  u-ml-medium u-text-small" wx:if="{{isLoved}}" @tap="iDo">修改日期</view>
+        <view class="c-btn c-btn--primary u-width-100  u-align-self-center u-text-small" @tap="iDo" wx:else>确定</view>
       </view>
     </view>
 
@@ -610,10 +617,26 @@
   const device = wx.getSystemInfoSync()  //  获取设备信息
   import moment from 'moment'
 
+  // const date = new Date()
+  // const years = []
+  // for (let i = 1920; i <= date.getFullYear(); i++) {
+  //   years.unshift(i)
+  // }
   const date = new Date()
   const years = []
+  const months = []
+  const days = []
+
   for (let i = 1920; i <= date.getFullYear(); i++) {
     years.unshift(i)
+  }
+
+  for (let i = 1; i <= 12; i++) {
+    months.push(i)
+  }
+
+  for (let i = 1; i <= 31; i++) {
+    days.push(i)
   }
 
   export default class Love extends wepy.page {
@@ -630,6 +653,7 @@
       enablePullDownRefresh: false
     }
     def = {
+      isModal: true,
       id: '',
       current: 0,
       propagation: true,
@@ -657,9 +681,18 @@
       isDateDisplay: false,
       isStoryLoading: false,
       isUpload: false,
+      // years: years,
+      // year: date.getFullYear(),
+      // value: [date.getFullYear()],
       years: years,
       year: date.getFullYear(),
+      months: months,
+      month: 2,
+      days: days,
+      day: 2,
+      // value: [9999, 1, 1],
       value: [date.getFullYear()],
+      date: `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`,
       pictures: [],
       maxSize: {
         detault: '1'
@@ -800,11 +833,6 @@
         // }, 1000)
       },
       touchMove (e) {
-        // console.log('touchmove')
-//         const {onTouchMove, XORY} = this
-//         const touch = e.changedTouches[0]
-        // const distance = touch[`clientY`]
-        // const tmpMove = this[`translateY`] + distance - this[`touchStartY`]
         // typeof onTouchMove === 'function' && onTouchMove(this, e) //  手指碰触slide并且滑动时执行
         const self = this
         self.endPos = e.changedTouches[0].clientX
@@ -817,7 +845,6 @@
           this.tmpMove = minPos
         }
         // this.slideAnimation(tmpMove, 0)
-
         // typeof onSlideMove === 'function' && onSlideMove(this)
       },
       swiperChange (event) {
@@ -841,7 +868,7 @@
         this.$apply()
       },
       async iDo () {
-        const data = await postsApi.newLike(this.detail.id, this.year)
+        const data = await postsApi.newLike(this.detail.id, this.date)
         this.detail = Object.assign(this.detail, data)
         this.isDateDisplay = false
         // this.$apply()
@@ -877,7 +904,14 @@
        * 监听日期picker选择器
        */
       listenerDatePickerSelected (e) {
-        this.date = e.detail.value
+        const val = e.detail.value
+        this.year = this.years[val[0]]
+        this.month = this.months[val[1]]
+        this.day = this.days[val[2]]
+        this.month = (this.month < 10 ? '0' + this.month : month)
+        this.day = this.day >= 10 ? this.day : `0${this.day}`
+        // let currentDate = (`${year.toString()}-${month.toString()}-${currentDay}`)
+        this.date = `${this.year}-${this.month}-${this.day}`
       },
       showDetail () {
         this.isDetail = !this.isDetail
@@ -909,7 +943,6 @@
         this.pictures = this.pictures.concat(pictures)
         this.isUpload = true
         this.$apply()
-        // console.log(JSON.stringify(this.pictures))
         // this.detail.featured_image = this.pictures[0].url
         const result = await postsApi.image(tempFilePaths[0])
         const image = JSON.parse(result)
@@ -924,7 +957,6 @@
           }
         }
         await postsApi.update(form)
-        // console.log(JSON.stringify(newImage))
         // this.detail.featured_image = newImage.url
         Tips.success('图片上传完成')
       },
@@ -1035,7 +1067,7 @@
 
       if (this.detail.i_like) {
         if (!Object.is(this.detail.like_date, undefined)) {
-          this.year = this.detail.like_date
+          this.date = this.detail.like_date
           // this.value = [this.year, this.month]
           this.$apply()
         }
@@ -1053,13 +1085,20 @@
       this.$apply()
       this.isStorLoading = false
     }
-
+    getNowDate = () => {
+      let date = new Date()
+      const year = date.getFullYear()
+      let month = date.getMonth() + 1
+      let day = date.getDate()
+      month = (month < 10 ? '0' + month : month)
+      let currentDay = day >= 10 ? day : `0${day}`
+      let currentDate = (`${year.toString()}-${month.toString()}-${currentDay}`)
+      return currentDate
+    }
     async getLovers () {
       this.lovers = await postsApi.getLovers(this.detail.id)
     }
 
-    async onShow (option) {
-    }
     onShareAppMessage () {
       const title = `采撷最爱`
       const url = `/pages/love?id=${this.id}`
@@ -1067,12 +1106,9 @@
       return Tips.share(title, url, desc)
     }
     async onLoad (option, data) {
-      console.log(data)
-      if (!Object.is(data.preload, undefined) && (!Object.is(data.preload.from, undefined))) {
-        this.from = data.preload.from
-      }
-      // console.log(data.from.$name === 'Me')
-      // this.from = data.from.$name
+      // if (!Object.is(data.preload, undefined) && (!Object.is(data.preload.from, undefined))) {
+      //   this.from = data.preload.from
+      // }
       this.id = option.id
       const result = await auth.user({block: true, redirect: true})
       if (!result) return

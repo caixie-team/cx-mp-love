@@ -19,10 +19,10 @@
   .c-topbar {
     position: fixed;
     top: 0;
-    background: #FF7058;
+    background: #54C0EB;
     border-bottom-right-radius: rpx(32);
     border-bottom-left-radius: rpx(32);
-    box-shadow: 0 10px 30px 0 rgba(0,0,0,0.10);
+    /*box-shadow: 0 10px 30px 0 rgba(0,0,0,0.10);*/
     height: rpx(100);
     width: 100%;
     z-index: 3;
@@ -239,9 +239,9 @@
     mixins = [base, pagination]
     config = {
       backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#FF7058',
+      navigationBarBackgroundColor: '#54C0EB',
       navigationBarTextStyle: 'light',
-      backgroundColor: '#FF7058'
+      backgroundColor: '#54C0EB'
       // backgroundTextStyle: 'dark',
       // enablePullDownRefresh: true
     }

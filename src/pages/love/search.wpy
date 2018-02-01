@@ -20,8 +20,8 @@
   }
   body.c-home {
     color: $color-primary;
-    height: 100%;
-    width: 100%;
+    /*height: 100%;*/
+    /*width: 100%;*/
   }
   .c-tabbar {
     position: fixed;
@@ -101,7 +101,7 @@
       <c-field :icon.sync="icon" class="u-mt-small u-ml-large u-mr-large">
         <input class="c-input"
                style="color: #344A5E;"
-               placeholder="{{placeholderText}}"
+               placeholder="关键词查询"
                placeholder-style="color: #c9c9c9;"
                @input="bindinput"
                @focus="bindfocus"
@@ -110,46 +110,26 @@
                focus="{{true}}"
                maxlength="20"/>
       </c-field>
-      <view class="c-panel" style="position: relative;">
+      <view class="c-panel" style="position: absolute;bottom:0;">
         <Tab :tab.sync="tab"></Tab>
       </view>
     </view>
-    <!--<button class="c-btn c-btn&#45;&#45;flat c-btn&#45;&#45;small u-width-75 u-flex u-align-items-center"-->
-            <!--style="border: 1px solid #ededed; border-radius: 4px; text-align: left;" @tap="searchPost">-->
-      <!--<image-->
-        <!--class="u-icon u-icon-small animated fadeIn u-mr-small"-->
-        <!--mode="aspectFill"-->
-        <!--src="/images/icons/icon-find.svg"></image>-->
-      <!--寻找你最爱的-->
-    <!--</button>-->
 
-    <!--<view class="c-panel-title u-mt-medium">-->
-      <!--寻找或加入你的最爱-->
-    <!--</view>-->
-    <!--<view class="c-panel" style="height: 150px;">-->
-      <!--<input-->
-        <!--class="c-textarea u-m-large font-weight: 300;"-->
-        <!--placeholder="{{placeholderText}}"-->
-        <!--placeholder-style="color: #c9c9c9;"-->
-        <!--focus="{{isFocus}}"-->
-        <!--@input="bindinput"-->
-        <!--@focus="bindfocus"-->
-        <!--@blur="bindblur"-->
-        <!--maxlength="20" />-->
-    <!--</view>-->
-    <!--<view class="u-c-gray u-float-right u-m-small u-text-tiny">剩余字数：{{20 - wordCount}}</view>-->
-
-    <view  wx:if="{{list.length > 0}}" style="margin-top: 200rpx;" class="animated slideInRight">
-      <!--<view class="c-panel-title u-mt-medium">-->
-        <!--类似的最爱-->
-      <!--</view>-->
+    <view  wx:if="{{list.length > 0}}"
+           style="margin-top: 200rpx; background: #f5f5f5;"
+           class="animated slideInRight">
+      <view class="c-panel-title u-mt-medium">
+        找到 {{list.length}}条 相关的
+      </view>
       <view class="c-panel">
         <block wx:for-items="{{list}}"
                wx:for-index="index"
                wx:for-item="item"
                wx:key="id" @tap="tap({{item}})">
           <view class="c-cell c-cell--access" @tap="tap({{item}})">
-            <image class="c-cell__icon u-icon-lg" mode="aspectFill" src="{{item.featured_image}}?imageMogr2/thumbnail/90x90/q/90/interlace/1"></image>
+            <image class="c-cell__icon u-icon-lg"
+                   mode="aspectFill"
+                   src="{{item.featured_image}}?imageMogr2/thumbnail/90x90/q/90/interlace/1"></image>
             <view class="c-cell__bd" style="width: 450rpx;">
               <Elip>{{item.title}}</Elip>
             </view>
@@ -176,6 +156,7 @@
   import Cache from '../../utils/Cache'
   import Tab from '../../components/ui/tab'
   import cField from '../../components/ui/c-field'
+  import _ from 'lodash'
 
   const date = new Date()
   const years = []
@@ -196,6 +177,7 @@
       app: {},
       isFocus: true,
       list: [],
+      myLikes: [],
       title: '',
       page: {
         added: [],
@@ -208,13 +190,13 @@
             id: '1',
             title: '我的'
           },
-          {
-            id: '3',
-            title: '故事'
-          },
+          // {
+          //   id: '3',
+          //   title: '故事'
+          // },
           {
             id: '4',
-            title: '最爱'
+            title: '大家的'
           }
         ],
         'selectedId': '1',
@@ -224,7 +206,7 @@
       year: date.getFullYear(),
       value: [date.getFullYear()],
       isCollapse: true,
-      placeholderText: '例如：早上醒来看见阳光☀️'
+      placeholderText: '️输入关键字查询'
     }
     config = {
       backgroundTextStyle: 'black',
@@ -265,6 +247,8 @@
         this.$apply()
         if (!this.isEmpty) {
           $wxapp.emitter.emit('change', this.title)
+        } else {
+          this.list = []
         }
       },
       bindfocus(e) {
@@ -338,15 +322,45 @@
       return count
     }
     events = {
+      'change': async (data) => {
+        switch (data.selectedId) {
+          case '4':
+          case '1': {
+            if (!_.isEmpty(this.title)) {
+              await this.filter(this.title)
+            }
+            break
+          }
+        }
+      }
     }
     async onShow() {
-      this.app = await Cache.app()
-      this.placeholderText = this.app.options.placeholder
+      // this.app = await Cache.app()
+      // this.placeholderText = this.app.options.placeholder
     }
-    onLoad() {
-      this.$root.$parent.emitter.on('change', async (value) => {
+
+    /**
+     * 过滤或查找内容
+     * @param value
+     * @returns {Promise<void>}
+     */
+    async filter (value) {
+      if (this.tab.selectedId === '4') {
         this.list = await postsApi.search(value)
         this.loaded()
+      }
+      if (this.tab.selectedId === '1') {
+        this.list = await _.filter(this.myLikes, (obj) => {
+          return _.includes(obj.title, value)
+        })
+      }
+      this.$apply()
+    }
+    onLoad(param, data) {
+      this.myLikes = data.preload.myLikes
+      // this.list = this.myLikes
+      this.$root.$parent.emitter.on('change', async (value) => {
+        await this.filter(value)
       })
       this.userInfo = JSON.parse($wxapp.globalData.auth.user)
     }

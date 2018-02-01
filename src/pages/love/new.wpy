@@ -67,20 +67,21 @@
   }
   .c-textarea {
     border: none;
-    font-size: 24px;
+    font-size: 16px;
     width: auto;
     font-weight: 300;
-    height: 100px;
+    height: 50px;
+    margin: 10px 0 15px 15px;
   }
 </style>
 <template>
   <view class="o-page">
-    <view class="c-panel-title u-mt-medium">
-      寻找或加入你的最爱
-    </view>
-    <view class="c-panel" style="height: 150px;">
+    <!--<view class="c-panel-title u-mt-medium">-->
+      <!--新建或收藏最爱-->
+    <!--</view>-->
+    <view class="c-panel " style="height: 80px;position:relative;">
       <input
-        class="c-textarea u-m-large font-weight: 300;"
+        class="c-textarea  font-weight: 300;"
         placeholder="{{placeholderText}}"
         placeholder-style="color: #c9c9c9;"
         focus="{{isFocus}}"
@@ -88,8 +89,23 @@
         @focus="bindfocus"
         @blur="bindblur"
         maxlength="20" />
+      <view style="position:absolute;bottom: 0;right: 0;"
+        class="u-c-gray u-float-right u-m-small u-text-tiny">剩余字数：{{20 - wordCount}}</view>
     </view>
-    <view class="u-c-gray u-float-right u-m-small u-text-tiny">剩余字数：{{20 - wordCount}}</view>
+    <view class="c-panel">
+      <view class="c-cell c-cell--access">
+        <view class="c-cell__bd">爱上它的时间</view>
+
+          <picker mode="date" value="{{date}}" bindchange="listenerDatePickerSelected">
+            <view class="c-cell__ft">
+            <view class="picker">
+              {{date}}
+            </view>
+            </view>
+          </picker>
+        </view>
+      </view>
+    </view>
 
     <view  wx:if="{{list.length > 0}}">
       <view class="c-panel-title u-mt-medium">
@@ -111,18 +127,17 @@
       </view>
     </view>
 
-    <view class="c-tabbar {{isIpx?'fix-iphonex':''}}">
+    <view class="c-tabbar {{isIpx?'fix-iphonex':''}} u-flex u-align-items-center u-justify-center">
       <button
-        class="c-btn c-btn--primary u-width-100 u-m-medium  {{isEmpty ? 'c-btn--disabled' : ''}}"
+        class="c-btn c-btn--primary c-btn--flat u-width-75 u-m-medium  {{isEmpty ? 'c-btn--disabled' : ''}}"
         disabled="{{isEmpty}}"
         @tap="postLove">
-        加入到我的最爱
+        备忘到我的最爱
       </button>
 
     </view>
     <view style="height: 160rpx;"></view>
 
-  </view>
 </template>
 
 <script>
@@ -138,9 +153,21 @@
 
   const date = new Date()
   const years = []
+  const months = []
+  const days = []
+
   for (let i = 1920; i <= date.getFullYear(); i++) {
     years.push(i)
   }
+
+  for (let i = 1; i <= 12; i++) {
+    months.push(i)
+  }
+
+  for (let i = 1; i <= 31; i++) {
+    days.push(i)
+  }
+
   export default class NewLove extends wepy.page {
     mixins = [base]
 
@@ -161,11 +188,22 @@
       },
       years: years,
       year: date.getFullYear(),
+      months: months,
+      month: 2,
+      days: days,
+      day: 2,
+      // value: [9999, 1, 1],
       value: [date.getFullYear()],
+      date: `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`,
       isCollapse: true,
-      placeholderText: '例如：早上醒来看见阳光☀️'
+      placeholderText: '备忘最爱，例如：上课睡觉☀️️'
     }
     config = {
+      backgroundTextStyle: 'dark',
+      navigationBarBackgroundColor: '#f5f5f5',
+      navigationBarTextStyle: 'black',
+      backgroundColor: '#F5f5f5',
+      navigationBarTitleText: '备忘你的最爱️',
       // backgroundTextStyle: 'dark',
       enablePullDownRefresh: false
     }
@@ -203,7 +241,7 @@
         this.isFocus = false
       },
       async postLove() {
-        const data = await postsApi.newLove(this.title, this.year)
+        const data = await postsApi.newLove(this.title, this.date)
         this.loaded()
         if (data) {
           Tips.success('添加成功')
@@ -224,6 +262,12 @@
       listenerDatePickerSelected(e) {
         this.date = e.detail.value
         this.$apply()
+      },
+      bindDateChange: function(e) {
+        console.log('picker发送选择改变，携带值为', e.detail.value)
+        this.setData({
+          date: e.detail.value
+        })
       }
     }
 
@@ -267,9 +311,22 @@
     }
     events = {
     }
-    async onShow() {
+    getNowDate = () => {
+      let date = new Date()
+      const year = date.getFullYear()
+      let month = date.getMonth() + 1
+      let day = date.getDate()
+      month = (month < 10 ? '0' + month : month)
+      let currentDay = day >= 10 ? day : `0${day}`
+      let currentDate = (`${year.toString()}-${month.toString()}-${currentDay}`)
+      return currentDate
+    }
+    async onReady () {
+      this.date = this.getNowDate()
       this.app = await Cache.app()
       this.placeholderText = this.app.options.placeholder
+      this.loaded()
+      this.isTips = $wxapp.globalData.auth.isTips === undefined ? true : $wxapp.globalData.auth.isTips
     }
     onLoad() {
       this.$root.$parent.emitter.on('change', async (value) => {
