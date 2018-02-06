@@ -68,8 +68,8 @@ const extendCreator = (config = {}) => {
 
 const getFuncArrayName = name => `__$${name}`
 
-module.exports = {
-  extractComponentId,
-  extend: Object.assign,
-  extendCreator
-}
+// module.exports = {
+//   extractComponentId,
+//   extend: Object.assign,
+//   extendCreator
+// }

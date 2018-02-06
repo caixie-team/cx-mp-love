@@ -1,39 +1,34 @@
 <style lang="scss">
   @import "../styles/variable";
-
-  page {
+  page{
     height: 100%;
     background: #f5f5f5;
     color: #344A5E;
     /*background-color: #fff;*/
   }
-
-  .o-home {
+  .o-user {
     height: 100%;
     width: 100%;
     /*display: flex;*/
     /*justify-content: center;*/
   }
 
-  .o-home__header {
-    /*background: #fff;*/
-    /*border-bottom-right-radius: rpx(32);*/
-    /*border-bottom-left-radius: rpx(32);*/
+  .o-user__header {
+    background: #fff;
+    position: relative;
+    /*border-radius: 0 0 200% 200%;*/
+    /*border-radius: ;*/
+    /*border-bottom-right-radius: 200%;*/
+    /*border-bottom-left-radius: 200%;*/
     /*box-shadow: 0 10px 30px 0 rgba(0,0,0,0.10);*/
-    /*height: rpx(260);*/
-    /*width: rpx(750);*/
-    z-index: 3;
-    /*box-shadow: 0 rpx(4) rpx(20) 0 rgba(0, 0, 0, 0.1);*/
-    /*box-shadow: 0 0 0 rpx(2) rgba(255,255,255,1),0 0 0 rpx(4) rgba(31,31,31,.1);*/
-    /*border: 1px solid #EDEDED;*/
-    border-bottom: 1px solid #ededed;
+    height: rpx(450);
+    width: rpx(750);
+    border-bottom: 1px solid #efefef;
   }
-
-  .o-me__body {
+  .o-user__body {
     background: #f5f5f5;
   }
-
-  .o-me__title {
+  .o-user__title {
     padding: rpx(48) 0 rpx(20) rpx(48);
     display: block;
     font-size: rpx(48);
@@ -45,43 +40,52 @@
       background: #FADD26;
     }
   }
-
-  .c-me-profile {
-    color: #344A5E;
-    padding: rpx(48);
-    width: auto;
-    /*height: 100%;*/
+  .c-tabbar {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    height: rpx(120);
     display: flex;
-    flex-direction: row;
+    align-items: center;
+  }
+  .c-user-profile {
+    /*position: absolute;*/
+    /*top: 0;*/
+    display: flex;
+    flex-direction: column;
+    color: #344A5E;
+    /*padding: rpx(48);*/
+    width: auto;
+    height: rpx(450);
+    /*display: flex;*/
+    /*flex-direction: row;*/
+    justify-content: center;
     align-items: center;
     font-weight: 500;
     /*border-bottom: 1px solid #efefef;*/
-
     /*border-bottom: 1rpx solid #f5f5f5;*/
   }
-
-  .c-me-profile__detail {
+  .c-user-profile__detail {
     display: flex;
     flex: 1;
     flex-direction: row;
     align-items: center;
   }
-
-  .c-me-profile__avatar {
+  .c-user-profile__avatar {
     /*width: rpx(80);*/
     /*height: rpx(80);*/
-    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
     border-radius: rpx(50);
     border: 1px solid #ededed;
   }
-
-  .c-me-profile__username {
+  .c-user-profile__username {
+    margin-top: rpx(30);
     font-size: rpx(36);
     margin-left: rpx(20);
     font-weight: 300;
   }
 
-  .c-me-profile__loved, .c-me-profile__story {
+  .c-me-profile__loved,.c-me-profile__story {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -97,7 +101,6 @@
     border-radius: rpx(16);
     border: 1px solid #ededed;
   }
-
   .c-story__body {
     display: flex;
     align-items: center;
@@ -119,20 +122,17 @@
     font-size: rpx(24);
     line-height: 1.25;
   }
-
   .c-story-meta__avatar {
     width: rpx(60);
     height: rpx(60);
     margin-right: rpx(20);
     border-radius: rpx(50);
-    box-shadow: 0 0 0 rpx(2) rgba(255, 255, 255, 1), 0 0 0 rpx(4) rgba(31, 31, 31, .1);
+    box-shadow: 0 0 0 rpx(2) rgba(255,255,255,1),0 0 0 rpx(4) rgba(31,31,31,.1);
   }
-
   .c-story-meta__date {
     font-size: rpx(22);
     color: #C2C4CA;
   }
-
   .c-textarea {
     border: none;
     font-size: rpx(40);
@@ -143,7 +143,6 @@
     padding-top: rpx(50);
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   }
-
   .c-add-btn {
     position: absolute;
     bottom: 15px;
@@ -256,12 +255,12 @@
     width: auto;
     height: rpx(240);
   }
-
   .c-detail {
     font-size: rpx(30);
     line-height: 1.8;
     letter-spacing: 1.3px;
   }
+
 
   .c-tips-card {
     display: flex;
@@ -274,15 +273,13 @@
     text-align: center;
     background: #fff;
   }
-
   .c-tips-card__title {
     /*font-size: rpx(48);*/
   }
-
   .c-tips-card__body {
     display: flex;
     flex: 1;
-    height: rpx(420);
+    height: rpx(450);
     /*box-shadow: 0 0 1px 1px rgba(0,0,0,0.05), 0 2px 2px 0 rgba(0,0,0,0.10);*/
     border-radius: rpx(8);
     padding: rpx(28) rpx(20) rpx(14);
@@ -290,15 +287,13 @@
     align-items: center;
     flex-direction: column;
   }
-
   .c-tips-card__content {
     box-sizing: border-box;
     padding: 0 rpx(30);
     height: rpx(300);
-    width: 100%;
+    width:100%;
 
   }
-
   .c-tips-card__warpper {
     display: flex;
     flex-direction: column;
@@ -332,7 +327,6 @@
     width: 100%;
     text-align: center;
   }
-
   .c-me-header {
     /*position: fixed;*/
     /*top: 0;*/
@@ -344,13 +338,11 @@
     border-bottom-right-radius: rpx(32);
     border-bottom-left-radius: rpx(32);
   }
-
   .c-me-tab {
     /*background: #66C6B9;*/
     /*border-bottom-right-radius: rpx(32);*/
     /*border-bottom-left-radius: rpx(32);*/
   }
-
   .c-button {
     display: flex;
     /*background: #FF7058;*/
@@ -381,166 +373,68 @@
   }
 </style>
 <template>
-  <view class="o-home">
-    <view class="c-tips-card animated {{!isTips ? 'slideOutUp' : 'fadeIn'}}" wx:if="{{isTips}}">
-      <view class="c-tips-card__title u-text-large u-text-bold u-flex u-align-items-center u-justify-center">
-        <image
-          class="u-icon u-icon-small animated fadeIn"
-          mode="aspectFill"
-          src="/images/icons/icon-love--active.png"></image>
-        <text class="u-ml-small">欢迎使用!</text>
-      </view>
-      <view class="c-tips-card__body ">
-
-        <view class="c-tips-card__content c-detail "
-              style="font-weight: 300; background:{{filter.rgb2hex('rgba('+ tips.style.RGB +',0.1)')}}; color: {{filter.rgb2hex('rgba('+ tips.style.RGB +',1)')}};  box-sizing: border-box;">
-          <!--<text decode="true" space="true" wx:if="{{tips.content}}">-->
-          <!--{{tips.content}}-->
-          <!--</text>-->
-          <text decode="true" space="true" class="u-text-small" style="">
-            这是一款备忘录小程序
-            您可以用它来记录、收藏「最爱」的事物
-            形成专属于自己的「历史上的今天」
-          </text>
+  <view class="o-user">
+    <view class="o-user__header" style="">
+      <view class="c-user-profile" style="position: relative; z-index: 10;">
+        <view class="c-user-profile__avatar">
+          <image
+            class="u-icon u-icon-xl u-icon-round animated fadeIn"
+            mode="aspectFit"
+            src="{{profile.avatar}}"></image>
         </view>
-        <!--<view class="  c-tips__meta u-align-items-center u-text-small">-->
-        <view class="c-btn c-btn--primary c-btn--small u-mt-medium c-btn--plain " @tap="hideTips">我懂，不再显示</view>
-        <!--<text-->
-        <!--class="c-btn c-btn&#45;&#45;primary c-btn&#45;&#45;plain c-btn&#45;&#45;flat c-btn&#45;&#45;small u-mt-small"-->
-        <!--@tap="hideTips">我懂，不再显示</text>-->
-        <!--</view>-->
-
+        <!--<view class="c-user-profile__username">{{profile.nicename}}</view>-->
       </view>
-
+      <image
+        style="z-index: 1;filter: blur(40px); -webkit-filter: blur(40px); background-repeat:no-repeat;background-size: 200% 200%; overflow: hidden; align-self: center; width: 750rpx; height: 450rpx; position: absolute;top: 0;"
+        class=""
+        mode="aspectFit"
+        src="{{profile.avatar}}"></image>
     </view>
 
+    <!--<view class="c-panel">-->
+      <!--<view>最近爱的</view>-->
+      <!--<view>共同爱的</view>-->
+      <!--<Tab :tab.sync="tab"></Tab>-->
+    <!--</view>-->
+    <!--<view class="c-panel">-->
+      <!--<view class="c-cell c-cell&#45;&#45;access">-->
+        <!--<view class="c-cell__bd ">全部动态</view>-->
+        <!--<view class="c-cell__ft "></view>-->
+      <!--</view>-->
+    <!--</view>-->
 
-    <view style=""
-          class="u-flex u-align-items-center u-pt-medium u-pb-medium u-pl-medium c-panel c-panel--without-margin-top {{!isTips ? 'o-home__header c-panel--without-border' : ''}}">
-      <button class="c-btn c-btn--flat c-btn--small u-width-75 u-flex u-align-items-center"
-              style="border: 1px solid #ededed; border-radius: 4px; text-align: left; background: #f5f5f5;"
-              @tap="searchPost">
-        <image
-          class="u-icon u-icon-small animated fadeIn u-mr-small"
-          mode="aspectFill"
-          src="/images/icons/icon-find.svg"></image>
-        探索
-      </button>
-      <view class="u-flex u-align-items-center u-justify-center u-width-25">
-
-        <image
-          class="u-icon u-icon-lg animated fadeIn u-mr-small animated fadeIn"
-          mode="aspectFill"
-          src="{{modeIcon}}" @tap="changeMode"></image>
-        <image
-          class="u-icon u-icon-lg animated fadeIn"
-          mode="aspectFill"
-          src="/images/icons/icon-plus1.svg"
-          @tap="newPost"></image>
+    <view class="c-panel" style="position: relative;z-index: 10;">
+      <view class="c-cell c-cell--access" @tap="showUserLikes">
+        <view class="c-cell__bd">{{gender}}的最爱</view>
+        <view class="c-cell__ft">{{profile.liked.length}}</view>
+      </view>
+      <view class="c-cell c-cell--access" @tap="showDetail('recalls')">
+        <view class="c-cell__bd">{{gender}}的记忆</view>
+        <view class="c-cell__ft">{{countRecalls}}</view>
+      </view>
+      <view class="c-cell c-cell--access" @tap="showDetail('stories')">
+        <view class="c-cell__bd">{{gender}}的故事</view>
+        <view class="c-cell__ft">{{countStories}}</view>
+      </view>
+    </view>
+    <view class="c-panel">
+      <view class="c-cell c-cell--access" @tap="showOurLikes">
+        <view class="c-cell__bd">共同爱上的</view>
+        <view class="c-cell__ft">{{ourLikes.length}}</view>
       </view>
     </view>
 
-    <view class="o-me__body" wx:if="{{likes.length > 0}}">
+    <view class="c-tabbar {{isIpx?'fix-iphonex':''}} u-justify-center u-align-items-center">
+      <navigator url="{{fromTo}}" open-type="redirect" class="c-btn c-btn--flat c-btn--small u-width-25">←</navigator>
+      <navigator
+        url="/pages/index" open-type="switchTab"
+        class="c-btn c-btn--primary c-btn--flat c-btn--small u-width-50 u-ml-small">
+        去发现↗
+      </navigator>
 
-      <view class="animated fadeIn" wx:if="{{isListMode && likes.length > 0}}"
-            style="z-index: 100;">
-        <view class="c-panel-title ">
-          有 {{likes.length}} 个最爱的
-        </view>
-        <block wx:for-items="{{likes}}"
-               wx:for-index="index"
-               wx:for-item="item"
-               wx:key="id" @tap="tap({{item}})">
-          <view class="c-panel">
-
-            <view class="c-card" @tap="tapAction({{item.id}})">
-              <view class="c-card__thumb">
-                <image class="c-card__img"
-                       src="{{item.featured_image}}?imageMogr2/thumbnail/300x300/q/90/format/jpg/interlace/1"
-                       mode="aspectFit"></image>
-              </view>
-              <view class="c-card__detail u-mt-medium">
-                <view class="c-card__detail-row">
-                  <view class=" u-ellipsis--l2">
-                    {{item.title}}
-                  </view>
-                </view>
-
-              </view>
-              <!-- 商品附属信息展示行 -->
-              <view class="c-card__detail u-mt-small u-text-mute">
-                <view class="c-card__right-col ">
-                  {{item.modified}}
-                </view>
-                <view class="c-card__left-col">{{item.like_count}} 人最爱</view>
-              </view>
-            </view>
-          </view>
-
-        </block>
-
-      </view>
-      <view class="animated fadeIn" wx:if="{{!isListMode && groupLikes.length > 0}}">
-        <view class="u-flex u-flex-wrap"
-              style="flex-direction: column;"
-              wx:if="{{tab.selectedId === '1'}}">
-          <block wx:for-items="{{groupLikes}}"
-                 wx:for-index="index"
-                 wx:for-item="list"
-                 wx:key="year">
-            <view class="c-panel-title u-text-center u-mb-small ">
-              {{list.year}}年 最爱的
-            </view>
-            <view class="c-loves">
-
-              <block wx:for-items="{{list.likes}}"
-                     wx:for-index="index"
-                     wx:for-item="item"
-                     wx:key="id">
-                <view class="c-love-card"
-                      hover-start-time="50"
-                      hover-stay-time="400"
-                      hover-stop-propagation="{{propagation}}"
-                      hover-class="c-love-card--isHover" @tap="tapAction({{item.id}})">
-
-                  <view class="c-love-card__body">
-                    <view class="c-love-card__title">
-                      <Elip>
-                        {{item.title}}
-                      </Elip>
-                    </view>
-                    <text class="c-love-card__detail">{{item.like_count}} 人最爱</text>
-
-                    <image class="c-love-card__cover"
-                           mode="aspectFill"
-                           src="{{item.featured_image}}?imageMogr2/thumbnail/900x900/q/90/format/jpg/interlace/1"
-                           wx:if="{{item.featured_image}}"></image>
-                  </view>
-                </view>
-              </block>
-            </view>
-
-          </block>
-        </view>
-      </view>
     </view>
-    <view wx:else>
-      <view class="u-m-large u-flex u-justify-center u-align-items-center" style="flex-direction: column;">
-        <view class=" u-text-large u-mb-medium" style="font-weight: 300;">
-          还没有备忘记录
-        </view>
-        <view class="c-button animated fadeIn" @tap="newPost" style="border-radius: 100px;">
-          <image class="c-button__icon" mode="aspectFill" src="/images/icons/13-1.png"></image>
-        </view>
-      </view>
-    </view>
-    <view class="c-button c-post__button animated {{fabClass}}" @tap="newPost" hidden="{{!isFAB}}">
-      <image class="c-button__icon" mode="aspectFill" src="/images/icons/13-1.png"></image>
-    </view>
-
   </view>
 
-  <c-dialog :dialog.sync="dialog"></c-dialog>
 </template>
 
 <script>
@@ -550,7 +444,6 @@
   // import Tips from '../utils/Tips'
   // import WxUtils from '../utils/WxUtils'
   import Elip from '../components/ui/elip'
-  import Tab from '../components/ui/tab'
   import base from '../mixins/_base'
   import pagination from '../mixins/pagination'
   import auth from '../api/auth'
@@ -564,11 +457,9 @@
   import cSwipe from '../components/ui/c-swipe'
   import cDialog from '../components/ui/c-dialog'
   import cField from '../components/ui/c-field'
-
   const $wxapp = wepy.$instance
   import _ from 'lodash'
   import moment from 'moment'
-
   const date = new Date()
   const years = []
   for (let i = 1920; i <= date.getFullYear(); i++) {
@@ -590,8 +481,11 @@
       tips: {},
       isFocus: true,
       list: [],
+      countRecalls: 0,
+      countStories: 0,
       title: '',
       groupLikes: [],
+      ourLikes: [],
       page: {
         added: [],
         list: []
@@ -607,6 +501,7 @@
       profile: {
         avatar: 'data:image/png;base64,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'
       },
+      fromTo: '/home',
       likes: [],
       recalls: [],
       stories: [],
@@ -614,15 +509,11 @@
         'list': [
           {
             id: '1',
-            title: '最爱的'
+            title: '最近爱上'
           },
           {
             id: '3',
-            title: '回忆'
-          },
-          {
-            id: '4',
-            title: '故事'
+            title: '共同爱的'
           }
         ],
         'selectedId': '1',
@@ -631,14 +522,17 @@
       isListMode: true
     }
     config = {
-      backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#FF7058',
-      navigationBarTitleText: '愿君，多采撷',
-      navigationBarTextStyle: 'light',
-      backgroundColor: '#FF7058',
+      backgroundTextStyle: 'black',
+      navigationBarBackgroundColor: '#FFF',
+      navigationBarTitleText: '',
+      navigationBarTextStyle: 'black',
+      backgroundColor: '#F5F5F5',
       enablePullDownRefresh: true
     }
     computed = {
+      gender () {
+        return this.profile.gender === 1 ? '他' : '她'
+      },
       fabClass () {
         return this.isMove ? '' : 'fadeIn'
       },
@@ -691,42 +585,6 @@
         if (this.touchStartPosition && this.touchEndPosition) {
           // console.log(this.touchStartPosition - this.touchEndPosition)
           let delta = this.touchStartPosition - this.touchEndPosition
-          // if (delta > 40) {
-          //   this.isMove = true
-          // } else {
-          //   this.isMove = false
-          // }
-          // console.log(delta)
-          // left
-          // if (delta > 0) {
-          //   if (delta > 40) {
-          //     this.swipeData.x = -100
-          //     // this.setData({
-          //     //   x: -100
-          //     // })
-          //   } else {
-          //     this.swipeData.x = 0
-          //     // this.setData({
-          //     //   x: 0
-          //     // })
-          //   }
-          // } else {
-          //   // right
-          //   if (Math.abs(delta) > 40) {
-          //     this.swipeData.x = 0
-          //     // this.setData({
-          //     //   x: 0
-          //     // })
-          //   } else {
-          //     this.swipeData.x = -100
-          //     // this.setData({
-          //     //   x: -100
-          //     // })
-          //     // this.setData({
-          //     //   swipeData: this.props.swipeData
-          //     // })
-          //   }
-          // }
           this.touchStartPosition = null
           this.touchEndPosition = null
           // this.setData({
@@ -742,28 +600,6 @@
       },
       changeMode () {
         this.isListMode = !this.isListMode
-        // this.$apply()
-        // this.$showDialog({
-        //   buttonsShowVertical: true,
-        //   content: '内容排序',
-        //   buttons: [{
-        //     text: '按最近添加排序',
-        //     color: '#3CC51F',
-        //     type: 'cash'
-        //   }, {
-        //     text: '按「最爱」时间分组',
-        //     color: '#3CC51F',
-        //     type: 'wechat'
-        //   }, {
-        //     text: '取消',
-        //     type: 'cancel'
-        //   }]
-        // }).then(async () => {
-        //     console.log('lala')
-        //   }
-        // ).catch(() => {
-        //   // console.log('=== dialog ===', 'type: cancel')
-        // })
       },
       searchPost () {
         this.$preload({'myLikes': this.likes})
@@ -829,17 +665,17 @@
           $wxapp.emitter.emit('change', this.title)
         }
       },
-      bindfocus (e) {
+      bindfocus(e) {
         this.isFocus = true
         // this.$apply()
       },
-      bindblur () {
+      bindblur() {
         this.isFocus = false
       },
       // postLove () {
       //   this.$root.$navigate(`/pages/love/new`)
       // },
-      async postLove () {
+      async postLove() {
         const data = await postsApi.newLove(this.title, this.year)
         this.loaded()
         if (data) {
@@ -853,7 +689,17 @@
           Tips.error('添加失败')
         }
       },
-      bindChange: function (e) {
+      // 展示用户最爱的内容
+      async showUserLikes () {
+        this.$preload({'profile': this.profile})
+        this.$navigate('/pages/user/likes', {id: this.profile.id})
+      },
+      // 展示我们的最爱
+      async showOurLikes () {
+        this.$preload({'profile': this.profile})
+        this.$navigate('/pages/our/likes', {id: this.profile.id})
+      },
+      bindChange: function(e) {
         const val = e.detail.value
         this.year = this.years[val[0]]
         this.$apply()
@@ -861,22 +707,32 @@
       /**
        * 监听日期picker选择器
        */
-      listenerDatePickerSelected (e) {
+      listenerDatePickerSelected(e) {
         this.date = e.detail.value
         this.$apply()
       },
-      showDetail (cate) {
+      showDetail(cate) {
         switch (cate) {
           case 'likes': {
-            this.$root.$navigate(`/pages/me/likes`)
+            this.$root.$navigate(`/pages/user/likes`)
             break
           }
           case 'recalls': {
-            this.$root.$navigate(`/pages/me/recalls`)
+            if (this.countRecalls > 0) {
+              this.$preload({'profile': this.profile})
+              this.$root.$navigate(`/pages/user/recalls`)
+            } else {
+              Tips.alert(`${this.gender}还没有回忆`)
+            }
             break
           }
           case 'stories': {
-            this.$root.$navigate(`/pages/me/stories`)
+            if (this.countStories > 0) {
+              this.$preload({'profile': this.profile})
+              this.$root.$navigate(`/pages/user/stories`)
+            } else {
+              Tips.alert(`${this.gender}还没有故事`)
+            }
             break
           }
         }
@@ -885,11 +741,11 @@
       //   this.$root.$navigate(`/pages/love?id=${id}`)
       // },
       // 打开管理面板
-      manage () {
+      manage() {
         this.isPanelDisplay = 'true'
       },
       // 向上移动
-      up (index) {
+      up(index) {
         if (index === 0) {
           return
         }
@@ -897,7 +753,7 @@
         this.swap(index, target)
       },
       // 向下移动
-      down (index) {
+      down(index) {
         if (index === this.pictures.length - 1) {
           return
         }
@@ -905,7 +761,7 @@
         this.swap(index, target)
       },
       // 删除图片
-      remove (index) {
+      remove(index) {
         this.pictures.splice(index, 1)
         if (this.pictures.length < 1) {
           this.isPanelDisplay = false
@@ -913,7 +769,7 @@
       }
     }
     watch = {
-      isPanelDisplay (value) {
+      isPanelDisplay(value) {
         this.$emit('toggle', value)
       }
     };
@@ -923,13 +779,12 @@
       'c-dialog': cDialog,
       'c-field': cField
     };
-
     /**
      * 检查字符是否为特殊字符
      * @param value
      * @returns {string}
      */
-    checkString (value) {
+    checkString(value) {
       const pattern = new RegExp("[\\s+,`~!@#$^&*+()=|{}':;',\\[\\].\\-<>/?~！@#￥%……&*（）——|{}【】‘；：”“'。，、？]")
       let rs = ''
       for (let i = 0; i < value.length; i++) {
@@ -938,7 +793,6 @@
       }
       return rs
     }
-
     /**
      * 检查限制的字符数量
      * @param data
@@ -962,7 +816,6 @@
       }
       return count
     }
-
     events = {
       'delItem': (item) => {
         this.$showDialog({
@@ -1057,14 +910,12 @@
         .value()
       this.loaded()
     }
-
     /**
      * 下拉刷新
      */
     async onPullDownRefresh () {
       await this.reload()
     }
-
     /**
      * 重新加载
      */
@@ -1073,11 +924,9 @@
       // this.$root.$navigate('/pages/love/new')
       wepy.stopPullDownRefresh()
     }
-
     onReady () {
       this.isTips = $wxapp.globalData.auth.isTips === undefined ? true : $wxapp.globalData.auth.isTips
     }
-
     async onPageScroll (e) {
       if (this.isTips && e.scrollTop > 340) {
         this.isFAB = true
@@ -1092,7 +941,6 @@
     async onReachBottom () {
       // console.log('到底了。')
     }
-
     getCurrentDate = () => {
       let date = new Date()
       const year = date.getFullYear()
@@ -1101,32 +949,28 @@
       let currentDate = (year.toString() + '-' + month.toString())
       return currentDate
     }
-
-    async onLoad () {
+    async countPosts () {
+    }
+    async onLoad(param, data) {
+      this.fromTo = data.preload.fromTo
       const result = await auth.user({block: true, redirect: true})
       if (!result) return
       this.userInfo = JSON.parse($wxapp.globalData.auth.user)
-      this.profile = await user.me()
+      this.profile = await user.detail(param.id)
+      const me = await user.me()
+      const myLiked = me.liked
+      const otherLiked = this.profile.liked
+      this.ourLikes = _.intersectionBy(myLiked, otherLiked, 'post_id')
       await this.loadLikes()
+      this.countRecalls = await user.count(param.id, 3)
+      this.countStories = await user.count(param.id, 4)
+
       this.app = await Cache.app()
       this.tips = this.app.options.tips
       this.placeholderText = this.app.options.placeholder
+      wepy.setNavigationBarTitle({title: this.profile.nicename})
+
       this.loaded()
-
-      $wxapp.emitter.on('newlove_added', async (data) => {
-        // data.modified = moment.fromNow(data.modified)
-        this.likes.unshift(data)
-        data.modified = moment(data.modified).fromNow()
-        this.$apply()
-      })
-
-      $wxapp.emitter.on('newlove_update', async (data) => {
-        this.likes.shift()
-        // data.modified = moment.fromNow(data.modified)
-        this.likes.unshift(data)
-        data.modified = moment(data.modified).fromNow()
-        this.$apply()
-      })
     }
   }
 </script>

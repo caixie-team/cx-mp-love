@@ -4,12 +4,24 @@
   page{
     height: 100%;
     color: $color-primary;
-    background: #f5f5f5;
+    background: #FFF;
+  }
+  .c-topbar {
+    position: fixed;
+    top: 0;
+    background: #fff;
+    /*background: #FF7058;*/
+    /*border-bottom-right-radius: rpx(32);*/
+    /*border-bottom-left-radius: rpx(32);*/
+    /*box-shadow: 0 10px 30px 0 rgba(0,0,0,0.10);*/
+    height: rpx(200);
+    width: 100%;
+    z-index: 3;
   }
   body.c-home {
     color: $color-primary;
-    height: 100%;
-    width: 100%;
+    /*height: 100%;*/
+    /*width: 100%;*/
   }
   .c-tabbar {
     position: fixed;
@@ -67,49 +79,47 @@
   }
   .c-textarea {
     border: none;
-    font-size: 16px;
+    font-size: 24px;
     width: auto;
     font-weight: 300;
-    height: 50px;
-    margin: 10px 0 15px 15px;
+    height: 100px;
+  }
+  .c-input {
+    padding: rpx(10) 0;
+    /*color: #ededed;*/
+    width: auto;
+    /*border-radius: rpx(100);*/
+    border: none;
+    background: #f5f5f5;
+    font-size: rpx(28);
+    /*box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.05), 0 2px 2px 0 rgba(0, 0, 0, 0.08);*/
   }
 </style>
 <template>
   <view class="o-page">
-    <!--<view class="c-panel-title u-mt-medium">-->
-      <!--新建或收藏最爱-->
-    <!--</view>-->
-    <view class="c-panel " style="height: 80px;position:relative;">
-      <input
-        class="c-textarea  font-weight: 300;"
-        placeholder="{{placeholderText}}"
-        placeholder-style="color: #c9c9c9;"
-        focus="{{isFocus}}"
-        @input="bindinput"
-        @focus="bindfocus"
-        @blur="bindblur"
-        maxlength="20" />
-      <view style="position:absolute;bottom: 0;right: 0;"
-        class="u-c-gray u-float-right u-m-small u-text-tiny">剩余字数：{{20 - wordCount}}</view>
-    </view>
-    <view class="c-panel">
-      <view class="c-cell c-cell--access">
-        <view class="c-cell__bd">爱上它的时间</view>
-
-          <picker mode="date" value="{{date}}" bindchange="listenerDatePickerSelected">
-            <view class="c-cell__ft">
-            <view class="picker">
-              {{date}}
-            </view>
-            </view>
-          </picker>
-        </view>
+    <view class="c-topbar">
+      <c-field :icon.sync="icon" class="u-mt-small u-ml-large u-mr-large">
+        <input class="c-input"
+               style="color: #344A5E;"
+               placeholder="关键词查询"
+               placeholder-style="color: #c9c9c9;"
+               @input="bindinput"
+               @focus="bindfocus"
+               @blur="bindblur"
+               value="{{title}}"
+               focus="{{true}}"
+               maxlength="20"/>
+      </c-field>
+      <view class="c-panel" style="position: absolute;bottom:0;">
+        <Tab :tab.sync="tab"></Tab>
       </view>
     </view>
 
-    <view  wx:if="{{list.length > 0}}">
+    <view  wx:if="{{list.length > 0}}"
+           style="margin-top: 200rpx; background: #f5f5f5;"
+           class="animated slideInRight">
       <view class="c-panel-title u-mt-medium">
-        类似的最爱
+        找到 {{list.length}}条 相关的
       </view>
       <view class="c-panel">
         <block wx:for-items="{{list}}"
@@ -117,7 +127,9 @@
                wx:for-item="item"
                wx:key="id" @tap="tap({{item}})">
           <view class="c-cell c-cell--access" @tap="tap({{item}})">
-            <image class="c-cell__icon u-icon-lg" mode="aspectFill" src="{{item.featured_image}}?imageMogr2/thumbnail/90x90/q/90/interlace/1"></image>
+            <image class="c-cell__icon u-icon-lg"
+                   mode="aspectFill"
+                   src="{{item.featured_image}}?imageMogr2/thumbnail/90x90/q/90/interlace/1"></image>
             <view class="c-cell__bd" style="width: 450rpx;">
               <Elip>{{item.title}}</Elip>
             </view>
@@ -127,17 +139,9 @@
       </view>
     </view>
 
-    <view class="c-tabbar {{isIpx?'fix-iphonex':''}} u-flex u-align-items-center u-justify-center">
-      <button
-        class="c-btn c-btn--primary c-btn--flat u-width-75 u-m-medium  {{isEmpty ? 'c-btn--disabled' : ''}}"
-        disabled="{{isEmpty}}"
-        @tap="postLove">
-        备忘到我的最爱
-      </button>
-
-    </view>
     <view style="height: 160rpx;"></view>
 
+  </view>
 </template>
 
 <script>
@@ -150,65 +154,76 @@
   const $wxapp = wepy.$instance
   import Elip from '../../components/ui/elip'
   import Cache from '../../utils/Cache'
-  import moment from 'moment'
+  import Tab from '../../components/ui/tab'
+  import cField from '../../components/ui/c-field'
+  import _ from 'lodash'
 
   const date = new Date()
   const years = []
-  const months = []
-  const days = []
-
   for (let i = 1920; i <= date.getFullYear(); i++) {
     years.push(i)
   }
-
-  for (let i = 1; i <= 12; i++) {
-    months.push(i)
-  }
-
-  for (let i = 1; i <= 31; i++) {
-    days.push(i)
-  }
-
   export default class NewLove extends wepy.page {
     mixins = [base]
 
     components = {
-      'Elip': Elip
+      'Elip': Elip,
+      'Tab': Tab,
+      'c-field': cField
     }
 
     data = {
       isIpx: $wxapp.globalData.isIpx,
-      icon: '/images/icons/icon-flower--grey.svg',
       app: {},
       isFocus: true,
       list: [],
+      myLikes: [],
       title: '',
       page: {
         added: [],
         list: []
       },
+      userInfo: {},
+      tab: {
+        'list': [
+          {
+            id: '1',
+            title: '我的'
+          },
+          // {
+          //   id: '3',
+          //   title: '故事'
+          // },
+          {
+            id: '4',
+            title: '大家的'
+          }
+        ],
+        'selectedId': '1',
+        'scroll': false
+      },
       years: years,
       year: date.getFullYear(),
-      months: months,
-      month: 2,
-      days: days,
-      day: 2,
-      // value: [9999, 1, 1],
       value: [date.getFullYear()],
-      date: `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`,
       isCollapse: true,
-      placeholderText: '备忘最爱，例如：上课睡觉☀️️'
+      placeholderText: '️输入关键字查询'
     }
     config = {
-      backgroundTextStyle: 'dark',
-      navigationBarBackgroundColor: '#f5f5f5',
+      backgroundTextStyle: 'black',
+      navigationBarBackgroundColor: '#FFF',
+      navigationBarTitleText: '愿君，多采撷',
       navigationBarTextStyle: 'black',
-      backgroundColor: '#F5f5f5',
-      navigationBarTitleText: '备忘你的最爱️',
-      // backgroundTextStyle: 'dark',
+      backgroundColor: '#47BAA4',
       enablePullDownRefresh: false
     }
     computed = {
+      icon () {
+        let avatar = '/images/icons/icon-find.svg'
+        // if (this.userInfo.avatarUrl) {
+        //   avatar = this.userInfo.avatarUrl
+        // }
+        return avatar
+      },
       wordCount () {
         return this._wordCount(this.title)
       },
@@ -232,6 +247,8 @@
         this.$apply()
         if (!this.isEmpty) {
           $wxapp.emitter.emit('change', this.title)
+        } else {
+          this.list = []
         }
       },
       bindfocus(e) {
@@ -242,7 +259,7 @@
         this.isFocus = false
       },
       async postLove() {
-        let data = await postsApi.newLove(this.title, this.date)
+        const data = await postsApi.newLove(this.title, this.year)
         this.loaded()
         if (data) {
           Tips.success('添加成功')
@@ -263,12 +280,6 @@
       listenerDatePickerSelected(e) {
         this.date = e.detail.value
         this.$apply()
-      },
-      bindDateChange: function(e) {
-        console.log('picker发送选择改变，携带值为', e.detail.value)
-        this.setData({
-          date: e.detail.value
-        })
       }
     }
 
@@ -311,29 +322,47 @@
       return count
     }
     events = {
+      'change': async (data) => {
+        switch (data.selectedId) {
+          case '4':
+          case '1': {
+            if (!_.isEmpty(this.title)) {
+              await this.filter(this.title)
+            }
+            break
+          }
+        }
+      }
     }
-    getNowDate = () => {
-      let date = new Date()
-      const year = date.getFullYear()
-      let month = date.getMonth() + 1
-      let day = date.getDate()
-      month = (month < 10 ? '0' + month : month)
-      let currentDay = day >= 10 ? day : `0${day}`
-      let currentDate = (`${year.toString()}-${month.toString()}-${currentDay}`)
-      return currentDate
+    async onShow() {
+      // this.app = await Cache.app()
+      // this.placeholderText = this.app.options.placeholder
     }
-    async onReady () {
-      this.date = this.getNowDate()
-      this.app = await Cache.app()
-      this.placeholderText = this.app.options.placeholder
-      this.loaded()
-      this.isTips = $wxapp.globalData.auth.isTips === undefined ? true : $wxapp.globalData.auth.isTips
-    }
-    onLoad() {
-      this.$root.$parent.emitter.on('change', async (value) => {
+
+    /**
+     * 过滤或查找内容
+     * @param value
+     * @returns {Promise<void>}
+     */
+    async filter (value) {
+      if (this.tab.selectedId === '4') {
         this.list = await postsApi.search(value)
         this.loaded()
+      }
+      if (this.tab.selectedId === '1') {
+        this.list = await _.filter(this.myLikes, (obj) => {
+          return _.includes(obj.title, value)
+        })
+      }
+      this.$apply()
+    }
+    onLoad(param, data) {
+      this.myLikes = data.preload.myLikes
+      // this.list = this.myLikes
+      this.$root.$parent.emitter.on('change', async (value) => {
+        await this.filter(value)
       })
+      this.userInfo = JSON.parse($wxapp.globalData.auth.user)
     }
   }
 </script>

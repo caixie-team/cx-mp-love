@@ -10,7 +10,7 @@
   .o-home {
     /*background: #fff;*/
     color: #344A5E;
-    margin-top: rpx(120);
+    /*margin-top: rpx(120);*/
     /*margin-top: 120rpx;*/
     /*height: 100%;*/
     width: 100%;
@@ -90,7 +90,7 @@
     /*background: #FF7058;*/
     > .c-love-card__body {
       box-shadow: none;
-      background: #FF7058;
+      background: #54C0EB;
       color: #fff;
       transition: color .2s ease-in, -webkit-transform .15s cubic-bezier(.175, .885, .32, 1.275);
       > .c-love-card__detail {
@@ -105,8 +105,8 @@
     height: rpx(400);
     background: #fff;
     /*box-shadow: 0 0 1px 1px rgba(0,0,0,0.05), 0 2px 2px 0 rgba(0,0,0,0.10);*/
-
-    box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 rpx(4) rpx(20) 0 rgba(0, 0, 0, 0.1);
+    /*box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.1);*/
     border-radius: rpx(8);
 
     padding: rpx(28) rpx(20) rpx(14);
@@ -166,6 +166,7 @@
 <template>
 
   <view class="o-home">
+    <!--
     <view class="c-topbar">
       <c-filed :icon.sync="icon" class="u-mt-small u-ml-large u-mr-large">
         <input class="c-input"
@@ -177,7 +178,7 @@
                maxlength="20"
                placeholder="寻找你最爱的"/>
       </c-filed>
-    </view>
+    </view>-->
     <view class="c-loves">
       <block wx:for-items="{{page.list}}"
              wx:for-index="index"
@@ -240,10 +241,10 @@
     config = {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#54C0EB',
+      backgroundColor: '#54C0EB',
       navigationBarTextStyle: 'light',
-      backgroundColor: '#54C0EB'
       // backgroundTextStyle: 'dark',
-      // enablePullDownRefresh: true
+      enablePullDownRefresh: true
     }
     components = {
       Elip: Elip,
@@ -262,6 +263,8 @@
         added: [],
         list: []
       },
+      list: [],
+      groupLikes: [],
       isMove: false,
       userInfo: {},
       isFocus: false,

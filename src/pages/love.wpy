@@ -5,6 +5,7 @@
     color: $color-primary;
     background: #f5f5f5;
   }
+
   .o-love {
     color: #344A5E;
   }
@@ -334,6 +335,7 @@
     padding: rpx(20);
     position: relative;
   }
+
   view {
     box-sizing: border-box;
   }
@@ -351,13 +353,15 @@
     width: 100%;
     height: 100%;
   }
+
   .c-recall-card__content {
     box-sizing: border-box;
-    padding: rpx(30);
+    padding: rpx(20);
     height: rpx(275);
-    width:100%;
+    width: 100%;
     /*box-shadow: 0 0 1px 1px rgba(0,0,0,0.05),0 2px 2px 0 rgba(0,0,0,0.08);*/
   }
+
   .c-recall-card__warpper {
     display: flex;
     flex-direction: column;
@@ -395,7 +399,7 @@
     /*text-align: center;*/
   }
 
-  .c-swiper__item{
+  .c-swiper__item {
     /*wx-swiper-item {*/
     width: 100% !important;
     /*margin-left: 5% !important;*/
@@ -465,11 +469,12 @@
   </view>
   <view class="c-panel u-flex u-align-items-center u-p-medium u-flex-wrap" wx:if="{{lovers.length > 0}}">
     <block wx:for="{{lovers}}" wx:if="{{lovers.length > 0}}" wx:for-item="item" wx:key="id">
-      <view class="u-flex u-align-self-center">
+      <view class="u-flex u-align-self-center" @tap="showProfile({{item.id}})">
         <image class="c-story-meta__avatar u-m-small"
                mode="aspectFill"
                src="{{item.avatar}}"></image>
         <!--{{item.user_nicename}}-->
+
       </view>
     </block>
   </view>
@@ -487,29 +492,31 @@
           <view class="c-recall-card">
             <view class="c-recall-card__body">
 
-            <view class="c-recall-card__content u-text-large u-flex" style="font-weight: 300; background:{{filter.rgb2hex('rgba('+ item.meta.style.RGB +',0.1)')}}; color: {{filter.rgb2hex('rgba('+ item.meta.style.RGB +',1)')}};  box-sizing: border-box;">
-              <Elip :line="line">{{item.content}}</Elip>
-            </view>
-            <view class="u-flex u-justify-between c-recall__meta  u-text-small u-mt-small">
-              <!--                <view class="c-btn c-btn&#45;&#45;flat  c-btn&#45;&#45;mini"
-                                      @tap="delMyRecall({{item}})" wx:if="{{item.author.id === userInfo.userId}}">
-                                <image class="u-icon u-icon-small" mode="aspectFill" src="/images/icons/icon-love&#45;&#45;active.png" ></image>
-                                0
-                              </view>
-                              <view class="c-btn c-btn&#45;&#45;flat  c-btn&#45;&#45;mini"
-                                      @tap="delMyRecall({{item}})" wx:else>
-                                <image class="u-icon u-icon-small" mode="aspectFill" src="/images/icons/icon-love.png"></image>
-                                3
-                              </view>-->
-              <button class="c-btn c-btn--plain c-btn--danger c-btn--mini" wx:if="{{item.author.id === userInfo.userId}}"
-                      @tap="delMyRecall({{item}})">
-                删除
-              </button>
-              <view wx:else></view>
-              <text>──{{item.author.nicename}}</text>
-            </view>
+              <view class="c-recall-card__content u-text-large u-flex"
+                    style="font-weight: 300; background:{{filter.rgb2hex('rgba('+ item.meta.style.RGB +',0.1)')}}; color: {{filter.rgb2hex('rgba('+ item.meta.style.RGB +',1)')}};  box-sizing: border-box;">
+                <Elip :line="line">{{item.content}}</Elip>
+              </view>
+              <view class="u-flex u-justify-between c-recall__meta  u-text-small u-mt-small">
+                <!--                <view class="c-btn c-btn&#45;&#45;flat  c-btn&#45;&#45;mini"
+                                        @tap="delMyRecall({{item}})" wx:if="{{item.author.id === userInfo.userId}}">
+                                  <image class="u-icon u-icon-small" mode="aspectFill" src="/images/icons/icon-love&#45;&#45;active.png" ></image>
+                                  0
+                                </view>
+                                <view class="c-btn c-btn&#45;&#45;flat  c-btn&#45;&#45;mini"
+                                        @tap="delMyRecall({{item}})" wx:else>
+                                  <image class="u-icon u-icon-small" mode="aspectFill" src="/images/icons/icon-love.png"></image>
+                                  3
+                                </view>-->
+                <button class="c-btn c-btn--plain c-btn--danger c-btn--mini"
+                        wx:if="{{item.author.id === userInfo.userId}}"
+                        @tap="delMyRecall({{item}})">
+                  删除
+                </button>
+                <view wx:else></view>
+                <text>──{{item.author.nicename}}</text>
+              </view>
 
-          </view>
+            </view>
           </view>
         </swiper-item>
       </block>
@@ -521,7 +528,7 @@
   </view>
 
   <!--<view class="c-panel-title">-->
-    <!--故事-->
+  <!--故事-->
   <!--</view>-->
   <view class="c-btn c-btn--large c-btn--loading c-btn--flat" wx:if="{{isStoryLoading}}"></view>
 
@@ -581,7 +588,8 @@
       </picker-view>
       <view class="c-panel__footer">
         <view class="c-btn u-width-25  u-text-small" wx:if="{{isLoved}}" @tap="iDont">不爱了</view>
-        <view class="c-btn c-btn--primary u-width-75  u-ml-medium u-text-small" wx:if="{{isLoved}}" @tap="iDo">修改日期</view>
+        <view class="c-btn c-btn--primary u-width-75  u-ml-medium u-text-small" wx:if="{{isLoved}}" @tap="iDo">修改日期
+        </view>
         <view class="c-btn c-btn--primary u-width-100  u-align-self-center u-text-small" @tap="iDo" wx:else>确定</view>
       </view>
     </view>
@@ -692,7 +700,7 @@
       day: 2,
       // value: [9999, 1, 1],
       value: [date.getFullYear()],
-      date: `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`,
+      date: '',
       pictures: [],
       maxSize: {
         detault: '1'
@@ -757,6 +765,26 @@
     }
 
     methods = {
+      showProfile (userId) {
+        if (userId === this.userInfo.userId) {
+          Tips.toast('点别人试试')
+          return
+        }
+        this.$preload({'fromTo': `/pages/love?id=${this.id}`})
+        let forwardObj = {
+          url: `/pages/user?id=${userId}`,
+          success () {
+            let t = setTimeout(function () {
+              $wxapp.globalData.isNavigating = false
+              clearTimeout(t)
+            }, 500)
+          }
+        }
+        if (!$wxapp.globalData.isNavigating) {
+          $wxapp.globalData.isNavigating = true
+          wx.redirectTo(forwardObj)
+        }
+      },
       bindSwiperChange (e) {
         this.current = e.detail.current
       },
@@ -1085,6 +1113,7 @@
       this.$apply()
       this.isStorLoading = false
     }
+
     getNowDate = () => {
       let date = new Date()
       const year = date.getFullYear()
@@ -1095,6 +1124,7 @@
       let currentDate = (`${year.toString()}-${month.toString()}-${currentDay}`)
       return currentDate
     }
+
     async getLovers () {
       this.lovers = await postsApi.getLovers(this.detail.id)
     }
@@ -1105,6 +1135,7 @@
       const desc = '让你的最爱有迹可循！'
       return Tips.share(title, url, desc)
     }
+
     async onLoad (option, data) {
       // if (!Object.is(data.preload, undefined) && (!Object.is(data.preload.from, undefined))) {
       //   this.from = data.preload.from
@@ -1130,6 +1161,8 @@
         await this.getList(this.id)
         this.loaded()
       })
+
+      this.date = this.getNowDate()
     }
   }
 </script>

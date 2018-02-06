@@ -372,22 +372,22 @@
       <view class="c-me-profile__username">{{profile.nicename}}</view>
     </view>
     <view class="c-panel">
-      <view class="c-cell ">
-        <view class="c-cell__bd u-text-mute">我的主页(近期开放)</view>
-        <view class="c-cell__ft u-text-mute"></view>
-      </view>
+      <!--<view class="c-cell ">-->
+        <!--<view class="c-cell__bd u-text-mute">我的主页(近期开放)</view>-->
+        <!--<view class="c-cell__ft u-text-mute"></view>-->
+      <!--</view>-->
       <view class="c-cell c-cell--access" @tap="showDetail('recalls')">
         <view class="c-cell__bd">我的回忆</view>
-        <view class="c-cell__ft"></view>
+        <view class="c-cell__ft">{{countRecalls}}</view>
       </view>
       <view class="c-cell c-cell--access" @tap="showDetail('stories')">
         <view class="c-cell__bd">我的故事</view>
-        <view class="c-cell__ft"></view>
+        <view class="c-cell__ft">{{countStories}}</view>
       </view>
     </view>
     <view class="u-m-large u-flex u-justify-center u-align-items-center u-text-tiny u-text-mute"
           style="flex-direction: column">
-      <text>v 0.2.0</text>
+      <text>v1.01.1821</text>
       <view style="letter-spacing: 2px;">Caixie.top</view>
     </view>
   </view>
@@ -434,6 +434,8 @@
       isIpx: $wxapp.globalData.isIpx,
       touchStartPosition: null,
       touchEndPosition: null,
+      countRecalls: 0,
+      countStories: 0,
       app: {},
       tips: {},
       isFocus: true,
@@ -480,7 +482,7 @@
     }
     config = {
       backgroundTextStyle: 'black',
-      navigationBarBackgroundColor: '#f5f5f5',
+      navigationBarBackgroundColor: '#FFF',
       navigationBarTitleText: '我',
       navigationBarTextStyle: 'black',
       backgroundColor: '#F5F5F5',
@@ -720,11 +722,21 @@
             break
           }
           case 'recalls': {
-            this.$root.$navigate(`/pages/me/recalls`)
+            if (this.countRecalls > 0) {
+              this.$preload({'profile': this.profile})
+              this.$root.$navigate(`/pages/me/recalls`)
+            } else {
+              Tips.alert(`还没有回忆`)
+            }
             break
           }
           case 'stories': {
-            this.$root.$navigate(`/pages/me/stories`)
+            if (this.countStories > 0) {
+              this.$preload({'profile': this.profile})
+              this.$root.$navigate(`/pages/me/stories`)
+            } else {
+              Tips.alert(`还没有故事`)
+            }
             break
           }
         }
@@ -950,6 +962,8 @@
       this.app = await Cache.app()
       this.tips = this.app.options.tips
       this.placeholderText = this.app.options.placeholder
+      this.countRecalls = await user.count(this.profile.id, 3)
+      this.countStories = await user.count(this.profile.id, 4)
       this.loaded()
       // this.loaded()
       // this.$root.$parent.emitter.on('change', async (value) => {

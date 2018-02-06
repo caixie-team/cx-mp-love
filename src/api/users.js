@@ -15,12 +15,35 @@ export default class Users extends base {
   }
 
   /**
+   * 根据类别查询用户发布的内容
+   * @param category
+   * @param userId
+   * @returns {Pagination}
+   */
+  static list (category, userId) {
+    const url = `${this.baseUrl}/users/${userId}/posts?category=${category}`
+    return new Page(url, this.__before.bind(this), this.__after.bind(this))
+  }
+  /**
    * 获取作者信息
    * @param userId user_login
    * @returns {Promise.<*>}
    */
   static async detail (userId) {
-    const url = `${this.baseUrl}/users/login:${userId}`
+    // const url = `${this.baseUrl}/users/login:${userId}`
+    const url = `${this.baseUrl}/users/${userId}`
+    const data = await this.get(url)
+    return data
+  }
+
+  /**
+   * 按分类统计用户的内容数量
+   * @param userId
+   * @param termId
+   * @returns {Promise<*>}
+   */
+  static async count (userId, termId) {
+    const url = `${this.baseUrl}/posts/counts?author=${userId}&term=${termId}`
     const data = await this.get(url)
     return data
   }
@@ -37,6 +60,17 @@ export default class Users extends base {
     return data
   }
 
+  /**
+   * 根据用户ID获取用户喜欢的内容
+   * @param userId
+   * @returns {Promise<*>}
+   */
+  static async getLikes (userId, intersection) {
+    let url = `${this.baseUrl}/users/${userId}/likes`
+    url = intersection ? `${url}?intersection=${intersection}` : url
+    const data = await this.get(url)
+    return data
+  }
   /**
    * 获取个人信息
    * @returns {Promise.<void>}

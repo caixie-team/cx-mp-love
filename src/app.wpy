@@ -9,7 +9,7 @@
   import 'moment/locale/zh-cn'
   /* eslint-disable no-unused-vars,no-undef */
   // ENV
-  const env = 'development' // 'development' or 'production'
+  const env = 'production' // 'development' or 'production'
   // APP VERSION
   const version = 'v1'
 
@@ -99,6 +99,11 @@
     config = {
       pages: [
         'pages/home',
+        'pages/user',
+        'pages/user/likes',
+        'pages/user/recalls',
+        'pages/user/stories',
+        'pages/our/likes',
         'pages/love/new',
         'pages/love/search',
         'pages/me',
@@ -117,11 +122,11 @@
       ],
       window: {
         backgroundTextStyle: 'dark',
-        navigationBarBackgroundColor: '#F5F5F5',
-        navigationBarTitleText: '愿君，多采撷',
+        navigationBarBackgroundColor: '#FFF',
+        navigationBarTitleText: '采撷最爱',
         navigationBarTextStyle: 'light',
         backgroundColor: '#F5F5F5',
-        enablePullDownRefresh: true
+        enablePullDownRefresh: false
       },
       tabBar: {
         color: '#ACB3BA',
@@ -139,7 +144,7 @@
           selectedIconPath: 'images/icons/icon-discover--active.png',
           text: '发现'
         }, {
-          pagePath: 'pages/stories',
+          pagePath: 'pages/me',
           iconPath: 'images/icons/icon-me.png',
           selectedIconPath: 'images/icons/icon-me--active.png',
           text: '我'
@@ -154,7 +159,7 @@
       user: null,
       userInfo: null,
       isNavigating: false,
-      defaultTitle: '愿君，多采撷。'
+      defaultTitle: '采撷最爱'
     }
   }
 </script>

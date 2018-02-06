@@ -143,8 +143,7 @@
       <view slot="title">
         回忆有颜色吗？
       </view>
-      <view slot="content" class="">
-        <view class="c-panel">
+      <view slot="content" class=" u-mb-medium" style="background: #fff;">
 
           <view
             style="display: flex; width: 100%; flex-wrap: wrap; align-content: flex-start; padding: 3px; box-sizing: border-box;">
@@ -171,7 +170,6 @@
             </view>
           </view>
 
-        </view>
 
       </view>
 
@@ -2165,19 +2163,18 @@
       selectedColor: {
         'CMYK': [
           0,
-          1,
-          1,
-          0
+          6,
+          16,
+          61
         ],
         'RGB': [
-          255,
-          250,
-          250
+          98,
+          92,
+          82
         ],
-        'custom': '#344A5E',
-        'hex': '#fffafa',
-        'name': '雪色',
-        'pinyin': 'xuese'
+        'hex': '#625c52',
+        'name': '相思灰',
+        'pinyin': 'xiangsihui'
       },
       isIpx: $wxapp.globalData.isIpx,
       height: $wxapp.device.windowHeight,
