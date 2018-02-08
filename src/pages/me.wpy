@@ -387,7 +387,7 @@
     </view>
     <view class="u-m-large u-flex u-justify-center u-align-items-center u-text-tiny u-text-mute"
           style="flex-direction: column">
-      <text>v1.01.1821</text>
+      <text>v1.022</text>
       <view style="letter-spacing: 2px;">Caixie.top</view>
     </view>
   </view>
