@@ -8,7 +8,7 @@ export default class auth extends base {
   static async login() {
     // console.log('login.....')
     const _token = await this.getConfig('_token')
-    // console.log('get token' + _token)
+    console.log('get token' + _token)
     let res = null
     if (_token !== undefined && _token !== null && _token !== '') {
       try {
@@ -99,7 +99,10 @@ export default class auth extends base {
   static async doLogin() {
     await this.removeConfig('_token')
     const {code} = await wepy.login()
+    // console.log('do login aabb' + code)
     const {token} = await this.token(code)
+    // console.log('do login .....')
+    // console.log(token)
     await this.setConfig('_token', token)
     // await this.setConfig('third_session', third_session);
     await this.login()
@@ -111,7 +114,10 @@ export default class auth extends base {
   static async token(jsCode) {
     // const appCode = wepy.$instance.globalData.app_code;
     const url = `${this.baseUrl}/auth/token?code=${jsCode}`
-    return await this.get(url)
+    // console.log(url)
+    const data = await this.get(url)
+    // console.log(data)
+    return data
   }
 
   /**

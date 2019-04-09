@@ -77,8 +77,18 @@ export default class Users extends base {
    */
   static async me () {
     const url = `${this.baseUrl}/me`
-    const data = await this.get(url)
-    return data
+    try {
+      const data = await this.get(url)
+      // console.log(data)
+      if (data.statusCode === 500 || data.errno === 1000) {
+        return false
+      }
+      return data
+    } catch (e) {
+      console.log(e)
+      return false
+    }
+    // return data
   }
 
   /**

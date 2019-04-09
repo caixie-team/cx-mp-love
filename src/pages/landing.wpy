@@ -1,0 +1,251 @@
+<template>
+  <view class="o-landing">
+    <view class="c-tips-card animated fadeIn">
+      <view class="c-tips-card__title u-text-large u-text-bold u-flex u-align-items-center u-justify-center">
+        <image
+          class="u-icon u-icon-small animated fadeIn"
+          mode="aspectFill"
+          src="/images/icons/icon-love--active.png"></image>
+        <text class="u-ml-small"></text>
+      </view>
+      <view class="c-tips-card__body ">
+
+        <view class="c-tips-card__content c-detail "
+              style="font-weight: 300; background:{{filter.rgb2hex('rgba('+ rgb +',0.1)')}}; color: {{filter.rgb2hex('rgba(48, 48, 48,1)')}};  box-sizing: border-box;">
+
+          <!--<text decode="true" space="true" wx:if="{{tips.content}}">-->
+          <!--{{tips.content}}-->
+          <!--</text>-->
+          <text decode="true" space="true" class="u-text-small" style="">
+            岁月失语，惟石能言。
+
+            现在开始采撷「最爱」的事物
+            让最爱有迹可循。
+          </text>
+        </view>
+        <!--<view class="  c-tips__meta u-align-items-center u-text-small">-->
+        <button
+          class="c-btn c-btn--warm c-btn--small u-mt-medium  "
+          open-type="getUserInfo"
+          @getuserinfo="bindGetUserInfo">
+          从这里开始
+        </button>
+
+      </view>
+
+    </view>
+    <img src="/images/footer.png" class="background">
+  </view>
+</template>
+<script>
+  /* eslint-disable no-undef,no-unused-vars,spaced-comment,indent */
+
+  import wepy from 'wepy'
+  import base from '../mixins/_base'
+  import {wxLogin, setStorage, jumpTo, showLoading, hideLoading, modal, toast} from '../utils/wechatUtils'
+  import auth from '../api/auth'
+  import userApi from '../api/users'
+  import filter from '../wxs/filter.wxs'
+
+  export default class Me extends wepy.page {
+    // mixins = [base]
+    data = {
+      isAuth: true,
+      rgb: [
+        234,
+        220,
+        214
+      ]
+    }
+    config = {
+      backgroundTextStyle: 'light',
+      navigationBarBackgroundColor: '#FF7058',
+      navigationBarTitleText: '愿君，多采撷',
+      navigationBarTextStyle: 'white',
+      backgroundColor: '#FF7058',
+      enablePullDownRefresh: true
+    }
+    computed = {}
+    wxs = {
+      filter: filter
+    }
+    methods = {
+      async bindGetUserInfo(e) {
+        showLoading()
+        const result = await auth.user({block: true, redirect: true}, e.detail)
+        if (result) {
+          this.isAuth = true
+          hideLoading()
+          wx.switchTab({
+            url: '/pages/home'
+          })
+        }
+      }
+    }
+    watch = {};
+    components = {};
+
+    async onReady() {
+      // this.loaded()
+      // const me = await userApi.me()
+      // if (me) {
+      //   hideLoading()
+      // setTimeout(() => {
+      // this.$router.push({
+      //   path: "/pages/featured"
+      // });
+      // wx.switchTab(/{
+      //   url: '/pages/featured'
+      // })
+      // }, 500);
+      // } else {
+      //   this.isAuth = false
+      // }
+      // this.isTips = $wxapp.globalData.auth.isTips === undefined ? true : $wxapp.globalData.auth.isTips
+    }
+
+    async onLoad() {
+      const me = await userApi.me()
+      if (me) {
+        hideLoading()
+        wx.switchTab({
+          url: '/pages/home'
+        })
+      } else {
+        hideLoading()
+        this.isAuth = false
+      }
+      // const result = await auth.user({block: true, redirect: true})
+      // if (!result) return
+      // this.userInfo = JSON.parse($wxapp.globalData.auth.user)
+      // this.profile = await user.me()
+      // await this.loadLikes()
+      // this.app = await Cache.app()
+      // this.tips = this.app.options.tips
+      // this.placeholderText = this.app.options.placeholder
+      // this.loaded()
+      //
+      // $wxapp.emitter.on('newlove_added', async (data) => {
+      //   data.modified = moment.fromNow(data.modified)
+      // this.likes.unshift(data)
+      // data.modified = moment(data.modified).fromNow()
+      // this.$apply()
+      // })
+      //
+      // $wxapp.emitter.on('newlove_update', async (data) => {
+      //   this.likes.shift()
+      //   data.modified = moment.fromNow(data.modified)
+      // this.likes.unshift(data)
+      // data.modified = moment(data.modified).fromNow()
+      // this.$apply()
+      // })
+    }
+  }
+
+</script>
+<style lang="scss">
+  @import "../styles/variable";
+
+  $problemFontColor: #33270c;
+  .banner {
+    position: absolute;
+    top: rpx(300);
+    width: rpx(750);
+    height: rpx(266);
+  }
+
+  .background {
+    width: rpx(464);
+    height: rpx(269);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+  }
+
+  .o-landing {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /*position: fixed;*/
+
+    button:after {
+      border: none;
+    }
+  }
+
+  .c-tips-card {
+    display: flex;
+    flex-direction: column;
+    /*position: relative;*/
+    /*flex: 1;*/
+    padding-top: rpx(30);
+    /*padding: rpx(72) rpx(30);*/
+    /*width: 90%;*/
+    text-align: center;
+    background: #fff;
+  }
+
+  .c-tips-card__title {
+    /*font-size: rpx(48);*/
+  }
+
+  .c-tips-card__body {
+    display: flex;
+    flex: 1;
+    height: rpx(450);
+    /*box-shadow: 0 0 1px 1px rgba(0,0,0,0.05), 0 2px 2px 0 rgba(0,0,0,0.10);*/
+    border-radius: rpx(8);
+    padding: rpx(28) rpx(20) rpx(14);
+    position: relative;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .c-tips-card__content {
+    box-sizing: border-box;
+    padding: 0 rpx(30);
+    height: rpx(300);
+    width: rpx(600);
+    box-shadow: 0 0 1px 1px rgba(0,0,0,0.05), 0 2px 2px 0 rgba(0,0,0,0.10);
+
+  }
+
+  .c-tips-card__warpper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    justify-self: center;
+  }
+
+  .c-tips__content {
+    flex: 1;
+    width: inherit;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    justify-self: center;
+  }
+
+  .c-tips__meta {
+    position: absolute;
+    bottom: 10px;
+    /*left: 10px;*/
+    /*right: 10px;*/
+    display: block;
+    /*margin-bottom: rpx(10);*/
+    padding: rpx(20);
+    box-sizing: border-box;
+    width: 100%;
+    text-align: center;
+  }
+</style>

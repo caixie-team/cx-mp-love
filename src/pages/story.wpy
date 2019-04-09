@@ -35,7 +35,7 @@
         {{parent.title}}
       </view>
       <view class="c-story__author u-mt-large">
-        {{detail.author.nicename}}・{{detail.modified}}
+        {{detail.author.user_nicename}}・{{detail.modified}}
       </view>
     </view>
     <view class="c-panel c-panel--without-border c-story__content u-p-large">

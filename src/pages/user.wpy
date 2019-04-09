@@ -522,7 +522,7 @@
       isListMode: true
     }
     config = {
-      backgroundTextStyle: 'black',
+      backgroundTextStyle: 'dark',
       navigationBarBackgroundColor: '#FFF',
       navigationBarTitleText: '',
       navigationBarTextStyle: 'black',

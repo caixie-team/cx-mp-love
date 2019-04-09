@@ -209,7 +209,7 @@
       placeholderText: '️输入关键字查询'
     }
     config = {
-      backgroundTextStyle: 'black',
+      backgroundTextStyle: 'dark',
       navigationBarBackgroundColor: '#FFF',
       navigationBarTitleText: '愿君，多采撷',
       navigationBarTextStyle: 'black',

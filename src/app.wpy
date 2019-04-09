@@ -58,6 +58,7 @@
     createAuthHeader () {
       const _token = wepy.$instance.globalData.auth._token
       const header = {}
+      header['x-app-id'] = 'B1yDrzqEf'
       if (_token) {
         header['Authorization'] = `Bearer ${_token}`
       }
@@ -98,6 +99,7 @@
 
     config = {
       pages: [
+        'pages/landing',
         'pages/home',
         'pages/user',
         'pages/user/likes',
@@ -124,7 +126,7 @@
         backgroundTextStyle: 'dark',
         navigationBarBackgroundColor: '#FFF',
         navigationBarTitleText: '采撷最爱',
-        navigationBarTextStyle: 'light',
+        navigationBarTextStyle: 'black',
         backgroundColor: '#F5F5F5',
         enablePullDownRefresh: false
       },

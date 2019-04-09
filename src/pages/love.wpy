@@ -438,8 +438,8 @@
           由
           <image class="c-love-meta__avatar u-ml-xsmall"
                  mode="aspectFill"
-                 src="{{detail.author.avatar}}"></image>
-          {{detail.author.nicename}} 创建
+                 src="{{detail.author.avatarUrl}}" />
+          {{detail.author.user_nicename}} 创建
         </view>
       </view>
     </view>
